@@ -2,17 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyChasingState : MonoBehaviour
+public class EnemyChasingState : EnemyState
 {
-    // Start is called before the first frame update
-    void Start()
+    private Transform target;
+    private float speed;
+    public EnemyChasingState(GameObject owner, Transform target, float speed) : base(owner)
     {
-        
+        this.target = target;
+        this.speed = speed;
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Enter()
     {
-        
+        Debug.Log("Chasing");
     }
+    public override void Tick()
+    {
+        owner.transform.position = 
+            Vector3.MoveTowards
+            (
+                 owner.transform.position,
+                 target.position,
+                 speed * Time.deltaTime
+            );
+    }
+
+    public override void Exit()
+    {
+       
+    }
+
 }

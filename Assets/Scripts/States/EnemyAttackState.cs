@@ -2,17 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttackState : MonoBehaviour
+public class EnemyAttackState : EnemyState
 {
-    // Start is called before the first frame update
-    void Start()
+    public EnemyAttackState(GameObject owner) : base(owner)
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void Enter()
     {
-        
+        Debug.Log("Attack");
     }
+    public override void Tick()
+    {
+
+    }
+
+    public override void Exit()
+    {
+       
+    }
+
+ 
+
+ 
 }

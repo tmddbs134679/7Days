@@ -10,13 +10,13 @@ public abstract class EnemyBase : MonoBehaviour
     protected Animator animator;
     protected AudioSource audioSource;
     protected NavMeshAgent agent;
-    EnemyStateMachine stateMachine;
+    public float attackRange = 2;
 
+    public GameObject player;
 
     public abstract void Attack(GameObject target);
     protected virtual void Awake()
     {
-        stateMachine = GetComponent<EnemyStateMachine>();
         animator =  GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         agent = GetComponent<NavMeshAgent>();
@@ -24,7 +24,8 @@ public abstract class EnemyBase : MonoBehaviour
         agent.speed = moveSpeed;
         agent.stoppingDistance = 0.05f;
         agent.radius = 0.1f;
-      
     }
+
+
 
 }
