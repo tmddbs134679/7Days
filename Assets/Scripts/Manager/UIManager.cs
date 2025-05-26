@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
     }
     private void Awake()
     {
-        // ½Ì±ÛÅæ
+        // ì‹±ê¸€í†¤
         if (null == instance)
         {
             instance = this;
@@ -35,11 +35,8 @@ public class UIManager : MonoBehaviour
         else
             Destroy(this.gameObject);
     }
-    private void Start()
-    {
 
-    }
-    public void SetCanvas(GameObject go, bool sort = true, int canvasLayer = 0) // ±âÁ¸ UI ¿À´õ¸¦ Ã¤¿öÁÖ´Â ±â´É
+    public void SetCanvas(GameObject go, bool sort = true, int canvasLayer = 0) // ê¸°ì¡´ UI ì˜¤ë”ë¥¼ ì±„ì›Œì£¼ëŠ” ê¸°ëŠ¥
     {
 
         if(go.GetComponent<GraphicRaycaster>() == null)
@@ -65,6 +62,8 @@ public class UIManager : MonoBehaviour
         }
          
     }
+
+
     public GameObject ShowPopupUI(string name = null)
     {
         Time.timeScale = 0f;
@@ -82,7 +81,8 @@ public class UIManager : MonoBehaviour
     }
 
 
-    //È®Á¤ÀûÀ¸·Î ¿øÇÏ´Â³à¼® »èÁ¦ÇÏ´ÂÁö Ã¼Å©
+
+    //í™•ì •ì ìœ¼ë¡œ ì›í•˜ëŠ”ë…€ì„ ì‚­ì œí•˜ëŠ”ì§€ ì²´í¬
     public void ClosePopupUI(UI_Popup popup)
     {
         if (_popupStack.Count == 0) return;
@@ -93,7 +93,7 @@ public class UIManager : MonoBehaviour
         }
         ClosePopupUI();
     }
-    // ¿À¹ö¶óÀÌµù
+    // ì˜¤ë²„ë¼ì´ë”©
     public void ClosePopupUI()
     {
         if (_popupStack.Count == 0) return;
