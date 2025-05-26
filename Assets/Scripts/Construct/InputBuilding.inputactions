@@ -1,0 +1,54 @@
+{
+    "name": "InputBuilding",
+    "maps": [
+        {
+            "name": "Building",
+            "id": "6dabc929-eb57-468d-879a-afbb7fc18557",
+            "actions": [
+                {
+                    "name": "MouseMove",
+                    "type": "Value",
+                    "id": "c6914591-5b5c-4b02-9499-428fbd1f5807",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MouseClick",
+                    "type": "Button",
+                    "id": "2e8614ff-cd5b-4070-be5a-4e66266f744a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f643fc44-457d-4bc0-b59d-db4b50da8636",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseMove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "21569c37-fac7-4344-9723-4d8c91868729",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
