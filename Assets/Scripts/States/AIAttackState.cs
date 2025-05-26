@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttackState : EnemyState
+public class AIAttackState : AIState
 {
-    public EnemyAttackState(GameObject owner) : base(owner)
+    public AIAttackState(GameObject owner) : base(owner)
     {
     }
 

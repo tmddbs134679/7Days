@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyIdleState : EnemyState
+public class AIIdleState : AIState
 {
-    public EnemyIdleState(GameObject owner) : base(owner)
+    public AIIdleState(GameObject owner) : base(owner)
     {
     }
 

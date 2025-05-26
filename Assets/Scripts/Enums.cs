@@ -11,10 +11,3 @@ public enum EENEMYSTATE
     ATTACK,
     DIE
 }
-
-public enum EPATROLAXIS
-{
-    HORIZONTAL,
-    VERTICAL,
-    ALL
-}

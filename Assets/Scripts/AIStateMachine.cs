@@ -5,20 +5,19 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.VersionControl.Asset;
 
-public class EnemyStateMachine : MonoBehaviour
+public class AIStateMachine
 {
-   // public Dictionary<EENEMYSTATE, EnemyState> States = new Dictionary<EENEMYSTATE, EnemyState>();
-    public EnemyState CurrentState { get; private set; }
-    private List<Transition> transitions = new();
+    public AIState CurrentState { get; private set; }
+    private List<Transition> transitions = new List<Transition>();
 
 
-    public void SetInitialState(EnemyState state)
+    public void SetInitialState(AIState state)
     {
         CurrentState = state;
         CurrentState.Enter();
     }
 
-    public void AddTransition(EnemyState from, EnemyState to, Func<bool> condition)
+    public void AddTransition(AIState from, AIState to, Func<bool> condition)
     {
         transitions.Add(new Transition(from, to, condition));
     }

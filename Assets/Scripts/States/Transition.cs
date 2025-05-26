@@ -6,11 +6,11 @@ using UnityEngine;
 
 public class Transition
 {
-    public EnemyState FromState { get; }
-    public EnemyState ToState { get; }
+    public AIState FromState { get; }
+    public AIState ToState { get; }
     public Func<bool> Condition { get; }
 
-    public Transition(EnemyState from, EnemyState to, Func<bool> condition)
+    public Transition(AIState from, AIState to, Func<bool> condition)
     {
         FromState = from;
         ToState = to;

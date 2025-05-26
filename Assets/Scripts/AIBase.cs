@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class EnemyBase : MonoBehaviour
+public abstract class AIBase : MonoBehaviour
 {
     [SerializeField, Range(1,5)] protected float moveSpeed = 3;
-
+    public float attackRange = 2;
     protected Animator animator;
     protected AudioSource audioSource;
     protected NavMeshAgent agent;
-    public float attackRange = 2;
+
+    protected AIStateMachine fsm = new();
 
     public GameObject player;
 
@@ -26,6 +27,10 @@ public abstract class EnemyBase : MonoBehaviour
         agent.radius = 0.1f;
     }
 
+    protected virtual void Update()
+    {
+        fsm.Tick();
+    }
 
 
 }
