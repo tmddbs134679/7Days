@@ -7,25 +7,27 @@ public class PlayerDataSO : ScriptableObject
     [SerializeField] float maxHealth;
     [SerializeField] float maxStamina;
     [SerializeField] float maxHunger;
-    [SerializeField] float maxThirst;
+    [SerializeField] float maxHydration;
     [SerializeField] float walkSpeed;
     [SerializeField] float runSpeed;
 
     public float MaxHealth { get => maxHealth; }
     public float MaxStamina { get => maxStamina; }
     public float MaxHunger { get => maxHunger; }
-    public float MaxThirst { get => maxThirst; }
+    public float MaxHydration { get => maxHydration; }
     public float WalkSpeed { get => walkSpeed;}
     public float RunSpeed { get => runSpeed; }
 
     [Header("Stat Decay Per Interval")]
     [SerializeField] float decayPerInterval;
     [SerializeField] float healthDecayPerInterval;
+    [SerializeField] float staminaDecayPerInterval;
     [SerializeField] float hungerDecayPerInterval;
-    [SerializeField] float thirstDecayPerInterval;
+    [SerializeField] float hydrationDecayPerInterval;
 
     public float DecayPerInterval { get => decayPerInterval; }
     public float HealthDecayPerInterval { get => healthDecayPerInterval; }
+    public float StaminaDecayPerInterval { get => staminaDecayPerInterval; }
     public float HungerDecayPerInterval { get => hungerDecayPerInterval; }
-    public float ThirstDecayPerInterval { get => thirstDecayPerInterval; }
+    public float HydrationDecayPerInterval { get => hydrationDecayPerInterval; }
 }

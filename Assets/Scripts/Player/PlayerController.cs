@@ -36,11 +36,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
         {
-            player.SetRun();
-        }
-        else if (context.phase == InputActionPhase.Canceled)
-        {
-            player.SetRun();
+            
         }
     }
 

@@ -1,27 +1,31 @@
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    // Player Data
     [SerializeField] private PlayerDataSO playerDataSO;
     public PlayerDataSO PlayerDataSO { get => playerDataSO; }
+    public PlayerEventHandler PlayerEvents { get; private set; }
     private Rigidbody _rigidbody;
     private PlayerController playerController;
     private PlayerStatus playerStatus;
-    private float moveSpeed;
-    public bool IsRun { get; private set; }
+
     public bool IsDie { get; private set; }
+
     private void Awake()
     {
+        PlayerEvents = new PlayerEventHandler();
+        
         _rigidbody = GetComponent<Rigidbody>();
         playerController = GetComponent<PlayerController>();
         playerStatus = GetComponent<PlayerStatus>();
 
-        if(playerController)
+        if (playerController)
             playerController.Init(this);
-        if(playerStatus)
+        if (playerStatus)
             playerStatus.Init(this);
 
-        moveSpeed = playerDataSO.WalkSpeed;
         IsDie = false;
     }
 
@@ -40,8 +44,8 @@ public class Player : MonoBehaviour
         Vector3 direction = Vector3.right * playerController.MoveDirection.x + Vector3.forward * playerController.MoveDirection.y;
 
         Vector3 velocity = _rigidbody.velocity;
-        velocity.x = direction.x * moveSpeed;
-        velocity.z = direction.z * moveSpeed;
+        velocity.x = direction.x * playerStatus.MoveSpeed;
+        velocity.z = direction.z * playerStatus.MoveSpeed;
 
         _rigidbody.velocity = velocity;
     }
@@ -52,9 +56,8 @@ public class Player : MonoBehaviour
         transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
 
-    public void SetRun()
+    public void Die()
     {
-        IsRun = !IsRun;
-        moveSpeed = IsRun ? playerDataSO.RunSpeed : playerDataSO.WalkSpeed;
+        IsDie = true;
     }
 }
