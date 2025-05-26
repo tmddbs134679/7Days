@@ -6,7 +6,10 @@ public class Player : MonoBehaviour
     // Player Data
     [SerializeField] private PlayerDataSO playerDataSO;
     public PlayerDataSO PlayerDataSO { get => playerDataSO; }
+    
+    // Player Events
     public PlayerEventHandler PlayerEvents { get; private set; }
+
     private Rigidbody _rigidbody;
     private PlayerController playerController;
     private PlayerStatus playerStatus;
@@ -16,7 +19,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         PlayerEvents = new PlayerEventHandler();
-        
+
         _rigidbody = GetComponent<Rigidbody>();
         playerController = GetComponent<PlayerController>();
         playerStatus = GetComponent<PlayerStatus>();

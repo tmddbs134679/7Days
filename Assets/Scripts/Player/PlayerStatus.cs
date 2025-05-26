@@ -5,10 +5,15 @@ public class PlayerStatus : MonoBehaviour
 {
     Player player;
     PlayerDataSO playerDataSO;
+    PlayerEventHandler playerEvents;
 
     private float moveSpeed;
     public float MoveSpeed { get; private set; }
-    
+
+    [Header("Player Max Stats")]
+    [SerializeField] private float maxHealth;
+    [SerializeField] private float maxStamina;
+
     // 현재 스탯들
     [Header("Player Current Stats")]
     [SerializeField] private float curHealth;
@@ -19,22 +24,38 @@ public class PlayerStatus : MonoBehaviour
     public float CurHealth
     {
         get => curHealth;
-        set => curHealth = Mathf.Clamp(value, 0, playerDataSO.MaxHealth);
+        set
+        {
+            curHealth = Mathf.Clamp(value, 0, maxHealth);
+            playerEvents?.RaisedChangeHealth(maxHealth, curHealth);
+        }
     }
     public float CurStamina
     {
         get => curStamina;
-        set => curStamina = Mathf.Clamp(value, 0, playerDataSO.MaxStamina);
+        set
+        {
+            curStamina = Mathf.Clamp(value, 0, maxStamina);
+            playerEvents?.RaisedChangeStamina(maxStamina, curStamina);
+        }
     }
     public float CurHunger
     {
         get => curHunger;
-        set => curHunger = Mathf.Clamp(value, 0, playerDataSO.MaxHunger);
+        set
+        {
+            curHunger = Mathf.Clamp(value, 0, playerDataSO.MaxHunger);
+            playerEvents?.RaisedChangeHunger(playerDataSO.MaxHunger, curHunger);
+        }
     }
     public float CurHydration
     {
         get => curHydration;
-        set => curHydration = Mathf.Clamp(value, 0, playerDataSO.MaxHydration);
+        set
+        {
+            curHydration = Mathf.Clamp(value, 0, playerDataSO.MaxHydration);
+            playerEvents?.RaisedChangeHydration(playerDataSO.MaxHydration, curHydration);
+        }
     }
 
     // 스탯 감소량
@@ -48,9 +69,15 @@ public class PlayerStatus : MonoBehaviour
     {
         this.player = player;
         playerDataSO = player.PlayerDataSO;
+        playerEvents = player.PlayerEvents;
 
-        curHealth = playerDataSO.MaxHealth;
-        curStamina = playerDataSO.MaxStamina;
+        moveSpeed = playerDataSO.MoveSpeed;
+
+        maxHealth = playerDataSO.MaxHealth;
+        curHealth = maxHealth;
+        maxStamina = playerDataSO.MaxStamina;
+        curStamina = maxStamina;
+
         curHunger = playerDataSO.MaxHunger;
         curHydration = playerDataSO.MaxHydration;
 
