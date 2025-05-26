@@ -16,8 +16,10 @@ MonoBehaviour:
   maxStamina: 100
   maxHunger: 100
   maxHydration: 100
-  walkSpeed: 3
-  runSpeed: 5
+  moveSpeed: 3
+  dashSpeed: 15
+  dashDuration: 0.2
+  dashCoolDown: 3
   decayPerInterval: 0.5
   healthDecayPerInterval: 0.6
   staminaDecayPerInterval: 0.7

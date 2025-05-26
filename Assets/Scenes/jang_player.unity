@@ -831,7 +831,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1883526988}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnRun
+        m_MethodName: OnDash
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -885,6 +885,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ef12eca00243fe47b0de84d583ac6b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 0
+  maxStamina: 0
+  curHealth: 0
+  curStamina: 0
+  curHunger: 0
+  curHydration: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

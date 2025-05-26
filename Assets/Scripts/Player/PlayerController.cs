@@ -32,11 +32,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnRun(InputAction.CallbackContext context)
+    public void OnDash(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
         {
-            
+            // Dash 기능
+            player.Dash();
         }
     }
 

@@ -8,8 +8,7 @@ public class PlayerStatus : MonoBehaviour
     PlayerEventHandler playerEvents;
 
     private float moveSpeed;
-    public float MoveSpeed { get; private set; }
-
+    public float MoveSpeed { get => moveSpeed; }
     [Header("Player Max Stats")]
     [SerializeField] private float maxHealth;
     [SerializeField] private float maxStamina;
