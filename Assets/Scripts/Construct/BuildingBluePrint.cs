@@ -1,5 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class BuildingBluePrint : MonoBehaviour
 {
@@ -10,6 +10,8 @@ public class BuildingBluePrint : MonoBehaviour
 
     Color originColor;
     readonly float tranparency = 0.5f; // 건물 청사진의 투명도
+
+    List<Collider> colliders = new List<Collider>();
 
     // 겹치는지 여부
     public bool IsOverlap {  get; private set; }
@@ -48,12 +50,19 @@ public class BuildingBluePrint : MonoBehaviour
     {
         IsOverlap = true;
         meshRenderer.material.color *= Color.red;
+        colliders.Add(other);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        IsOverlap = false;
-        meshRenderer.material.color = originColor;
+        // 트리거에서 나간 콜라이더는 리스트에서 제거
+        colliders.Remove(other);
+        // 트리거 내 콜라이더가 0개라면 설치 가능한 상태로
+        if (colliders.Count.Equals(0))
+        {
+            IsOverlap = false;
+            meshRenderer.material.color = originColor;
+        }
     }
 
     // 머티리얼 투명도 변화
