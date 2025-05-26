@@ -1,58 +1,21 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody _rigidbody;
-    private PlayerData playerData;
+    private Player player;
     private Camera cam;
 
-    [Header("MoveMent")]
-    private float moveSpeed;
     private Vector2 moveDirection;
     public Vector2 MoveDirection { get => moveDirection; }
 
-    [Header("Look")]
     private Vector3 lookDirection;
     public Vector3 LookDirection { get => lookDirection; }
 
-    public void Init(PlayerData playerData)
+    public void Init(Player player)
     {
-        this.playerData = playerData;
-
-        _rigidbody = GetComponent<Rigidbody>();
+        this.player = player;
         cam = Camera.main;
-        moveSpeed = playerData.walkSpeed;
-    }
-
-    private void FixedUpdate()
-    {
-        Move();
-    }
-
-    private void Update()
-    {
-        Rotate();
-    }
-
-    private void Move()
-    {
-        Vector3 direction = Vector3.right * moveDirection.x + Vector3.forward * moveDirection.y;
-
-        Vector3 velocity = _rigidbody.velocity;
-        velocity.x = direction.x * moveSpeed;
-        velocity.z = direction.z * moveSpeed;
-
-        _rigidbody.velocity = velocity;
-    }
-
-    private void Rotate()
-    {
-        float angle = Mathf.Atan2(lookDirection.x, lookDirection.z) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -66,6 +29,18 @@ public class PlayerController : MonoBehaviour
         else if (context.phase == InputActionPhase.Canceled)
         {
             moveDirection = Vector2.zero;
+        }
+    }
+
+    public void OnRun(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            player.SetRun();
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            player.SetRun();
         }
     }
 

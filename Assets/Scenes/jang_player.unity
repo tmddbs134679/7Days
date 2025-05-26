@@ -687,6 +687,7 @@ GameObject:
   - component: {fileID: 1883526987}
   - component: {fileID: 1883526989}
   - component: {fileID: 1883526988}
+  - component: {fileID: 1883526990}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -827,7 +828,19 @@ MonoBehaviour:
     m_ActionId: 6d6f2489-017f-4616-9186-91a622c2daf6
     m_ActionName: Player/Interact[/Keyboard/f]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1883526988}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRun
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 2e14ad22-7d53-448c-b20d-5a392cc4ae18
     m_ActionName: Player/Run[/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 0
@@ -859,7 +872,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5682bc98304308542bc1d8e196ee3af9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 11400000, guid: 0faad31e185c13a49a9fd8089f22d1ab, type: 2}
+  playerDataSO: {fileID: 11400000, guid: 0faad31e185c13a49a9fd8089f22d1ab, type: 2}
+--- !u!114 &1883526990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883526983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef12eca00243fe47b0de84d583ac6b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
