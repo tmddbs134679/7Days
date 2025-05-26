@@ -64,7 +64,7 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public GameObject ShowPopupUI(string name = null)
+    public GameObject ShowPopupUI(string name = null, string[] lines = null)
     {
         Time.timeScale = 0f;
 
@@ -77,6 +77,13 @@ public class UIManager : MonoBehaviour
         _popupStack.Push(popup);
 
         ui.transform.SetParent(Root.transform, false);
+        
+        if(lines != null) // 대화내역이 있다면
+        {
+            UI_Dialogue uI_Dialogue = ui.GetComponent<UI_Dialogue>();
+            uI_Dialogue.SetLineAndStartDialogue(lines);
+        }
+        
         return ui;
     }
 
@@ -104,7 +111,6 @@ public class UIManager : MonoBehaviour
 
         _order--;
 
-        Time.timeScale = 1.0f;
     }
 
 

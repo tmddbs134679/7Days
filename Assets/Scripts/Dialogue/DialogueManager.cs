@@ -5,14 +5,18 @@ using UnityEngine;
 public class DialogueManager : MonoBehaviour
 {
     public string[] lines;
+    private GameObject dialogueObj;
 
-   [SerializeField] private UI_Dialogue dialogue;
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            dialogue.SetLineAndStartDialogue(lines);
+            if(dialogueObj == null)
+            {
+                dialogueObj = UIManager.instance.ShowPopupUI("UI_Dialogue", lines).gameObject;
+            }
+
         }
     }
 }
