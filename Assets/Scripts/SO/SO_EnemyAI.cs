@@ -17,4 +17,5 @@ public class SO_EnemyAI : ScriptableObject
     public bool targetsDronesFirst;
     public float attackRange;
     public float chasingRange;
+    public float wallDetectDistance;
 }

@@ -21,5 +21,5 @@ MonoBehaviour:
   isStealth: 0
   isRanged: 0
   targetsDronesFirst: 0
-  attackRange: 0
-  chasingRange: 0
+  attackRange: 1
+  chasingRange: 100

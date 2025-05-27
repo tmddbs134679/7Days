@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class AIAttackState : AIState
 {
+    private GameObject target;
+
+    public GameObject CurrentTarget => target;
     public AIAttackState(GameObject owner) : base(owner)
     {
     }
@@ -11,6 +14,7 @@ public class AIAttackState : AIState
     public override void Enter()
     {
         Debug.Log("Attack");
+        SetTarget(target);
     }
     public override void Tick()
     {
@@ -21,8 +25,11 @@ public class AIAttackState : AIState
     {
        
     }
+    public void SetTarget(GameObject t)
+    {
+        target = t;
+    }
 
- 
 
- 
+
 }
