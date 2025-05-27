@@ -717,7 +717,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 212
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -744,7 +744,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 39.45
+  m_fontSize: 43
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1961,7 +1961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasLayer: 55
-  type: 0
+  type: 2
 --- !u!1 &861335669
 GameObject:
   m_ObjectHideFlags: 0
@@ -2013,7 +2013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasLayer: 55
-  type: 0
+  type: 3
 --- !u!1 &870940176
 GameObject:
   m_ObjectHideFlags: 0
@@ -2065,7 +2065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasLayer: 55
-  type: 0
+  type: 1
 --- !u!1 &905665879
 GameObject:
   m_ObjectHideFlags: 0
@@ -3662,7 +3662,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 212
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3689,7 +3689,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 39.45
+  m_fontSize: 43
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3796,7 +3796,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 212
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3823,7 +3823,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 39.45
+  m_fontSize: 43
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4333,6 +4333,10 @@ MonoBehaviour:
   items:
   - {fileID: 11400000, guid: 492f0782014ddd94faba6c6802e9a4dc, type: 2}
   - {fileID: 11400000, guid: 0774419f80bde2f4682359c12bd37f19, type: 2}
+  resources:
+  - {fileID: 11400000, guid: 1c983398b7c76c04e99fe4c351025bda, type: 2}
+  - {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae, type: 2}
+  - {fileID: 11400000, guid: 59f93a03c16148e4f90f7365cc0e64eb, type: 2}
   _maxHealth: 100
   _health: 100
   _maxStamina: 100
@@ -4885,6 +4889,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e0fbbae47498d4c8eb4b6b40ab07f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemEntries:
+  - ItemType: 0
+    ItemData:
+      data: {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae, type: 2}
+      count: 0
+  - ItemType: 1
+    ItemData:
+      data: {fileID: 11400000, guid: 1c983398b7c76c04e99fe4c351025bda, type: 2}
+      count: 0
+  - ItemType: 2
+    ItemData:
+      data: {fileID: 11400000, guid: 59f93a03c16148e4f90f7365cc0e64eb, type: 2}
+      count: 0
+  itemSlots: []
   slotCount: 20
 --- !u!1 &7458830781957882922
 GameObject:

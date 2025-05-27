@@ -10,6 +10,7 @@ public class T_PC : MonoBehaviour
     public event Action<float,float> OnStaminaChanged;
     public InventoryManager inventoryManager;
     public ItemData[] items;
+    public ItemData[] resources;
 
 
     private void Awake()
@@ -63,8 +64,27 @@ public class T_PC : MonoBehaviour
         {
             // 이부분의 UI 반영은 나중에 인벤토리에 넣어주어야함.
             inventoryManager.AddItem(items[0], 500);
-
         }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            // 이부분의 UI 반영은 나중에 인벤토리에 넣어주어야함.
+            inventoryManager.DeductItem(items[0], 100);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            // 이부분의 UI 반영은 나중에 인벤토리에 넣어주어야함.
+            inventoryManager.AddResource(resources[0], 100);
+            inventoryManager.AddResource(resources[1], 100);
+            inventoryManager.AddResource(resources[2], 100);
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            // 이부분의 UI 반영은 나중에 인벤토리에 넣어주어야함.
+            inventoryManager.DeductResource(resources[0], 100);
+            inventoryManager.DeductResource(resources[1], 100);
+            inventoryManager.DeductResource(resources[2], 100);
+        }
+
         // 방향 입력
         float horizontal = Input.GetAxisRaw("Horizontal"); // A/D 또는 왼/오
         float vertical = Input.GetAxisRaw("Vertical");     // W/S 또는 위/아래

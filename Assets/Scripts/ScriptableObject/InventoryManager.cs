@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class ItemInfo // 리스트에 추가할 아이템 정보
 {
     public ItemData data;
@@ -14,21 +15,94 @@ public class ItemInfo // 리스트에 추가할 아이템 정보
         this.count = count;
     }
 }
+[Serializable]
+public class ItemDictionaryEntry
+{
+    public FloatType ItemType; // 딕셔너리의 키
+    public ItemInfo ItemData; // 딕셔너리의 값
+}
+
+public enum FloatType
+{
+    Item_ScrapIron,
+    Item_Circuit,
+    Item_Fuel,
+    Wave,
+}
+
 
 public class InventoryManager : MonoBehaviour
 {
 
     //기초 자원
+    [SerializeField]
+    private List<ItemDictionaryEntry> itemEntries = new List<ItemDictionaryEntry>();
     public Dictionary<string, ItemInfo> itemList = new Dictionary<string, ItemInfo>();
+    public event Action<int> OnScrapChanged;
+    public event Action<int> OnCircuitChanged;
+    public event Action<int> OnFuelChanged;
+
     //인벤토리 아이템
     public ItemInfo[] itemSlots;
     [SerializeField] private int slotCount = 20;
     private bool isOpenInventory = false;
-    // 이건 인벤토리에 추가되는 녀석들, 자원은 별도로 AddResource 함수를 만들어야함.
     private void Awake()
     {
         itemSlots = new ItemInfo[slotCount];
+        itemList.Clear();
+        foreach (var entry in itemEntries)
+        {
+            if (!itemList.ContainsKey(entry.ItemType.ToString()))
+            {
+                itemList.Add(entry.ItemType.ToString(), entry.ItemData);
+            }
+        }
     }
+
+
+    // 기초자원 관련
+    public void AddResource(ItemData itemData, int amount)
+    {
+        if (itemList.ContainsKey(itemData.name))
+        {
+            // 이미 딕셔너리에 있는 아이템이면 수량만 증가
+            itemList[itemData.name].count += amount;
+        }
+
+        UpdateResourceInovoke(itemData.name);
+    }
+    public bool DeductResource(ItemData itemData, int amount)
+    {
+        // 수량 부족
+        if (itemList[itemData.name].count < amount)
+        {
+            return false; 
+        }
+
+        // 수량 차감
+        itemList[itemData.name].count -= amount;
+        UpdateResourceInovoke(itemData.name);
+        return true; // 차감 성공
+    }
+
+   private void UpdateResourceInovoke(string name)
+    {
+        switch (name)
+        {
+
+            case "Item_ScrapIron":
+                OnScrapChanged.Invoke(itemList[name].count);
+                break;
+            case "Item_Circuit":
+                OnCircuitChanged.Invoke(itemList[name].count);
+                break;
+            case "Item_Fuel":
+                OnFuelChanged.Invoke(itemList[name].count);
+                break;
+        }
+    }
+
+    // 이건 인벤토리에 추가되는 녀석들, 자원은 별도로 AddResource 함수를 만들어야함.
     public void AddItem(ItemData item, int amount)
     {
         int leftAmount = amount;
@@ -85,14 +159,87 @@ public class InventoryManager : MonoBehaviour
 
 
 
-public void DeductItem(ItemData[] items, int[] amount)
+    public bool DeductItem(ItemData itemData, int amount)
     {
-        for (int i = 0; i < items.Length; i++)
+        int remainingAmount = amount;
+
+        // 차감할 수 있는 아이템 총 수량 확인 
+        if (!HasEnoughItem(itemData, amount))
         {
-            //itemList[items[i].resourceName].count -= amount[i];
-         //   Debug.Log(itemList[items[i].resourceName].data.resourceName + itemList[items[i].resourceName].count);
+            Console.WriteLine($"아이템 {itemData.name} {amount}개를 차감하기에 수량이 부족합니다.");
+            return false;
         }
+
+        // 인벤토리를 순회하며 해당 아이템을 찾아서 차감
+        for (int i = 0; i < slotCount; i++)
+        {
+            if (itemSlots[i] != null && itemSlots[i].data.name == itemData.name && remainingAmount > 0)
+            {
+                int currentStackCount = itemSlots[i].count;
+                int deductFromThisStack = Math.Min(remainingAmount, currentStackCount); // 현재 스택에서 차감할 양
+
+                itemSlots[i].count -= deductFromThisStack;
+                remainingAmount -= deductFromThisStack;
+
+                // 스택이 0이 되면 슬롯을 비움 (완전 삭제)
+                if (itemSlots[i].count <= 0)
+                {
+                    itemSlots[i] = null;
+                }
+
+                if (remainingAmount == 0)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
+
+    public bool DeductItem(ItemData[] itemsToDeduct, int[] amountsToDeduct)
+    {
+        if (itemsToDeduct == null || amountsToDeduct == null || itemsToDeduct.Length != amountsToDeduct.Length)
+        {
+            Console.WriteLine("DeductMultipleItems: 입력값이 유효하지 않습니다.");
+            return false;
+        }
+
+        // 먼저 모든 아이템의 수량이 충분한지 확인
+        for (int i = 0; i < itemsToDeduct.Length; i++)
+        {
+            if (!HasEnoughItem(itemsToDeduct[i], amountsToDeduct[i]))
+            {
+                Console.WriteLine($"요청한 {itemsToDeduct[i].name} {amountsToDeduct[i]}개가 인벤토리에 부족합니다. 전체 차감 취소.");
+                return false; 
+            }
+        }
+
+        // 모든 수량이 충분하면 실제 차감 진행
+        for (int i = 0; i < itemsToDeduct.Length; i++)
+        {
+            // 이전에 구현한 단일 아이템 차감 메서드를 재사용
+            if (!DeductItem(itemsToDeduct[i], amountsToDeduct[i]))
+            {
+                Console.WriteLine($"DeductMultipleItems: {itemsToDeduct[i].name} 차감 중 예상치 못한 오류 발생.");
+                return false;
+            }
+        }
+        return true; // 모든 아이템 성공적으로 차감
+    }
+
+    public bool HasEnoughItem(ItemData itemData, int requiredAmount)
+    {
+        int totalFoundAmount = 0;
+        foreach (var slot in itemSlots)
+        {
+            if (slot != null && slot.data.name == itemData.name)
+            {
+                totalFoundAmount += slot.count;
+            }
+        }
+        return totalFoundAmount >= requiredAmount;
+    }
+
 
     public void OnUseItem()
     {

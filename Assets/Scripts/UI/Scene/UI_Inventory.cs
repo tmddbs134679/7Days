@@ -50,7 +50,7 @@ public class UI_Inventory : UI_Popup
        // Bind<Button>(typeof(Buttons));
 
         ItemSlotLayout = Get<GridLayoutGroup>((int)Grid.ItemSlotLayout).gameObject;
-
+        inventoryManager = T_PC.instance.inventoryManager;
         SetSlot();
         /*
         _detailNameTxt = Get<TextMeshProUGUI>((int)TMPs.Name);
@@ -94,7 +94,7 @@ public class UI_Inventory : UI_Popup
         }
 
         // 인벤토리에서 슬롯 반영
-        var curSlots = inventoryManager.itemSlots;
+        var curSlots =  inventoryManager.itemSlots;
         for (int i = 0; i < slotCount; i++)
         {
             if (curSlots[i] != null)
