@@ -114,6 +114,12 @@ public class Player : MonoBehaviour
             }));
         }
     }
+
+    public void ConsumeItem(ItemDataConsumable consumable)
+    {
+        playerStatus.SetItemStat(consumable.type, consumable.value);
+    }
+
     public void Dead()
     {
         IsDead = true;
