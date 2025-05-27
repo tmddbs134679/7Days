@@ -18,14 +18,15 @@ public class Player : MonoBehaviour
     [SerializeField] private PlayerDataSO playerDataSO;
     public PlayerDataSO PlayerDataSO { get => playerDataSO; }
 
-    
+
     private PlayerController playerController; // 플레이어 인풋 관련
     private PlayerStatus playerStatus; // 플레이어 스탯 관련
     private PlayerMovement playerMovement; // 플레이어 이동 관련
     private PlayerVehicleHandler playerVehicle; // 탈 것 관리
     private PlayerWeaponHandler playerWeapon; // 무기 관리
 
-    public PlayerState CurState { get; private set; } // 플레이어 상태
+    [SerializeField] PlayerState curState;
+    public PlayerState CurState { get => curState; } // 플레이어 상태
 
     // Player Events
     public PlayerEventHandler PlayerEvents { get; private set; }
@@ -34,6 +35,7 @@ public class Player : MonoBehaviour
     public bool IsDead { get; private set; }
     public bool OnVehicle { get; set; }
     public bool OnBattle { get; private set; }
+    public bool OnGather { get; private set; }
 
     private void Awake()
     {
@@ -59,36 +61,30 @@ public class Player : MonoBehaviour
         if (playerWeapon)
             playerWeapon.Init(this);
 
-        CurState = PlayerState.Idle;
+        curState = PlayerState.Idle;
 
         CanDash = true;
         IsDead = false;
         OnVehicle = false;
         OnBattle = true;
-
-        PlayerEvents.onSelectSlot += SelectSlotTest;
-    }
-
-    public void SelectSlotTest(int idx)
-    {
-        Debug.Log(idx);
+        OnGather = false;
     }
 
     void FixedUpdate()
     {
-        if (!OnVehicle)
+        if (!OnVehicle && !OnGather)
             playerMovement.Move(playerController.MoveDirection, playerStatus.MoveSpeed);
     }
 
     void Update()
     {
-        if (!OnVehicle)
+        if (!OnVehicle && !OnGather)
             playerMovement.Rotate(playerController.LookDirection);
     }
 
     public void ChangeState(PlayerState state)
     {
-        CurState = state;
+        curState = state;
     }
 
     public void Dash()
@@ -109,6 +105,15 @@ public class Player : MonoBehaviour
         playerVehicle.SetVehicle(vehicle, playerInput);
     }
 
+    public void GatherResource(Resource resource)
+    {
+        OnGather = true;
+
+        StartCoroutine(resource.GetResource(() =>
+        {
+            OnGather = false;
+        }));
+    }
     public void Dead()
     {
         IsDead = true;

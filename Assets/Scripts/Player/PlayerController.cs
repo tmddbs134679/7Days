@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            if (player.CurState != PlayerState.Walk)
+            if (player.CurState != PlayerState.Gathering)
                 player.ChangeState(PlayerState.Walk);
 
             Vector2 moveInput = context.ReadValue<Vector2>();
@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
         {
-            // Dash 기능
             player.Dash();
         }
     }
@@ -88,6 +87,11 @@ public class PlayerController : MonoBehaviour
                 if (hit.collider.TryGetComponent(out VehicleController vehicle))
                 {
                     player.SetVehicle(vehicle);
+                }
+
+                else if (hit.collider.TryGetComponent(out Resource resource))
+                {
+                    player.GatherResource(resource);
                 }
             }
         }
