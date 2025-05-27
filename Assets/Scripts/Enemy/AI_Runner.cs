@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class AI_Runner : AI_Base
 {
@@ -52,5 +53,18 @@ public class AI_Runner : AI_Base
             return t == null || !t.gameObject.activeInHierarchy;
         });
         fsm.AddTransition(attack, chase, () => Vector3.Distance(transform.position, chase.CurrentTarget.position) < enemyData.chasingRange);
+    }
+
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Vector3 origin = transform.position + Vector3.up * 0.5f;
+        Gizmos.DrawWireSphere(origin, enemyData.wallDetectDistance);
     }
 }

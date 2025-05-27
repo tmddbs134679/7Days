@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
 using static UnityEngine.UI.Image;
 
 public class AIChasingState : AIState
@@ -33,13 +35,14 @@ public class AIChasingState : AIState
     }
     public override void Tick()
     {
-       DebugRangeLine();
-
+        //DebugRangeLine();
+      
         if ((type == EENEMYTYPE.RUNNER || type == EENEMYTYPE.SPINE) && IsWallInFront(out Transform wall))
         {
+           
             if (CurrentTarget != wall)
             {
-                CurrentTarget = wall;
+                CurrentTarget = wall; 
                 agent.SetDestination(wall.position);
                 return;
             }
@@ -55,7 +58,7 @@ public class AIChasingState : AIState
         if (CurrentTarget != null)
             agent.SetDestination(CurrentTarget.position);
 
-
+       
     }
 
     public override void Exit()
@@ -96,12 +99,17 @@ public class AIChasingState : AIState
         Vector3 dir = owner.transform.forward;
 
         int wallLayerMask = LayerMask.GetMask("Wall");
-        if (Physics.Raycast(origin, dir, out RaycastHit hit, wallDetectDistance, wallLayerMask))
+      
+        Collider[] hits = Physics.OverlapSphere(origin, wallDetectDistance, wallLayerMask);
+        foreach (var hit in hits)
         {
-            wall = hit.transform;
-            return true;
+            if (hit.CompareTag("Wall"))
+            {
+                wall = hit.transform;
+                return true;
+            }
         }
-
+       
         wall = null;
         return false;
     }
@@ -110,10 +118,5 @@ public class AIChasingState : AIState
         return CurrentTarget == null || !CurrentTarget.gameObject.activeInHierarchy;
     }
 
-    void DebugRangeLine()
-    {
-        Vector3 origin = owner.transform.position + Vector3.up * 0.5f;
-        Vector3 dir = owner.transform.forward;
-        Debug.DrawRay(origin, dir * wallDetectDistance, Color.red);
-    }
+  
 }
