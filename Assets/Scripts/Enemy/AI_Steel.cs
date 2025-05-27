@@ -1,0 +1,33 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AI_Steel : AI_Base
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        Setting();
+    }
+    protected override void Setting()
+    {
+        var idle = new AIIdleState(gameObject);
+        var chase = new AIChasingState(gameObject, TestGameManager.Inst.testPlayer.transform);
+        var attack = new AIAttackState(gameObject);
+
+        fsm.SetInitialState(idle);
+
+       // fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, player.transform.position) < enemyData.chasingRange);
+        fsm.AddTransition(idle, chase, () =>
+        {
+            if (DroneManager.HasAliveDrones)
+                return true;
+
+            return Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) < enemyData.chasingRange;
+        });
+    }
+    public override void Attack(GameObject target)
+    {
+
+    }
+}
