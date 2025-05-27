@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
                 player.ChangeState(PlayerState.Walk);
 
             Vector2 moveInput = context.ReadValue<Vector2>();
-            
+
             moveDirection = Vector3.right * moveInput.x + Vector3.forward * moveInput.y;
             moveDirection = moveDirection.normalized;
         }
@@ -83,7 +83,21 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
         {
+            if (player.OnVehicle)
+            {
+                player.SetVehicle(null);
+                return;
+            }
+            
+            Ray ray = new Ray(transform.position, transform.forward);
 
+            if (Physics.Raycast(ray, out RaycastHit hit, 3f))
+            {
+                if (hit.collider.TryGetComponent(out VehicleController vehicle))
+                {
+                    player.SetVehicle(vehicle);
+                }
+            }
         }
     }
 

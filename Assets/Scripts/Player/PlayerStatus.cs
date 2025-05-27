@@ -116,6 +116,14 @@ public class PlayerStatus : MonoBehaviour
             if (IsDanger)
             {
                 CurHealth -= healthDecayPerInterval;
+
+                if (moveSpeed != conditionSO.MoveSpeedPenalty)
+                    moveSpeed = conditionSO.MoveSpeedPenalty;
+            }
+            else
+            {
+                if (moveSpeed != playerDataSO.MoveSpeed)
+                    moveSpeed = playerDataSO.MoveSpeed;
             }
             
             yield return new WaitForSeconds(decayPerInterval);

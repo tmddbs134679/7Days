@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -7,10 +6,10 @@ public class PlayerMovement : MonoBehaviour
     private Player player;
     private Rigidbody _rigidbody;
 
-    public void Init(Player player)
+    public void Init(Player player, Rigidbody rigidbody)
     {
         this.player = player;
-        _rigidbody = GetComponent<Rigidbody>();
+        _rigidbody = rigidbody;
     }
 
     public void Move(Vector3 moveDirection, float moveSpeed)

@@ -360,6 +360,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1883526984}
   offset: {x: 0, y: 10, z: -10}
+  speed: 3
 --- !u!1 &1306455766
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,6 +706,7 @@ GameObject:
   - component: {fileID: 1883526988}
   - component: {fileID: 1883526991}
   - component: {fileID: 1883526990}
+  - component: {fileID: 1883526992}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -721,7 +723,7 @@ Transform:
   m_GameObject: {fileID: 1883526983}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1.449, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -841,7 +843,19 @@ MonoBehaviour:
     m_ActionId: c773686c-428f-4b4b-8c9b-0a30c114d16b
     m_ActionName: Player/Attack[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1883526988}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 6d6f2489-017f-4616-9186-91a622c2daf6
     m_ActionName: Player/Interact[/Keyboard/f]
   - m_PersistentCalls:
@@ -861,13 +875,41 @@ MonoBehaviour:
     m_ActionId: 2e14ad22-7d53-448c-b20d-5a392cc4ae18
     m_ActionName: Player/Run[/Keyboard/shift]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1883526988}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnVehicle
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 576cd06b-4305-4358-9bba-546dcc4b45dd
     m_ActionName: Player/Vehicle[/Keyboard/f]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1883526988}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnCommand
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 7c292699-d698-4394-930f-87e98b927401
     m_ActionName: Player/Command[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2c3a170c-67e1-48b4-a9a4-ec75ba9a03ca
+    m_ActionName: Player/VehicleMove[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -927,6 +969,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c9e26ab40a3e094cb4110f85350d672, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1883526992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1883526983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8293d3b0bfce7643ab0ba8365e7af77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1956631153
@@ -1034,6 +1088,75 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1956631153}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &5917355968552422558
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1995820833248459514, guid: 678428b9330388145b6815bc4e6dd3fa,
+        type: 3}
+      propertyPath: m_Name
+      value: Motorcycle
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233758634640455385, guid: 678428b9330388145b6815bc4e6dd3fa,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233758634640455385, guid: 678428b9330388145b6815bc4e6dd3fa,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233758634640455385, guid: 678428b9330388145b6815bc4e6dd3fa,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233758634640455385, guid: 678428b9330388145b6815bc4e6dd3fa,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233758634640455385, guid: 678428b9330388145b6815bc4e6dd3fa,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233758634640455385, guid: 678428b9330388145b6815bc4e6dd3fa,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233758634640455385, guid: 678428b9330388145b6815bc4e6dd3fa,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233758634640455385, guid: 678428b9330388145b6815bc4e6dd3fa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233758634640455385, guid: 678428b9330388145b6815bc4e6dd3fa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2233758634640455385, guid: 678428b9330388145b6815bc4e6dd3fa,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3258492267962199035, guid: 678428b9330388145b6815bc4e6dd3fa, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 678428b9330388145b6815bc4e6dd3fa, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1042,3 +1165,4 @@ SceneRoots:
   - {fileID: 1415144874}
   - {fileID: 1306455770}
   - {fileID: 1883526984}
+  - {fileID: 5917355968552422558}
