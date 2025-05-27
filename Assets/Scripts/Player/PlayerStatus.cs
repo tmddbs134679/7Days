@@ -52,9 +52,11 @@ public class PlayerStatus : MonoBehaviour
     // 스탯 감소량
     private float healthDecayPerInterval;
     private float staminaDecayPerInterval;
-    private float HydrationDecayPerInterval => player.OnBattle ? conditionSO.HydrationDecayPerInterval * 5 : conditionSO.HydrationDecayPerInterval;
+    private float hydrationDecayPerInterval;
+    private float HydrationDecayPerInterval => player.OnBattle ? hydrationDecayPerInterval * 5 : hydrationDecayPerInterval;
     private float interval;
-
+    
+    // 체력 회복량
     private float healthRecoverPerInterval;
     #endregion
 
@@ -75,7 +77,7 @@ public class PlayerStatus : MonoBehaviour
 
         healthDecayPerInterval = conditionSO.HealthDecayPerInterval;
         staminaDecayPerInterval = conditionSO.StaminaDecayPerInterval;
-        //hydrationDecayPerInterval = conditionSO.HydrationDecayPerInterval;
+        hydrationDecayPerInterval = conditionSO.HydrationDecayPerInterval;
 
         healthRecoverPerInterval = conditionSO.HealthRecoverPerInterval;
 
@@ -106,6 +108,14 @@ public class PlayerStatus : MonoBehaviour
 
             yield return new WaitForSeconds(interval);
         }
+    }
+
+    public void TakeDamage(float amount)
+    {
+        CurHealth -= amount;
+
+        if (CurHealth <= 0)
+            player.Dead();
     }
 
     public bool UseStamina(float amount)

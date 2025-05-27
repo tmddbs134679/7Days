@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
         playerStatus = GetComponent<PlayerStatus>();
         playerMovement = GetComponent<PlayerMovement>();
         playerVehicle = GetComponent<PlayerVehicleHandler>();
+        playerWeapon = GetComponent<PlayerWeaponHandler>();
 
         if (playerController)
             playerController.Init(this);
@@ -55,6 +56,8 @@ public class Player : MonoBehaviour
             playerMovement.Init(this, _rigidbody);
         if (playerVehicle)
             playerVehicle.Init(this);
+        if (playerWeapon)
+            playerWeapon.Init(this);
 
         CurState = PlayerState.Idle;
 
@@ -62,6 +65,13 @@ public class Player : MonoBehaviour
         IsDead = false;
         OnVehicle = false;
         OnBattle = true;
+
+        PlayerEvents.onSelectSlot += SelectSlotTest;
+    }
+
+    public void SelectSlotTest(int idx)
+    {
+        Debug.Log(idx);
     }
 
     void FixedUpdate()
