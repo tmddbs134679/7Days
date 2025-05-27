@@ -11,7 +11,8 @@ public class TestPlayerCon : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.G) && canResource)
         {
-            resource.GetResource();
+            StartCoroutine(resource.GetResource());
+            canResource = false;
         }
     }
 

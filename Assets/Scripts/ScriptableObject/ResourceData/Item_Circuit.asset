@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e861fab3f3426314aa401dc4b92ce6bc, type: 3}
   m_Name: Item_Circuit
   m_EditorClassIdentifier: 
-  resourceName: "\uACE0\uCCA0"
+  resourceName: "\uD68C\uB85C \uC870\uAC01"
   description: "\uC804\uC790 \uAD6C\uC870\uBB3C\uC5D0 \uD544\uC694\uD55C \uBD80\uD488"
   type: 2
   icon: {fileID: 0}
