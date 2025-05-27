@@ -29,6 +29,10 @@ public class FormManager : Singleton<FormManager>
     {
         return formDic[typeof(T)] as T;
     }
+    public object GetForm(Type type)
+    {
+        return formDic[type];
+    }
 
 #if UNITY_EDITOR
     public void AutoAssignTables()
