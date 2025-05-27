@@ -22,8 +22,8 @@ public abstract class AI_Base : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
 
         agent.speed = enemyData.moveSpeed;
-        agent.stoppingDistance = 0.05f;
-        agent.radius = 0.1f;
+        //agent.stoppingDistance = 0.05f;
+        //agent.radius = 0.1f;
     }
 
     protected virtual void Update()

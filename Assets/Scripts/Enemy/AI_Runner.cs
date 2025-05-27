@@ -20,13 +20,15 @@ public class AI_Runner : AI_Base
     protected override void Setting()
     {
         var idle = new AIIdleState(gameObject);
-        var chase = new AIChasingState(gameObject, player.transform);
+        var chase = new AIChasingState(gameObject, TestGameManager.Inst.testPlayer.transform);
         var attack = new AIAttackState(gameObject);
 
         fsm.SetInitialState(idle);
 
-        fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, player.transform.position) < enemyData.chasingRange);
-        //fsm.AddTransition(chase, idle, () => Vector3.Distance(transform.position, chase.CurrentTarget.position) > enemyData.attackRange);
+        fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) < enemyData.chasingRange);
+
+
+
         fsm.AddTransition(chase, attack, () =>
         {
             var target = chase.CurrentTarget;
@@ -36,10 +38,10 @@ public class AI_Runner : AI_Base
             float dist = Vector3.Distance(transform.position, target.position);
 
             bool readyToAttack = dist < enemyData.attackRange;
-            if(readyToAttack)
+            if (readyToAttack)
             {
                 attack.SetTarget(chase.CurrentTarget.gameObject);
-            } 
+            }
 
             return dist < enemyData.attackRange;
         });
@@ -49,6 +51,6 @@ public class AI_Runner : AI_Base
             var t = attack.CurrentTarget;
             return t == null || !t.gameObject.activeInHierarchy;
         });
-        // fsm.AddTransition(attack, chase, () => Vector3.Distance(transform.position, chase.CurrentTarget.position) < enemyData.chasingRange);
+        fsm.AddTransition(attack, chase, () => Vector3.Distance(transform.position, chase.CurrentTarget.position) < enemyData.chasingRange);
     }
 }

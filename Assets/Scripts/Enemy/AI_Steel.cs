@@ -17,7 +17,7 @@ public class AI_Steel : AI_Base
 
         fsm.SetInitialState(idle);
 
-        fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, player.transform.position) < enemyData.chasingRange);
+       // fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, player.transform.position) < enemyData.chasingRange);
         fsm.AddTransition(idle, chase, () =>
         {
             if (DroneManager.HasAliveDrones)

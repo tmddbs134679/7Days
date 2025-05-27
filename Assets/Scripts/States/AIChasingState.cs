@@ -33,7 +33,7 @@ public class AIChasingState : AIState
     }
     public override void Tick()
     {
-        DebugRangeLine();
+       DebugRangeLine();
 
         if ((type == EENEMYTYPE.RUNNER || type == EENEMYTYPE.SPINE) && IsWallInFront(out Transform wall))
         {
@@ -64,6 +64,7 @@ public class AIChasingState : AIState
     }
     Transform SelectTarget(EENEMYTYPE type)
     {
+
         // 플레이어 기본 타겟
         Transform player = TestGameManager.Inst.testPlayer.transform;
 
