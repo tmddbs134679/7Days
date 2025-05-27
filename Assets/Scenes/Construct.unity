@@ -301,15 +301,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2237758194652697973, guid: a626198b83ce92d47b2caa7b7acfc70e,
+        type: 3}
+      propertyPath: form
+      value: 
+      objectReference: {fileID: 11400000, guid: 1f8cf773fa8e7eb44a673ae66e1d1f4d,
+        type: 2}
+    - target: {fileID: 2237758194652697973, guid: a626198b83ce92d47b2caa7b7acfc70e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237758194652697973, guid: a626198b83ce92d47b2caa7b7acfc70e,
+        type: 3}
+      propertyPath: buildingIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5903049717027298915, guid: a626198b83ce92d47b2caa7b7acfc70e,
         type: 3}
       propertyPath: m_Name
       value: BuildingEx
-      objectReference: {fileID: 0}
-    - target: {fileID: 8729590593661638196, guid: a626198b83ce92d47b2caa7b7acfc70e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9117890805154630535, guid: a626198b83ce92d47b2caa7b7acfc70e,
         type: 3}
@@ -640,6 +651,52 @@ Transform:
   - {fileID: 825648684}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1287446770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1287446772}
+  - component: {fileID: 1287446771}
+  m_Layer: 0
+  m_Name: BuildingManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1287446771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287446770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f6f07a7c8f9c544ab1299e1802b6c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  formList:
+  - {fileID: 11400000, guid: 771e1ff439d7ed147a7ec3e1f9f906f4, type: 2}
+--- !u!4 &1287446772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287446770}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1944993786
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,3 +910,4 @@ SceneRoots:
   - {fileID: 236432138}
   - {fileID: 93306351}
   - {fileID: 534061888}
+  - {fileID: 1287446772}

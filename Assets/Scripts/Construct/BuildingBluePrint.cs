@@ -13,6 +13,8 @@ public class BuildingBluePrint : MonoBehaviour
 
     List<Collider> colliders = new List<Collider>();
 
+    readonly string groundLayerName = "Ground"; // 땅의 레이어 명칭
+
     // 겹치는지 여부
     public bool IsOverlap {  get; private set; }
     private void OnEnable()
@@ -48,20 +50,28 @@ public class BuildingBluePrint : MonoBehaviour
     // 겹치는지 여부 판정 및 색상 변화
     private void OnTriggerEnter(Collider other)
     {
-        IsOverlap = true;
-        meshRenderer.material.color *= Color.red;
-        colliders.Add(other);
+        // 땅은 겹치는 판정에서 제외
+        if (other.gameObject.layer != LayerMask.NameToLayer(groundLayerName))
+        {
+            IsOverlap = true;
+            meshRenderer.material.color *= Color.red;
+            colliders.Add(other);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // 트리거에서 나간 콜라이더는 리스트에서 제거
-        colliders.Remove(other);
-        // 트리거 내 콜라이더가 0개라면 설치 가능한 상태로
-        if (colliders.Count.Equals(0))
+        // 땅은 겹치는 판정에서 제외
+        if (other.gameObject.layer != LayerMask.NameToLayer(groundLayerName))
         {
-            IsOverlap = false;
-            meshRenderer.material.color = originColor;
+            // 트리거에서 나간 콜라이더는 리스트에서 제거
+            colliders.Remove(other);
+            // 트리거 내 콜라이더가 0개라면 설치 가능한 상태로
+            if (colliders.Count.Equals(0))
+            {
+                IsOverlap = false;
+                meshRenderer.material.color = originColor;
+            }
         }
     }
 

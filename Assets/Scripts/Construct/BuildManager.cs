@@ -6,22 +6,14 @@ public class BuildManager : MonoBehaviour
     [SerializeField] Transform buildingPrefab; // 이번에 설치할 건물 프리팹을 넣어줄 곳
     [SerializeField] LayerMask groundMask; // 지면 오브젝트의 레이어
 
-
     BuildingBluePrint buildingBluePrint; // 건물 청사진
-
     Vector2 mousePos; // 마우스 커서가 가리키는 현재 설치 위치
     Camera cam; // 메인 카메라
     
+    private void Awake() => cam = Camera.main;
 
-    private void Awake()
-    {
-        cam = Camera.main;
-    }
-
-    private void OnEnable()
-    {
-        CreateBluePrint();
-    }
+    // 건물 청사진 생성
+    private void OnEnable() => CreateBluePrint();
 
     private void Update()
     {
@@ -37,10 +29,6 @@ public class BuildManager : MonoBehaviour
                 buildingBluePrint.transform.parent.position = new Vector3(hit.point.x, 0, hit.point.z);
             }
         }
-
-        // 건설 취소는 우선 우클릭으로 임시 할당.. 나중에 다른 겜 켜서 건설 취소키 확인하고 추가
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-            CancelBuild();
     }
 
     // 건설할 건물 프리팹 할당
@@ -48,14 +36,25 @@ public class BuildManager : MonoBehaviour
 
     // Input System: Send Message 방식
     // 마우스가 움직일 때 마우스 좌표를 경신
-    public void OnMouseMove(InputValue value) => mousePos = value.Get<Vector2>();
+    public void OnMoveInput(InputValue value) => mousePos = value.Get<Vector2>();
 
-    // 마우스 왼쪽 버튼 클릭 때
-    public void OnMouseClick(InputValue value)
+    // 마우스 왼쪽 버튼 클릭
+    public void OnConfirmInput(InputValue value)
     {
         // 겹치는 오브젝트가 없을 때만, 건설 완료
         if(!buildingBluePrint.IsOverlap)
             CompleteBuild();
+    }
+
+    // 마우스 오른쪽 버튼 클릭 or ESC => 건설 취소
+    public void OnCancelInput(InputValue value) => CancelBuild();
+
+
+    // 마우스 휠 다운/업으로 건물 회전
+    public void OnRotateInput(InputValue value)
+    {
+        float input = value.Get<float>();
+        RotateBuild(input);
     }
 
     // 건물의 청사진 오브젝트 생성
@@ -67,6 +66,7 @@ public class BuildManager : MonoBehaviour
             // 프리팹을 복제하여 마우스를 따라다닐 건물 생성
             Transform bluePrint = Instantiate(buildingPrefab);
             // 건물 청사진으로써 활동할 수 있게 스크립트 추가
+            // 0번째 자식이 외형 + 콜라이더를 가지고 있음
             buildingBluePrint = bluePrint.GetChild(0).gameObject.AddComponent<BuildingBluePrint>();
         }
     }
@@ -80,11 +80,8 @@ public class BuildManager : MonoBehaviour
         buildingBluePrint.WhenBuildComplete();
         // 설치 완료되면 건물 역할 스크립트 혹은 오브젝트 활성화 >> 그때부터 건물로써의 기능 시작 !!!
 
-        // 초기화
-        buildingPrefab = null;
-        buildingBluePrint = null;
-        // 설치에 관여하는 해당 스크립트 비활성화
-        enabled = false;
+        // 설치에 관여하는 오브젝트 비활성화
+        gameObject.SetActive(false);
     }
 
     // 설치 취소
@@ -92,7 +89,16 @@ public class BuildManager : MonoBehaviour
     {
         // 건물 청사진 오브젝트를 파괴하고
         Destroy(buildingBluePrint.gameObject);
-        // 설치에 관여하는 해당 스크립트 비활성화
-        enabled = false;
+        // 설치에 관여하는 오브젝트 비활성화
+        gameObject.SetActive(false);
+    }
+
+    // 건물 청사진 회전
+    void RotateBuild(float inputValue)
+    {
+        if(inputValue > 0)
+            buildingBluePrint.transform.parent.Rotate(90 * Vector3.up);
+        else if(inputValue < 0)
+            buildingBluePrint.transform.parent.Rotate(90 * Vector3.down);
     }
 }
