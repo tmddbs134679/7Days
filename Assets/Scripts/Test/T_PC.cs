@@ -8,7 +8,8 @@ public class T_PC : MonoBehaviour
     public static T_PC instance;
     public event Action<float,float> OnHealthChanged;
     public event Action<float,float> OnStaminaChanged;
-
+    public InventoryManager inventoryManager;
+    public ItemData[] items;
 
 
     private void Awake()
@@ -58,7 +59,12 @@ public class T_PC : MonoBehaviour
         {
             DialogueManager.instance.ShowBillBoardDialogue("UI_BillBoardDialogue", transform);
         }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            // 이부분의 UI 반영은 나중에 인벤토리에 넣어주어야함.
+            inventoryManager.AddItem(items[0], 500);
 
+        }
         // 방향 입력
         float horizontal = Input.GetAxisRaw("Horizontal"); // A/D 또는 왼/오
         float vertical = Input.GetAxisRaw("Vertical");     // W/S 또는 위/아래
