@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
-    public string[] lines;
+    public DialogueSequence lines;
     private GameObject dialogueObj;
 
 

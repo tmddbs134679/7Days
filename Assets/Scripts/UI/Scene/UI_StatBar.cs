@@ -7,7 +7,8 @@ public class UI_StatBar : UI_Scene
     public enum StatBarType
     {
         Health,
-        Stamina
+        Stamina,
+        Thirst,
     }
 
     [SerializeField] private StatBarType statBarType;
@@ -35,6 +36,10 @@ public class UI_StatBar : UI_Scene
             case StatBarType.Stamina:
                 _PC.OnStaminaChanged += UpdateCurrent;
                 UpdateCurrent(_PC._maxStamina, _PC.Stamina);
+                break;
+            case StatBarType.Thirst:
+                //_PC.OnStaminaChanged += UpdateCurrent;
+                //UpdateCurrent(_PC._maxStamina, _PC.Stamina);
                 break;
         }
     }

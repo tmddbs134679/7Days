@@ -64,7 +64,7 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public GameObject ShowPopupUI(string name = null, string[] lines = null)
+    public GameObject ShowPopupUI(string name = null, DialogueSequence lines = null)
     {
         Time.timeScale = 0f;
 
