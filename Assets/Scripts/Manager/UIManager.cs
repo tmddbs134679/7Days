@@ -64,7 +64,7 @@ public class UIManager : MonoBehaviour
     }
 
 
-    public GameObject ShowPopupUI(string name = null, DialogueSequence lines = null)
+    public GameObject ShowPopupUI(string name = null, DialogueSequence lines = null, Transform root = null)
     {
         Time.timeScale = 0f;
 
@@ -76,13 +76,25 @@ public class UIManager : MonoBehaviour
         UI_Popup popup = ui.GetComponent<UI_Popup>();
         _popupStack.Push(popup);
 
-        ui.transform.SetParent(Root.transform, false);
+        if(root != null)
+            ui.transform.SetParent(root.transform, false);
+        else
+            ui.transform.SetParent(Root.transform, false);
         
-        if(lines != null) // 대화내역이 있다면
+        if(lines != null ) // 대화내역이 있다면
         {
-            UI_Dialogue uI_Dialogue = ui.GetComponent<UI_Dialogue>();
-            uI_Dialogue.SetLineAndStartDialogue(lines);
+            if (root == null)
+            {
+                UI_Dialogue uI_Dialogue = ui.GetComponent<UI_Dialogue>();
+                uI_Dialogue.SetLineAndStartDialogue(lines);
+            }
+            else
+            {
+                UI_BillBoardDialogue uI_BillBoard = ui.GetComponent<UI_BillBoardDialogue>();
+                uI_BillBoard.SetLineAndStartDialogue(lines);
+            }
         }
+
         
         return ui;
     }
