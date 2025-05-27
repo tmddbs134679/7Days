@@ -2,17 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI_Steel : MonoBehaviour
+public class AI_Steel : AI_Base
 {
     // Start is called before the first frame update
     void Start()
     {
-        
+        Setting();
     }
-
-    // Update is called once per frame
-    void Update()
+    protected override void Setting()
     {
-        
+        var idle = new AIIdleState(gameObject);
+        var chase = new AIChasingState(gameObject, player.transform);
+        var attack = new AIAttackState(gameObject);
+
+        fsm.SetInitialState(idle);
+
+        fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, player.transform.position) < enemyData.chasingRange);
+        fsm.AddTransition(idle, chase, () =>
+        {
+            if (DroneManager.HasAliveDrones)
+                return true;
+
+            return Vector3.Distance(transform.position, player.transform.position) < enemyData.chasingRange;
+        });
+    }
+    public override void Attack(GameObject target)
+    {
+
     }
 }

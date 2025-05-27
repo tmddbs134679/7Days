@@ -74,6 +74,17 @@ public class AIChasingState : AIState
                 return wall;
             }
         }
+       
+        if (type == EENEMYTYPE.STEALER)
+        {
+            if (DroneManager.HasAliveDrones)
+                return DroneManager.ClosestDrone(owner.transform.position);
+
+            Transform building = DroneManager.ClosestDroneBuilding(owner.transform.position);
+            if (building != null)
+                return building;
+        }
+
 
         return player;
     }
