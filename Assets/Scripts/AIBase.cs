@@ -6,7 +6,8 @@ using UnityEngine.AI;
 public abstract class AIBase : MonoBehaviour
 {
     [SerializeField, Range(1,5)] protected float moveSpeed = 3;
-    public float attackRange = 2;
+    public float attackRange;
+    public float chasingRange;
     protected Animator animator;
     protected AudioSource audioSource;
     protected NavMeshAgent agent;
@@ -33,4 +34,7 @@ public abstract class AIBase : MonoBehaviour
     }
 
 
+    protected abstract void Setting();
+
+     
 }

@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class AI_Husk : MonoBehaviour
 {
-
-
     // Start is called before the first frame update
-
-    private void Awake()
+    void Start()
     {
+        
     }
 
- 
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 }
