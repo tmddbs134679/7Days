@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
-public class AI_Runner : AIBase
+public class AI_Runner : AI_Base
 {
     void Start()
     {
@@ -25,9 +25,9 @@ public class AI_Runner : AIBase
 
         fsm.SetInitialState(idle);
 
-        fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, player.transform.position) < chasingRange);
-        fsm.AddTransition(chase, idle, () => Vector3.Distance(transform.position, player.transform.position) > chasingRange);
-        fsm.AddTransition(chase, attack, () => Vector3.Distance(transform.position, player.transform.position) < attackRange);
-        fsm.AddTransition(attack, chase, () => Vector3.Distance(transform.position, player.transform.position) > attackRange);
+        fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, player.transform.position) < enemyData.chasingRange);
+        fsm.AddTransition(chase, idle, () => Vector3.Distance(transform.position, player.transform.position) > enemyData.chasingRange);
+        fsm.AddTransition(chase, attack, () => Vector3.Distance(transform.position, player.transform.position) < enemyData.attackRange);
+        fsm.AddTransition(attack, chase, () => Vector3.Distance(transform.position, player.transform.position) > enemyData.attackRange);
     }
 }

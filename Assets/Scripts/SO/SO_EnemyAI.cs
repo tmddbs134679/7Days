@@ -1,0 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+[CreateAssetMenu(menuName = "EnemyAI/EnemyType")]
+public class SO_EnemyAI : ScriptableObject
+{
+    public EENEMYTYPE type;
+    public float maxHealth;
+    public float attackPower;
+    [SerializeField, Range(1, 5)] public float moveSpeed;
+    public bool canClimbWall;
+    public bool canJumpOverWall;
+    public bool isStealth;
+    public bool isRanged;
+    public bool targetsDronesFirst;
+    public float attackRange;
+    public float chasingRange;
+}

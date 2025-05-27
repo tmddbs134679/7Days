@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI_Husk : MonoBehaviour
+public class AI_Husk : AI_Base
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+        Setting();
+    }
+    public override void Attack(GameObject target)
+    {
+       
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void Setting()
     {
-        
+       
     }
+
 }

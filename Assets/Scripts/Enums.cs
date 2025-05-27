@@ -11,3 +11,12 @@ public enum EENEMYSTATE
     ATTACK,
     DIE
 }
+public enum EENEMYTYPE
+{
+    HUSKER,
+    RUNNER,
+    SPINE,
+    STEALER,
+    ACID,
+    STEALTH,
+}

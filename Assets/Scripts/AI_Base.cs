@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class AIBase : MonoBehaviour
+public abstract class AI_Base : MonoBehaviour
 {
-    [SerializeField, Range(1,5)] protected float moveSpeed = 3;
-    public float attackRange;
-    public float chasingRange;
+    public SO_EnemyAI enemyData;
     protected Animator animator;
     protected AudioSource audioSource;
     protected NavMeshAgent agent;
@@ -23,7 +21,7 @@ public abstract class AIBase : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         agent = GetComponent<NavMeshAgent>();
 
-        agent.speed = moveSpeed;
+        agent.speed = enemyData.moveSpeed;
         agent.stoppingDistance = 0.05f;
         agent.radius = 0.1f;
     }
