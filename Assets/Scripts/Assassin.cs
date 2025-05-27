@@ -25,7 +25,7 @@ public class Assassin : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, stealth.player.transform.position);
 
-        if (!fadeLoopStarted && distance <= stealth.StealthRange)
+        if (!fadeLoopStarted && distance <= stealth.enemyData.StealthRange)
         {
             fadeLoopStarted = true;
             StartCoroutine(FadeLoop());

@@ -18,4 +18,7 @@ public class SO_EnemyAI : ScriptableObject
     public float attackRange;
     public float chasingRange;
     public float wallDetectDistance;
+    public float StealthTime = 5f;
+    public float StealthRange = 10f;
+    public float StealthDurtaion = 5f;
 }
