@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     private PlayerStatus playerStatus; // 플레이어 스탯 관련
     private PlayerMovement playerMovement; // 플레이어 이동 관련
     private PlayerVehicleHandler playerVehicle; // 탈 것 관리
+    private PlayerWeaponHandler playerWeapon; // 무기 관리
 
     public PlayerState CurState { get; private set; } // 플레이어 상태
 
