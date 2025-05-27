@@ -22,9 +22,6 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            if (player.CurState != PlayerState.Gathering)
-                player.ChangeState(PlayerState.Walk);
-
             Vector2 moveInput = context.ReadValue<Vector2>();
 
             moveDirection = Vector3.right * moveInput.x + Vector3.forward * moveInput.y;
@@ -34,7 +31,6 @@ public class PlayerController : MonoBehaviour
         else if (context.phase == InputActionPhase.Canceled)
         {
             moveDirection = Vector3.zero;
-            player.ChangeState(PlayerState.Idle);
         }
     }
 
@@ -74,9 +70,11 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
         {
-            if (player.OnVehicle)
+            // 현재 탈 것 탑승중이면 해제
+            if (player.CurState == PlayerState.Vehicle)
             {
                 player.SetVehicle(null);
+                player.ChangeState(PlayerState.Idle);
                 return;
             }
 

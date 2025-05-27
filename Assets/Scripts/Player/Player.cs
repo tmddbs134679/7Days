@@ -6,7 +6,8 @@ public enum PlayerState
     Idle,
     Walk,
     Dash,
-    Gathering
+    Gathering,
+    Vehicle
 }
 
 public class Player : MonoBehaviour
@@ -33,9 +34,7 @@ public class Player : MonoBehaviour
 
     public bool CanDash { get; set; }
     public bool IsDead { get; private set; }
-    public bool OnVehicle { get; set; }
     public bool OnBattle { get; private set; }
-    public bool OnGather { get; private set; }
 
     private void Awake()
     {
@@ -65,20 +64,18 @@ public class Player : MonoBehaviour
 
         CanDash = true;
         IsDead = false;
-        OnVehicle = false;
         OnBattle = true;
-        OnGather = false;
     }
 
     void FixedUpdate()
     {
-        if (!OnVehicle && !OnGather)
+        if (CurState != PlayerState.Vehicle && CurState != PlayerState.Gathering)
             playerMovement.Move(playerController.MoveDirection, playerStatus.MoveSpeed);
     }
 
     void Update()
     {
-        if (!OnVehicle && !OnGather)
+        if (CurState != PlayerState.Vehicle && CurState != PlayerState.Gathering)
             playerMovement.Rotate(playerController.LookDirection);
     }
 
@@ -89,7 +86,7 @@ public class Player : MonoBehaviour
 
     public void Dash()
     {
-        if (CanDash && !OnVehicle && playerStatus.UseStaminaAndHydration(playerDataSO.DashStamina, playerDataSO.DashHydration))
+        if (CanDash && CurState != PlayerState.Vehicle && playerStatus.UseStaminaAndHydration(playerDataSO.DashStamina, playerDataSO.DashHydration))
         {
             float dashSpeed = playerDataSO.DashSpeed;
             float duration = playerDataSO.DashDuration;
@@ -101,18 +98,21 @@ public class Player : MonoBehaviour
 
     public void SetVehicle(VehicleController vehicle)
     {
-        _rigidbody.isKinematic = !OnVehicle;
+        _rigidbody.isKinematic = curState != PlayerState.Vehicle ? true : false;
         playerVehicle.SetVehicle(vehicle, playerInput);
     }
 
     public void GatherResource(Resource resource)
     {
-        OnGather = true;
-
-        StartCoroutine(resource.GetResource(() =>
+        if (playerStatus.UseStamina(playerDataSO.GatherStamina))
         {
-            OnGather = false;
-        }));
+            ChangeState(PlayerState.Gathering);
+
+            StartCoroutine(resource.GetResource(() =>
+            {
+                ChangeState(PlayerState.Idle);
+            }));
+        }
     }
     public void Dead()
     {

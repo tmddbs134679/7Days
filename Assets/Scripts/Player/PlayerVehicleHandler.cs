@@ -15,7 +15,7 @@ public class PlayerVehicleHandler : MonoBehaviour
     {
         if (vehicle != null)
         {
-            player.OnVehicle = true;
+            player.ChangeState(PlayerState.Vehicle);
             curVehicle = vehicle;
 
             transform.SetParent(vehicle.MountPos);
@@ -25,8 +25,8 @@ public class PlayerVehicleHandler : MonoBehaviour
         }
         else
         {
-            player.OnVehicle = false;
-
+            player.ChangeState(PlayerState.Idle);
+            
             transform.SetParent(null);
             curVehicle.StopControl();
 

@@ -21,3 +21,4 @@ MonoBehaviour:
   dashCoolDown: 3
   dashStamina: 15
   dashHydration: 10
+  gatherStamina: 10

@@ -16,6 +16,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (player.CurState == PlayerState.Dash) return;
 
+        if (moveDirection == Vector3.zero)
+            player.ChangeState(PlayerState.Idle);
+        else
+            player.ChangeState(PlayerState.Walk);
+
         // y 속력값은 건드리지 않기 위함
         Vector3 velocity = _rigidbody.velocity;
         velocity.x = moveDirection.x * moveSpeed;
