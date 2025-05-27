@@ -4,15 +4,13 @@ using UnityEngine;
 public class SurvivalConditionSO : ScriptableObject
 {
     [Header("Stat Decay Per Interval")]
-    [SerializeField] float decayPerInterval;
+    [SerializeField] float interval;
     [SerializeField] float healthDecayPerInterval;
     [SerializeField] float staminaDecayPerInterval;
-    [SerializeField] float hungerDecayPerInterval;
     [SerializeField] float hydrationDecayPerInterval;
-    public float DecayPerInterval { get => decayPerInterval; }
+    public float Interval { get => interval; }
     public float HealthDecayPerInterval { get => healthDecayPerInterval; }
     public float StaminaDecayPerInterval { get => staminaDecayPerInterval; }
-    public float HungerDecayPerInterval { get => hungerDecayPerInterval; }
     public float HydrationDecayPerInterval { get => hydrationDecayPerInterval; }
 
     [Header("Stat Recover Per Interval")]

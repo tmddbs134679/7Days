@@ -75,23 +75,15 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
         {
-
-        }
-    }
-
-    public void OnVehicle(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Started)
-        {
             if (player.OnVehicle)
             {
                 player.SetVehicle(null);
                 return;
             }
-            
+
             Ray ray = new Ray(transform.position, transform.forward);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 3f))
+            if (Physics.Raycast(ray, out RaycastHit hit, 2f))
             {
                 if (hit.collider.TryGetComponent(out VehicleController vehicle))
                 {
@@ -105,7 +97,22 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started)
         {
-            
+
+        }
+    }
+
+    public void OnSelectSlot(InputAction.CallbackContext context)
+    {
+        if (context.phase != InputActionPhase.Started) return;
+
+        string keyString = context.control.name;
+
+        if (int.TryParse(keyString, out int keyNum))
+        {
+            int slotIdx = keyNum - 1;
+
+            // 선택한 슬롯 인덱스 이벤트 호출
+            player.PlayerEvents.RaisedSeletSlot(slotIdx);
         }
     }
 }

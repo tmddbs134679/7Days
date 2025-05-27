@@ -9,8 +9,8 @@ public class PlayerStatus : MonoBehaviour
     PlayerEventHandler playerEvents;
 
     #region 플레이어 스탯 관련 변수 & 프로퍼티
-    private float moveSpeed;
-    public float MoveSpeed { get => moveSpeed; }
+    public float MoveSpeed { get => IsDanger ? conditionSO.MoveSpeedPenalty : playerDataSO.MoveSpeed; }
+
     [Header("Player Max Stats")]
     [SerializeField] private float maxHealth;
     [SerializeField] private float maxStamina;
@@ -19,7 +19,6 @@ public class PlayerStatus : MonoBehaviour
     [Header("Player Current Stats")]
     [SerializeField] private float curHealth;
     [SerializeField] private float curStamina;
-    [SerializeField] private float curHunger;
     [SerializeField] private float curHydration;
 
     public float CurHealth
@@ -40,15 +39,6 @@ public class PlayerStatus : MonoBehaviour
             playerEvents?.RaisedChangeStamina(maxStamina, curStamina);
         }
     }
-    public float CurHunger
-    {
-        get => curHunger;
-        set
-        {
-            curHunger = Mathf.Clamp(value, 0, playerDataSO.MaxHunger);
-            playerEvents?.RaisedChangeHunger(playerDataSO.MaxHunger, curHunger);
-        }
-    }
     public float CurHydration
     {
         get => curHydration;
@@ -62,14 +52,13 @@ public class PlayerStatus : MonoBehaviour
     // 스탯 감소량
     private float healthDecayPerInterval;
     private float staminaDecayPerInterval;
-    private float hungerDecayPerInterval;
-    private float hydrationDecayPerInterval;
-    private float decayPerInterval;
+    private float HydrationDecayPerInterval => player.OnBattle ? conditionSO.HydrationDecayPerInterval * 5 : conditionSO.HydrationDecayPerInterval;
+    private float interval;
 
     private float healthRecoverPerInterval;
     #endregion
 
-    private bool CanHeal => curHunger >= conditionSO.MinConditionToHeal;
+    private bool CanHeal => curStamina >= conditionSO.MinConditionToHeal && curHealth < maxHealth;
     private bool IsDanger => curStamina <= conditionSO.MinStaminaToDecay || curHydration <= conditionSO.MinHydrationToDecay;
 
     public void Init(Player player)
@@ -78,24 +67,19 @@ public class PlayerStatus : MonoBehaviour
         playerDataSO = player.PlayerDataSO;
         playerEvents = player.PlayerEvents;
 
-        moveSpeed = playerDataSO.MoveSpeed;
-
         maxHealth = playerDataSO.MaxHealth;
         curHealth = maxHealth;
         maxStamina = playerDataSO.MaxStamina;
         curStamina = maxStamina;
-
-        curHunger = playerDataSO.MaxHunger;
         curHydration = playerDataSO.MaxHydration;
 
         healthDecayPerInterval = conditionSO.HealthDecayPerInterval;
         staminaDecayPerInterval = conditionSO.StaminaDecayPerInterval;
-        hungerDecayPerInterval = conditionSO.HungerDecayPerInterval;
-        hydrationDecayPerInterval = conditionSO.HydrationDecayPerInterval;
+        //hydrationDecayPerInterval = conditionSO.HydrationDecayPerInterval;
 
         healthRecoverPerInterval = conditionSO.HealthRecoverPerInterval;
 
-        decayPerInterval = conditionSO.DecayPerInterval;
+        interval = conditionSO.Interval;
 
         StartCoroutine(DecayPerIntervalCoroutine());
     }
@@ -104,55 +88,57 @@ public class PlayerStatus : MonoBehaviour
     {
         while (!player.IsDead)
         {
-            CurHydration -= hydrationDecayPerInterval;
-            CurHunger -= hungerDecayPerInterval;
+            CurHydration -= HydrationDecayPerInterval;
 
             if (player.CurState == PlayerState.Walk)
                 CurStamina -= staminaDecayPerInterval;
-        
+
             if (CanHeal)
+            {
+                CurStamina -= staminaDecayPerInterval;
                 CurHealth += healthRecoverPerInterval;
+            }
 
             if (IsDanger)
             {
                 CurHealth -= healthDecayPerInterval;
+            }
 
-                if (moveSpeed != conditionSO.MoveSpeedPenalty)
-                    moveSpeed = conditionSO.MoveSpeedPenalty;
-            }
-            else
-            {
-                if (moveSpeed != playerDataSO.MoveSpeed)
-                    moveSpeed = playerDataSO.MoveSpeed;
-            }
-            
-            yield return new WaitForSeconds(decayPerInterval);
+            yield return new WaitForSeconds(interval);
         }
     }
 
     public bool UseStamina(float amount)
     {
-        if (curStamina - amount >= 0)
+        if (curStamina >= amount)
         {
             CurStamina -= amount;
             return true;
         }
-        else
-        {
-            return false;
-        }
+
+        return false;
     }
 
     public bool UseHydration(float amount)
     {
-        if (curHydration - amount >= 0)
+        if (curHydration >= amount)
         {
             CurHydration -= amount;
             return true;
         }
-        else
+
+        return false;
+    }
+
+    public bool UseStaminaAndHydration(float staminaAmount, float hydrationAmount)
+    {
+        if (curStamina >= staminaAmount && curHydration >= hydrationAmount)
         {
-            return false;
+            CurStamina -= staminaAmount;
+            CurHydration -= hydrationAmount;
+            return true;
         }
+
+        return false;
     }
 }

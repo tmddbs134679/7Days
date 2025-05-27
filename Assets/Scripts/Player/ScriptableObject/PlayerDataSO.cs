@@ -6,11 +6,9 @@ public class PlayerDataSO : ScriptableObject
     [Header("Player Stats")]
     [SerializeField] float maxHealth;
     [SerializeField] float maxStamina;
-    [SerializeField] float maxHunger;
     [SerializeField] float maxHydration;
     public float MaxHealth { get => maxHealth; }
     public float MaxStamina { get => maxStamina; }
-    public float MaxHunger { get => maxHunger; }
     public float MaxHydration { get => maxHydration; }
 
     [Header("Player Movement")]
@@ -19,9 +17,11 @@ public class PlayerDataSO : ScriptableObject
     [SerializeField] float dashDuration;
     [SerializeField] float dashCoolDown;
     [SerializeField] float dashStamina;
+    [SerializeField] float dashHydration;
     public float MoveSpeed { get => moveSpeed; }
     public float DashSpeed { get => dashSpeed; }
     public float DashDuration { get => dashDuration; }
     public float DashCoolDown { get => dashCoolDown; }
     public float DashStamina { get => dashStamina; }
+    public float DashHydration { get => dashHydration; }
 }

@@ -14,16 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   maxStamina: 100
-  maxHunger: 100
   maxHydration: 100
   moveSpeed: 3
   dashSpeed: 15
   dashDuration: 0.2
   dashCoolDown: 3
   dashStamina: 15
-  decayPerInterval: 1
-  healthDecayPerInterval: 0.6
-  staminaDecayPerInterval: 0.2
-  hungerDecayPerInterval: 0.3
-  hydrationDecayPerInterval: 0.1
-  healthRecoverPerInterval: 0.5
+  dashHydration: 10

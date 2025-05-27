@@ -51,15 +51,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Vehicle",
-                    "type": "Button",
-                    "id": "576cd06b-4305-4358-9bba-546dcc4b45dd",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "VehicleMove",
                     "type": "Value",
                     "id": "2c3a170c-67e1-48b4-a9a4-ec75ba9a03ca",
@@ -72,6 +63,15 @@
                     "name": "Command",
                     "type": "Button",
                     "id": "7c292699-d698-4394-930f-87e98b927401",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectSlot",
+                    "type": "Button",
+                    "id": "1f9d2df3-0ace-4a44-926d-7d9ed12f1361",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -180,17 +180,6 @@
                 },
                 {
                     "name": "",
-                    "id": "48db592d-af95-45f7-9c09-2d2408fcc9fc",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Vehicle",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "68b644f6-2de0-4de7-a623-dfec3ab38c6f",
                     "path": "<Keyboard>/q",
                     "interactions": "",
@@ -254,6 +243,50 @@
                     "action": "VehicleMove",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "7d111ad8-c2c7-4aa1-b1d9-968acc9f6fda",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectSlot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da704675-1444-4c82-917c-79d1cd064e12",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectSlot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b404a920-74bb-45dc-9d9b-5d2d61856973",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectSlot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a5ac9d9c-4e3d-4621-b3cd-306911815593",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectSlot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

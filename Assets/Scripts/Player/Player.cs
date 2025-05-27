@@ -6,22 +6,25 @@ public enum PlayerState
     Idle,
     Walk,
     Dash,
-    Gathering,
-    Battle
+    Gathering
 }
 
 public class Player : MonoBehaviour
 {
     private Rigidbody _rigidbody;
+    private PlayerInput playerInput; // PlayerInput
+
     // Player Data
     [SerializeField] private PlayerDataSO playerDataSO;
     public PlayerDataSO PlayerDataSO { get => playerDataSO; }
 
-    private PlayerController playerController;
-    private PlayerStatus playerStatus;
-    private PlayerMovement playerMovement;
-    private PlayerVehicleHandler playerVehicle;
-    public PlayerState CurState { get; private set; }
+    
+    private PlayerController playerController; // 플레이어 인풋 관련
+    private PlayerStatus playerStatus; // 플레이어 스탯 관련
+    private PlayerMovement playerMovement; // 플레이어 이동 관련
+    private PlayerVehicleHandler playerVehicle; // 탈 것 관리
+
+    public PlayerState CurState { get; private set; } // 플레이어 상태
 
     // Player Events
     public PlayerEventHandler PlayerEvents { get; private set; }
@@ -29,9 +32,12 @@ public class Player : MonoBehaviour
     public bool CanDash { get; set; }
     public bool IsDead { get; private set; }
     public bool OnVehicle { get; set; }
+    public bool OnBattle { get; private set; }
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        playerInput = GetComponent<PlayerInput>();
 
         PlayerEvents = new PlayerEventHandler();
 
@@ -54,6 +60,7 @@ public class Player : MonoBehaviour
         CanDash = true;
         IsDead = false;
         OnVehicle = false;
+        OnBattle = true;
     }
 
     void FixedUpdate()
@@ -75,7 +82,7 @@ public class Player : MonoBehaviour
 
     public void Dash()
     {
-        if (CanDash && playerStatus.UseStamina(playerDataSO.DashStamina) && !OnVehicle)
+        if (CanDash && !OnVehicle && playerStatus.UseStaminaAndHydration(playerDataSO.DashStamina, playerDataSO.DashHydration))
         {
             float dashSpeed = playerDataSO.DashSpeed;
             float duration = playerDataSO.DashDuration;
@@ -88,7 +95,7 @@ public class Player : MonoBehaviour
     public void SetVehicle(VehicleController vehicle)
     {
         _rigidbody.isKinematic = !OnVehicle;
-        playerVehicle.SetVehicle(vehicle, GetComponent<PlayerInput>());
+        playerVehicle.SetVehicle(vehicle, playerInput);
     }
 
     public void Dead()
