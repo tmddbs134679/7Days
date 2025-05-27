@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour
 
 
         Canvas canvas = go.GetComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+     //   canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.overrideSorting = true;
         if (sort)
         {

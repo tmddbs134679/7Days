@@ -14,23 +14,23 @@ public abstract class UI_Base : MonoBehaviour
     {
         Init();
     }
-    // ¿øÇÏ´Â ÄÄÆ÷³ÍÆ®¸¦ µñ¼Å³Ê¸®¿¡ µî·Ï
+    // ì›í•˜ëŠ” ì»´í¬ë„ŒíŠ¸ë¥¼ ë”•ì…”ë„ˆë¦¬ì— ë“±ë¡
     protected void Bind<T>(Type type) where T : UnityEngine.Object
     {
-        //Å¸ÀÔ ÀÌ¸§ ¹è¿­
+        //íƒ€ì… ì´ë¦„ ë°°ì—´
         string[] names = Enum.GetNames(type);
         UnityEngine.Object[] objects = new UnityEngine.Object[name.Length];
         this.objects.Add(typeof(T), objects);
 
         for (int i = 0; i < names.Length; i++)
         {
-            // ÄÄÆ÷³ÍÆ® Ã£±â
+            // ì»´í¬ë„ŒíŠ¸ ì°¾ê¸°
             objects[i] = FindChild<T>(gameObject, names[i], true);
             if (objects[i] == null)
                 Debug.Log($"Failed to bind{names[i]}");
         }
     }
-    // ¿øÇÏ´Â ÄÄÆ÷³ÍÆ®¸¦ µñ¼Å³Ê¸®¿¡¼­ ÃßÃâ
+    // ì›í•˜ëŠ” ì»´í¬ë„ŒíŠ¸ë¥¼ ë”•ì…”ë„ˆë¦¬ì—ì„œ ì¶”ì¶œ
     protected T Get<T>(int idx) where T : UnityEngine.Object
     {
         UnityEngine.Object[] obj = null;
@@ -41,12 +41,12 @@ public abstract class UI_Base : MonoBehaviour
     }
 
 
-    // ÇØ´ç ÀÌ¸§°ú ¼±ÅÃµÈ ÄÄÆ÷³ÍÆ® T ¸¦ °¡Áø ¿ÀºêÁ§Æ®¸¦ Ã£´Â ÇÔ¼ö
+    // í•´ë‹¹ ì´ë¦„ê³¼ ì„ íƒëœ ì»´í¬ë„ŒíŠ¸ T ë¥¼ ê°€ì§„ ì˜¤ë¸Œì íŠ¸ë¥¼ ì°¾ëŠ” í•¨ìˆ˜
     public static T FindChild<T>(GameObject go, string name = null, bool recuresive = false) where T : UnityEngine.Object
     {
         if (go == null) return null;
 
-        if (recuresive == false) // ÀÚ½ÄÀÇ ÀÚ½Ä±îÁö º¼°ÍÀÎ°¡
+        if (recuresive == false) // ìì‹ì˜ ìì‹ê¹Œì§€ ë³¼ê²ƒì¸ê°€
         {
             for (int i = 0; i < go.transform.childCount; i++)
             {
