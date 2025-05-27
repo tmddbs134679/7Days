@@ -20,8 +20,10 @@ MonoBehaviour:
   dashSpeed: 15
   dashDuration: 0.2
   dashCoolDown: 3
-  decayPerInterval: 0.5
+  dashStamina: 15
+  decayPerInterval: 1
   healthDecayPerInterval: 0.6
-  staminaDecayPerInterval: 0.7
-  hungerDecayPerInterval: 0.5
-  hydrationDecayPerInterval: 0.8
+  staminaDecayPerInterval: 0.2
+  hungerDecayPerInterval: 0.3
+  hydrationDecayPerInterval: 0.1
+  healthRecoverPerInterval: 0.5

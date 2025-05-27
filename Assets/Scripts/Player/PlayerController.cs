@@ -6,8 +6,8 @@ public class PlayerController : MonoBehaviour
     private Player player;
     private Camera cam;
 
-    private Vector2 moveDirection;
-    public Vector2 MoveDirection { get => moveDirection; }
+    private Vector3 moveDirection;
+    public Vector3 MoveDirection { get => moveDirection; }
 
     private Vector3 lookDirection;
     public Vector3 LookDirection { get => lookDirection; }
@@ -22,13 +22,19 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            moveDirection = context.ReadValue<Vector2>();
+            if (player.CurState != PlayerState.Walk)
+                player.ChangeState(PlayerState.Walk);
+
+            Vector2 moveInput = context.ReadValue<Vector2>();
+            
+            moveDirection = Vector3.right * moveInput.x + Vector3.forward * moveInput.y;
             moveDirection = moveDirection.normalized;
         }
 
         else if (context.phase == InputActionPhase.Canceled)
         {
-            moveDirection = Vector2.zero;
+            moveDirection = Vector3.zero;
+            player.ChangeState(PlayerState.Idle);
         }
     }
 
@@ -62,6 +68,30 @@ public class PlayerController : MonoBehaviour
             {
                 lookDirection = direction.normalized;
             }
+        }
+    }
+
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+
+        }
+    }
+
+    public void OnVehicle(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+
+        }
+    }
+
+    public void OnCommand(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            
         }
     }
 }

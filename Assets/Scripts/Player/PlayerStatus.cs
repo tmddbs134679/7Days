@@ -7,6 +7,7 @@ public class PlayerStatus : MonoBehaviour
     PlayerDataSO playerDataSO;
     PlayerEventHandler playerEvents;
 
+    #region 플레이어 스탯 관련 변수 & 프로퍼티
     private float moveSpeed;
     public float MoveSpeed { get => moveSpeed; }
     [Header("Player Max Stats")]
@@ -64,6 +65,10 @@ public class PlayerStatus : MonoBehaviour
     private float hydrationDecayPerInterval;
     private float decayPerInterval;
 
+    private float healthRecoverPerInterval;
+    private bool canRecoverHealth => curHunger >= 70;
+    #endregion
+
     public void Init(Player player)
     {
         this.player = player;
@@ -85,6 +90,8 @@ public class PlayerStatus : MonoBehaviour
         hungerDecayPerInterval = playerDataSO.HungerDecayPerInterval;
         hydrationDecayPerInterval = playerDataSO.HydrationDecayPerInterval;
 
+        healthRecoverPerInterval = playerDataSO.HealthRecoverPerInterval;
+
         decayPerInterval = playerDataSO.DecayPerInterval;
 
         StartCoroutine(DecayPerIntervalCoroutine());
@@ -92,9 +99,17 @@ public class PlayerStatus : MonoBehaviour
 
     IEnumerator DecayPerIntervalCoroutine()
     {
-        while (!player.IsDie)
+        while (!player.IsDead)
         {
+            CurHydration -= hydrationDecayPerInterval;
+            CurHunger -= hungerDecayPerInterval;
 
+            if (player.CurState == PlayerState.Walk)
+                CurStamina -= staminaDecayPerInterval;
+        
+            if (canRecoverHealth)
+                CurHealth += healthRecoverPerInterval;
+            
             yield return new WaitForSeconds(decayPerInterval);
         }
     }
@@ -104,6 +119,19 @@ public class PlayerStatus : MonoBehaviour
         if (curStamina - amount >= 0)
         {
             CurStamina -= amount;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool UseHydration(float amount)
+    {
+        if (curHydration - amount >= 0)
+        {
+            CurHydration -= amount;
             return true;
         }
         else

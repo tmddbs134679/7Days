@@ -1,6 +1,14 @@
 using System.Collections;
-using UnityEditor.PackageManager;
 using UnityEngine;
+
+public enum PlayerState
+{
+    Idle,
+    Walk,
+    Dash,
+    Gathering,
+    Battle
+}
 
 public class Player : MonoBehaviour
 {
@@ -14,17 +22,11 @@ public class Player : MonoBehaviour
     private Rigidbody _rigidbody;
     private PlayerController playerController;
     private PlayerStatus playerStatus;
+    private PlayerMovement playerMovement;
+    public PlayerState CurState { get; private set; }
 
-    private enum PlayerState
-    {
-        Idle,
-        Dash,
-        Gathering
-    }
-
-    private PlayerState curState;
-    public bool canDash { get; private set; }
-    public bool IsDie { get; private set; }
+    public bool CanDash { get; set; }
+    public bool IsDead { get; private set; }
 
     private void Awake()
     {
@@ -33,82 +35,50 @@ public class Player : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         playerController = GetComponent<PlayerController>();
         playerStatus = GetComponent<PlayerStatus>();
+        playerMovement = GetComponent<PlayerMovement>();
 
         if (playerController)
             playerController.Init(this);
         if (playerStatus)
             playerStatus.Init(this);
+        if (playerMovement)
+            playerMovement.Init(this);
 
-        curState = PlayerState.Idle;
+        CurState = PlayerState.Idle;
 
-        canDash = true;
-        IsDie = false;
+        CanDash = true;
+        IsDead = false;
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        Move();
+        playerMovement.Move(playerController.MoveDirection, playerStatus.MoveSpeed);
     }
 
-    private void Update()
+    void Update()
     {
-        Rotate();
+        playerMovement.Rotate(playerController.LookDirection);
     }
 
-    private void Move()
+    public void ChangeState(PlayerState state)
     {
-        if (playerStatus == null || curState == PlayerState.Dash) return;
-
-        Vector3 direction = Vector3.right * playerController.MoveDirection.x + Vector3.forward * playerController.MoveDirection.y;
-
-        Vector3 velocity = _rigidbody.velocity;
-        velocity.x = direction.x * playerStatus.MoveSpeed;
-        velocity.z = direction.z * playerStatus.MoveSpeed;
-
-        _rigidbody.velocity = velocity;
-    }
-
-    private void Rotate()
-    {
-        float angle = Mathf.Atan2(playerController.LookDirection.x, playerController.LookDirection.z) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        CurState = state;
     }
 
     public void Dash()
     {
-        if (canDash)
+        if (CanDash && playerStatus.UseStamina(playerDataSO.DashStamina))
         {
-            StartCoroutine(DashCoroutine());
+            float dashSpeed = playerDataSO.DashSpeed;
+            float duration = playerDataSO.DashDuration;
+            float cooldown = playerDataSO.DashCoolDown;
+
+            StartCoroutine(playerMovement.DashCoroutine(playerController.LookDirection, dashSpeed, duration, cooldown));
         }
     }
 
-    IEnumerator DashCoroutine()
+    public void Dead()
     {
-        canDash = false;
-        curState = PlayerState.Dash;
-
-        Vector3 dashDirection = playerController.LookDirection;
-        float dashSpeed = playerDataSO.DashSpeed;
-
-        float startTime = Time.time;
-
-        _rigidbody.useGravity = false;
-
-        while (Time.time < startTime + playerDataSO.DashDuration)
-        {
-            _rigidbody.velocity = new Vector3(dashDirection.x * dashSpeed, 0f, dashDirection.z * dashSpeed);
-            yield return null;
-        }
-
-        _rigidbody.useGravity = true;
-        curState = PlayerState.Idle;
-
-        yield return new WaitForSeconds(playerDataSO.DashCoolDown);
-        canDash = true;
-    }
-
-    public void Die()
-    {
-        IsDie = true;
+        IsDead = true;
     }
 }
