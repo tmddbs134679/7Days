@@ -12,6 +12,8 @@ public class AIChasingState : AIState
     public Transform CurrentTarget { get; set; }
     private EENEMYTYPE type;
     private float wallDetectDistance;
+    private bool hasAssignedWallOffset = false;
+    private Vector3 targetOffsetPosition;
     public AIChasingState(GameObject owner, Transform target) : base(owner)
     {
         SO_EnemyAI data = owner.GetComponent<AI_Base>().enemyData;
@@ -30,20 +32,20 @@ public class AIChasingState : AIState
 
     public override void Enter()
     {
+        hasAssignedWallOffset = false;
         agent.isStopped = false;
         Debug.Log("Chasing");
     }
     public override void Tick()
     {
-        //DebugRangeLine();
-      
         if ((type == EENEMYTYPE.RUNNER || type == EENEMYTYPE.SPINE) && IsWallInFront(out Transform wall))
         {
-           
-            if (CurrentTarget != wall)
+            if (CurrentTarget != wall || !hasAssignedWallOffset)
             {
-                CurrentTarget = wall; 
-                agent.SetDestination(wall.position);
+                CurrentTarget = wall;
+                targetOffsetPosition = GetOffsetWallPosition(wall);
+                agent.SetDestination(targetOffsetPosition);
+                hasAssignedWallOffset = true;
                 return;
             }
         }
@@ -51,15 +53,22 @@ public class AIChasingState : AIState
         if (CurrentTarget == null || IsDead(CurrentTarget))
         {
             CurrentTarget = SelectTarget(type);
+            hasAssignedWallOffset = false;
+
             if (CurrentTarget != null)
-                agent.SetDestination(CurrentTarget.position);
+            {
+                // targetOffsetPosition도 업데이트
+                targetOffsetPosition = CurrentTarget.position;
+                agent.SetDestination(targetOffsetPosition);
+            }
         }
 
         if (CurrentTarget != null)
-            agent.SetDestination(CurrentTarget.position);
-
-       
+        {
+            agent.SetDestination(targetOffsetPosition); // 항상 offset된 위치로
+        }
     }
+
 
     public override void Exit()
     {
@@ -117,6 +126,19 @@ public class AIChasingState : AIState
     {
         return CurrentTarget == null || !CurrentTarget.gameObject.activeInHierarchy;
     }
+    Vector3 GetOffsetWallPosition(Transform wall)
+    {
+        Vector3 wallPosition = wall.position;
+        Vector3 right = owner.transform.right;
 
-  
+        // 좌우 랜덤 오프셋
+        float offsetRange = 5.0f; // 퍼짐 범위 설정 (원하면 조절 가능)
+        float randomOffset = Random.Range(-offsetRange, offsetRange);
+
+        // offset 적용
+        Vector3 offsetPosition = wallPosition + right * randomOffset;
+
+        return offsetPosition;
+    }
+
 }

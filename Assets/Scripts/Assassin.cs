@@ -23,7 +23,7 @@ public class Assassin : MonoBehaviour
 
     void Update()
     {
-        float distance = Vector3.Distance(transform.position, stealth.player.transform.position);
+        float distance = Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position);
 
         if (!fadeLoopStarted && distance <= stealth.enemyData.StealthRange)
         {

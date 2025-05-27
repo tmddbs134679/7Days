@@ -9,6 +9,7 @@ public class SO_EnemyAI : ScriptableObject
     public EENEMYTYPE type;
     public float maxHealth;
     public float attackPower;
+    public float attackCoolTime;
     [SerializeField, Range(1, 5)] public float moveSpeed;
     public bool canClimbWall;
     public bool canJumpOverWall;

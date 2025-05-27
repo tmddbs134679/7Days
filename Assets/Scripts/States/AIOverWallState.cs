@@ -23,13 +23,11 @@ public class AIOverWallState : AIState
     {
         Debug.Log(" Enter OverWall");
 
-
-
         rb.useGravity = false;
    
         if (agent != null)
         {
-            agent.enabled = false; // 
+            agent.enabled = false; 
         }
 
         // 벽 꼭대기 높이 계산

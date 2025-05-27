@@ -12,7 +12,7 @@ public class AI_Steel : AI_Base
     protected override void Setting()
     {
         var idle = new AIIdleState(gameObject);
-        var chase = new AIChasingState(gameObject, player.transform);
+        var chase = new AIChasingState(gameObject, TestGameManager.Inst.testPlayer.transform);
         var attack = new AIAttackState(gameObject);
 
         fsm.SetInitialState(idle);
@@ -23,7 +23,7 @@ public class AI_Steel : AI_Base
             if (DroneManager.HasAliveDrones)
                 return true;
 
-            return Vector3.Distance(transform.position, player.transform.position) < enemyData.chasingRange;
+            return Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) < enemyData.chasingRange;
         });
     }
     public override void Attack(GameObject target)

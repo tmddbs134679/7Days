@@ -52,7 +52,7 @@ public class AI_Runner : AI_Base
             var t = attack.CurrentTarget;
             return t == null || !t.gameObject.activeInHierarchy;
         });
-        fsm.AddTransition(attack, chase, () => Vector3.Distance(transform.position, chase.CurrentTarget.position) < enemyData.chasingRange);
+       // fsm.AddTransition(attack, chase, () => Vector3.Distance(transform.position, chase.CurrentTarget.position) < enemyData.chasingRange);
     }
 
 
