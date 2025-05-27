@@ -58,5 +58,18 @@ public class T_PC : MonoBehaviour
         {
             DialogueManager.instance.ShowBillBoardDialogue("UI_BillBoardDialogue", transform);
         }
+
+        // 방향 입력
+        float horizontal = Input.GetAxisRaw("Horizontal"); // A/D 또는 왼/오
+        float vertical = Input.GetAxisRaw("Vertical");     // W/S 또는 위/아래
+
+        Vector3 direction = new Vector3(horizontal, 0f, vertical).normalized;
+
+        // 움직이기 (Transform 기준)
+        transform.position += direction * moveSpeed * Time.deltaTime;
     }
+
+    public float moveSpeed = 5f;
+
+  
 }
