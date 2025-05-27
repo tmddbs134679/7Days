@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class AI_Husk : AI_Base
 {
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         Setting();
     }
     public override void Attack(GameObject target)

@@ -6,8 +6,10 @@ public class AI_Acid : AI_Base
 {
     private GameObject rangedTarget;
     [SerializeField] private GameObject projectilePrefab;
-    void Start()
+
+    protected override void Start()
     {
+        base.Start();
         Setting();
     }
 

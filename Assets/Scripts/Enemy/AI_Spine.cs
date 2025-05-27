@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class AI_Spine : AI_Base
 {
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         Setting();
     }
-
-
 
 
 

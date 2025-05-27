@@ -5,8 +5,9 @@ using UnityEngine;
 public class AI_Steel : AI_Base
 {
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         Setting();
     }
     protected override void Setting()

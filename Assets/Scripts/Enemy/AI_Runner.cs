@@ -6,10 +6,10 @@ using static UnityEngine.UI.GridLayoutGroup;
 
 public class AI_Runner : AI_Base
 {
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         Setting();
-
     }
 
 
