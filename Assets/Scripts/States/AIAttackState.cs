@@ -29,7 +29,7 @@ public class AIAttackState : AIState
     }
     public override void Tick()
     {
-        if (target == null) return;
+        if (target == null || !target.activeInHierarchy)  return; 
 
         if (Time.time - lastAttackTime >= attackCooldown)
         {
@@ -41,6 +41,7 @@ public class AIAttackState : AIState
     public override void Exit()
     {
         agent.isStopped = false;
+        target = null;   
     }
     public void SetTarget(GameObject t)
     {

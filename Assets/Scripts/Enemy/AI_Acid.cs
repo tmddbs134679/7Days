@@ -36,12 +36,16 @@ public class AI_Acid : AI_Base
             return false;
         });
 
-        //fsm.AddTransition(attack, chase, () =>
-        //{
-        //    return rangedTarget == null ||
-        //           Vector3.Distance(transform.position, rangedTarget.transform.position) > enemyData.attackRange + 1f;
-        //});
+
+        fsm.AddTransition(attack, chase, () =>
+        {
+            var t = attack.CurrentTarget;
+            return t == null || !t.activeInHierarchy;
+
+
+        });
     }
+
     public override void Attack(GameObject target)
     {
         Debug.Log("acid attack");
