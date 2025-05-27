@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
+    [SerializeField] SurvivalConditionSO conditionSO;
     Player player;
     PlayerDataSO playerDataSO;
     PlayerEventHandler playerEvents;
@@ -66,8 +67,10 @@ public class PlayerStatus : MonoBehaviour
     private float decayPerInterval;
 
     private float healthRecoverPerInterval;
-    private bool canRecoverHealth => curHunger >= 70;
     #endregion
+
+    private bool CanHeal => curHunger >= conditionSO.MinConditionToHeal;
+    private bool IsDanger => curStamina <= conditionSO.MinStaminaToDecay || curHydration <= conditionSO.MinHydrationToDecay;
 
     public void Init(Player player)
     {
@@ -85,14 +88,14 @@ public class PlayerStatus : MonoBehaviour
         curHunger = playerDataSO.MaxHunger;
         curHydration = playerDataSO.MaxHydration;
 
-        healthDecayPerInterval = playerDataSO.HealthDecayPerInterval;
-        staminaDecayPerInterval = playerDataSO.StaminaDecayPerInterval;
-        hungerDecayPerInterval = playerDataSO.HungerDecayPerInterval;
-        hydrationDecayPerInterval = playerDataSO.HydrationDecayPerInterval;
+        healthDecayPerInterval = conditionSO.HealthDecayPerInterval;
+        staminaDecayPerInterval = conditionSO.StaminaDecayPerInterval;
+        hungerDecayPerInterval = conditionSO.HungerDecayPerInterval;
+        hydrationDecayPerInterval = conditionSO.HydrationDecayPerInterval;
 
-        healthRecoverPerInterval = playerDataSO.HealthRecoverPerInterval;
+        healthRecoverPerInterval = conditionSO.HealthRecoverPerInterval;
 
-        decayPerInterval = playerDataSO.DecayPerInterval;
+        decayPerInterval = conditionSO.DecayPerInterval;
 
         StartCoroutine(DecayPerIntervalCoroutine());
     }
@@ -107,8 +110,13 @@ public class PlayerStatus : MonoBehaviour
             if (player.CurState == PlayerState.Walk)
                 CurStamina -= staminaDecayPerInterval;
         
-            if (canRecoverHealth)
+            if (CanHeal)
                 CurHealth += healthRecoverPerInterval;
+
+            if (IsDanger)
+            {
+                CurHealth -= healthDecayPerInterval;
+            }
             
             yield return new WaitForSeconds(decayPerInterval);
         }

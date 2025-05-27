@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public enum PlayerState
@@ -76,7 +75,7 @@ public class Player : MonoBehaviour
             StartCoroutine(playerMovement.DashCoroutine(playerController.LookDirection, dashSpeed, duration, cooldown));
         }
     }
-
+    
     public void Dead()
     {
         IsDead = true;

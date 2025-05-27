@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerData", menuName = "PlayerData/New Data")]
+[CreateAssetMenu(fileName = "PlayerData", menuName = "Player/New PlayerData")]
 public class PlayerDataSO : ScriptableObject
 {
     [Header("Player Stats")]
@@ -24,22 +24,4 @@ public class PlayerDataSO : ScriptableObject
     public float DashDuration { get => dashDuration; }
     public float DashCoolDown { get => dashCoolDown; }
     public float DashStamina { get => dashStamina; }
-
-    [Header("Stat Decay Per Interval")]
-    [SerializeField] float decayPerInterval;
-    [SerializeField] float healthDecayPerInterval;
-    [SerializeField] float staminaDecayPerInterval;
-    [SerializeField] float hungerDecayPerInterval;
-    [SerializeField] float hydrationDecayPerInterval;
-
-    [Header("Stat Recover Per Interval")]
-    [SerializeField] float healthRecoverPerInterval;
-
-    public float DecayPerInterval { get => decayPerInterval; }
-    public float HealthDecayPerInterval { get => healthDecayPerInterval; }
-    public float StaminaDecayPerInterval { get => staminaDecayPerInterval; }
-    public float HungerDecayPerInterval { get => hungerDecayPerInterval; }
-    public float HydrationDecayPerInterval { get => hydrationDecayPerInterval; }
-
-    public float HealthRecoverPerInterval { get => healthRecoverPerInterval; }
 }
