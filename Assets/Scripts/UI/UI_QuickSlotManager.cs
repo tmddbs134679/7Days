@@ -21,11 +21,10 @@ public class UI_QuickSlotManager : MonoBehaviour
 
     public void SetItemSlot(int index, ItemInfo info, float cooldown = 0)
     {
-        itemSlots[index].SetSlot(info.data, cooldown);
+        itemSlots[index].SetSlot(info, cooldown);
     }
     public void ClearItemSlot(int index)
     {
-
         itemSlots[index].ClearSlot();
     }
 
@@ -43,8 +42,12 @@ public class UI_QuickSlotManager : MonoBehaviour
     {
         itemSlots[dashIndex].TriggerCooldown();
     }
-    public bool CheckQuick(int index)
+    public bool CheckQuick(int index, bool isEnd = false)
     {
-         return itemSlots[index].TriggerCooldown();
+         return itemSlots[index].TriggerCooldown(isEnd);
+    }
+    public void UpdateStack(int index, ItemInfo info)
+    {
+        itemSlots[index].UpdateStack(info);
     }
 }

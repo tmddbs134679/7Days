@@ -11,6 +11,8 @@ public class UI_QuickSlot : UI_Scene
     private float lastUsedTime = -999;
     public bool isActive = false;
     [SerializeField] private Sprite baseIcon;
+    public TextMeshProUGUI stackTxt;
+
     public enum Images
     {
         IconBack,
@@ -35,29 +37,46 @@ public class UI_QuickSlot : UI_Scene
         cooldownOverlay.sprite = icon;
         cooldownOverlay.fillAmount = 1f;
     }
-    public void SetSlot(ItemData data, float cooldown)
+    public void SetSlot(ItemInfo info, float cooldown)
     {
         this.cooldownTime = cooldown;
         this.lastUsedTime = -cooldown;
-        iconImage.sprite = data.icon;
-        cooldownOverlay.sprite = data.icon;
+        iconImage.sprite = info.data.icon;
+        cooldownOverlay.sprite = info.data.icon;
         cooldownOverlay.fillAmount = 1f;
-
+        stackTxt.gameObject.SetActive(true);
+        stackTxt.text = info.count.ToString();
     }
     public void ClearSlot()
     {
         iconImage.sprite = baseIcon;
         cooldownOverlay.sprite = baseIcon;
         cooldownOverlay.fillAmount = 1f;
+        stackTxt.gameObject.SetActive(false);
     }
-    public bool TriggerCooldown()
+    public void UpdateStack(ItemInfo info)
+    {
+        stackTxt.text = info.count.ToString();
+        if(info.count <= 0)
+        {
+            stackTxt.gameObject.SetActive(false);
+        }
+    }
+    public bool TriggerCooldown(bool isEnd = false)
     {
         if (!isActive && iconImage.sprite != baseIcon)
         {
-            isActive = true;
-            cooldownOverlay.fillAmount = 0f;
-            lastUsedTime = Time.time;
-            return true;
+            if (isEnd == false)
+            {
+                isActive = true;
+                cooldownOverlay.fillAmount = 0f;
+                lastUsedTime = Time.time;
+                return true;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         return false;
