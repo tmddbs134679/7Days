@@ -97,6 +97,11 @@ public class Player : MonoBehaviour, IDamageable
         }
     }
 
+    public void CallVehicle()
+    {
+        playerVehicle.CallVehicle();
+    }
+    
     public void SetVehicle(VehicleController vehicle)
     {
         _rigidbody.isKinematic = curState != PlayerState.Vehicle;
@@ -150,6 +155,4 @@ public class Player : MonoBehaviour, IDamageable
         StopAllCoroutines();
         IsDead = true;
     }
-
-    
 }

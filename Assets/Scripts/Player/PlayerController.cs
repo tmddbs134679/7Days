@@ -95,6 +95,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnCallVehicle(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            player.CallVehicle();
+        }
+    }
+
     public void OnCommand(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
