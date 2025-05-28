@@ -34,7 +34,7 @@ public class FormManager : Singleton<FormManager>
 
         // 경로로부터 필터(스크립터블 오브젝트)만 찾아 GUID 배열로 반환
         string[] guids =
-            UnityEditor.AssetDatabase.FindAssets("t:ScriptableObject", new[] { "Scripts/Construct/BuildingData" });
+            UnityEditor.AssetDatabase.FindAssets("t:ScriptableObject", new[] { "Assets/Scripts/Building/BuildingData" });
 
         foreach (string guid in guids)
         {
