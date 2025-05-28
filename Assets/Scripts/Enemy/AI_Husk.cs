@@ -22,6 +22,9 @@ public class AI_Husk : AI_Base
 
         fsm.SetInitialState(idle);
 
+        //var dead = new AIDeadState(gameObject);
+        //fsm.AddAnyTransition(dead, () => GetComponent<Health>().CurrentHealth <= 0);
+
         fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) < enemyData.chasingRange);
         fsm.AddTransition(idle, chase, () =>
         {
