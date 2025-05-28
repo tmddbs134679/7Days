@@ -19,6 +19,6 @@ public class DebuffTurretForm : BaseBuildingForm<BuildingData<DebuffTurretData>>
 public class DebuffTurretData : TurretData
 {
     [Header("디버프 정보")]
-    // !!! 머지 이후, 디버프 종류를 나타내는 것 추가 or 디버프 적용 구문을 넣던지 등
+    // !!! 적 머지 이후, 디버프 종류를 나타내는 것 추가 or 디버프 적용 구문을 넣던지 등
     public float debuffTime; // 디버프 지속 시간
 }

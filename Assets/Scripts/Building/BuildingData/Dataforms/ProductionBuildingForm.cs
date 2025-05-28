@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "ProductionBuilding", menuName = "BuildingData/Production")]
 public class ProductionBuildingForm : BaseBuildingForm<BuildingData<ProductionBuildingData>>
@@ -20,5 +19,12 @@ public class ProductionBuildingForm : BaseBuildingForm<BuildingData<ProductionBu
 public class ProductionBuildingData : BasicBuildingData
 {
     [Header("생산 기능 정보")]
-    public UnityEvent Production; // 생산 기능
+    [Tooltip("생산품")]
+    public ItemData product;
+    [Tooltip("생산 시간")]
+    public float productionTime;
+    [Tooltip("한번에 생산하는 양")]
+    public int amount;
+    [Tooltip("생산 적재 한계치")]
+    public int capacity;
 }
