@@ -802,6 +802,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e0fbbae47498d4c8eb4b6b40ab07f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemEntries: []
+  itemSlots: []
+  slotCount: 20
 --- !u!4 &1773583303
 Transform:
   m_ObjectHideFlags: 0
