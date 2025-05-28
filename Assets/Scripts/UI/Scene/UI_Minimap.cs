@@ -10,5 +10,4 @@ public class UI_Minimap : UI_Scene
     {
         minimapObj.SetActive(!minimapObj.activeSelf);
     }
-
 }
