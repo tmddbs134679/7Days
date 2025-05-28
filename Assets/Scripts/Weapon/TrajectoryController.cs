@@ -68,7 +68,7 @@ public class TrajectoryController : MonoBehaviour
     {
         float distance = Vector3.Distance(throwPoint.position, targetPos);
         float t = Mathf.Clamp01(distance / maxDistance);
-        return Mathf.Lerp(minThrowForce, maxDistance, t);   
+        return Mathf.Lerp(minThrowForce, maxThrowForce, t);   
     }
 
 }

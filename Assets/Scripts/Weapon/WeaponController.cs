@@ -4,6 +4,7 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     [SerializeField] WeaponDataSO weaponDataSO;
+    public WeaponDataSO WeaponDataSO { get => weaponDataSO; }
     [SerializeField] GameObject grenadePrefab;
     Transform throwPoint;
     private bool isCoolDown;

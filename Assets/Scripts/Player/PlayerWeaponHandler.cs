@@ -2,14 +2,17 @@ using UnityEngine;
 
 public class PlayerWeaponHandler : MonoBehaviour
 {
+    PlayerStatus playerStatus;
     [SerializeField] WeaponController[] weapons;
     [SerializeField] WeaponController curWeapon;
     [SerializeField] Transform throwPoint;
     private bool isAiming = false;
     private TrajectoryController trajectoryController;
 
-    public void Init()
+    public void Init(PlayerStatus playerStatus)
     {
+        this.playerStatus = playerStatus;
+
         ChangeWeapon(0);
         trajectoryController = GetComponentInChildren<TrajectoryController>();
         
@@ -49,7 +52,7 @@ public class PlayerWeaponHandler : MonoBehaviour
 
     public void CheckThrow()
     {
-        if (!isAiming) return;
+        if (!isAiming || !playerStatus.UseStamina(curWeapon.WeaponDataSO.useStamina)) return;
 
         isAiming = false;
         trajectoryController.Hide();
