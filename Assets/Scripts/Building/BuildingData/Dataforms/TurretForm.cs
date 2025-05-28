@@ -12,6 +12,8 @@ public class TurretForm : BaseBuildingForm<BuildingData<TurretData>>
             DataDic[(int)data.ID] = data;
         }
     }
+
+    // !!! 적 작업 내용 머지 이후 진행하기
 }
 
 // 벽을 상속, 공격 요소를 추가한 터렛
