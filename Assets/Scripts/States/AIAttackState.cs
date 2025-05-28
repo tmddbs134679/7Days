@@ -18,8 +18,14 @@ public class AIAttackState : AIState
     {
        // SetTarget(target);
         Debug.Log("Attack");
-        agent = owner.GetComponent<NavMeshAgent>();
-        agent.isStopped = true;
+
+        if (owner.TryGetComponent(out NavMeshAgent agent))
+        {
+            this.agent = agent;
+            agent.isStopped = true;
+        }
+
+
 
         SO_EnemyAI data = owner.GetComponent<AI_Base>().enemyData;
         attackCooldown = data.attackCoolTime;
@@ -40,7 +46,9 @@ public class AIAttackState : AIState
 
     public override void Exit()
     {
-        agent.isStopped = false;
+        if(agent != null)
+            agent.isStopped = false;
+
         target = null;   
     }
     public void SetTarget(GameObject t)

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public abstract class AI_Base : MonoBehaviour
 {
@@ -21,8 +22,12 @@ public abstract class AI_Base : MonoBehaviour
         health = GetComponent<Health>();
         animator =  GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
-        agent = GetComponent<NavMeshAgent>();
-        agent.speed = enemyData.moveSpeed;
+
+        if (TryGetComponent(out NavMeshAgent agent))
+        {
+            agent = GetComponent<NavMeshAgent>();
+            agent.speed = enemyData.moveSpeed;
+        }
 
     }
 

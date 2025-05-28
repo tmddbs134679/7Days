@@ -17,7 +17,6 @@ public class AI_Steel : AI_Base
         var attack = new AIAttackState(gameObject);
         var dead = new AIDeadState(gameObject);
 
-       // fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, player.transform.position) < enemyData.chasingRange);
         fsm.AddTransition(idle, chase, () =>
         {
             if (DroneManager.HasAliveDrones)
@@ -26,12 +25,39 @@ public class AI_Steel : AI_Base
             return Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) < enemyData.chasingRange;
         });
 
+        fsm.AddTransition(chase, attack, () =>
+        {
+            var target = chase.CurrentTarget;
+            if (target == null) return false;
+
+            float dist = Vector3.Distance(transform.position, target.position);
+
+            bool readyToAttack = dist < enemyData.attackRange;
+
+            if (readyToAttack)
+            {
+                attack.SetTarget(chase.CurrentTarget.gameObject);
+            }
+
+            return dist < enemyData.attackRange;
+        });
+
+        fsm.AddTransition(attack, chase, () =>
+        {
+            var t = attack.CurrentTarget;
+            return t == null || !t.activeInHierarchy;
+        });
+
         fsm.AddAnyTransition(dead, () => GetComponent<Health>().IsDead);
 
         fsm.SetInitialState(idle);
     }
     public override void Attack(GameObject target)
     {
+        if (target.TryGetComponent(out IDamageable player))
+        {
+            player.TakeDamage(enemyData.attackPower);
+        }
 
     }
 }

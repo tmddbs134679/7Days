@@ -51,7 +51,7 @@ public class WaveController : MonoBehaviour
                 // 몬스터 초기화 필요시 호출
                 //monster.GetComponent<AI_Base>()?.Initialize();
 
-                yield return new WaitForSeconds(0.2f); // 간격 배치
+                yield return new WaitForSeconds(0.6f); // 간격 배치
             }
         }
     }

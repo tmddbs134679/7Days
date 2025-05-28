@@ -15,6 +15,10 @@ public class AI_Runner : AI_Base
 
     public override void Attack(GameObject target)
     {
+        if (target.TryGetComponent(out IDamageable player))
+        {
+            player.TakeDamage(enemyData.attackPower);
+        }
 
     }
 

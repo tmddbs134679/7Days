@@ -19,4 +19,11 @@ public enum EENEMYTYPE
     STEALER,
     ACID,
     STEALTH,
+    COLLAPSER,
+}
+public enum EBOSSPHASE
+{
+    PHASE1,
+    PHASE2,
+    PHASE3,
 }

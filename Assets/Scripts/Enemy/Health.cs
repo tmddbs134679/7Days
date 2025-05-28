@@ -7,12 +7,18 @@ public class Health : MonoBehaviour, IDamageable
 {
 
     [SerializeField] private float health;
+    public float CurrentHealth => health;
+    private float maxHealth;
+
+    public float MaxHealth => maxHealth;
+
 
     public event Action OnTakeDamage;
     public event Action OnDie;
     public bool IsDead => health == 0;
     public void Init(float maxHP)
     {
+        maxHealth = Mathf.Max(maxHP, health);
         this.health = maxHP;
     }
 

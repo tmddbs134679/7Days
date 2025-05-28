@@ -90,6 +90,7 @@ public class AI_Acid : AI_Base
         }
         return false;
     }
+
     private void OnDrawGizmosSelected()
     {
         if (enemyData == null) return;

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AI_Spine : AI_Base
 {
+    [SerializeField] private GameObject projectilePrefab;
     protected override void Start()
     {
         base.Start();
@@ -14,27 +15,58 @@ public class AI_Spine : AI_Base
 
     public override void Attack(GameObject target)
     {
+        if (projectilePrefab == null || target == null)
+            return;
 
+        Vector3 spawnPos = transform.position + Vector3.back * 1.2f;
+        Vector3 targetPos = target.transform.position;
+
+        Vector3 direction = (targetPos - spawnPos).normalized;
+        float distance = Vector3.Distance(spawnPos, targetPos);
+        float duration = 2f;
+        float speed = distance / duration;
+
+        GameObject proj = GameObject.Instantiate(projectilePrefab, spawnPos, Quaternion.LookRotation(direction));
+        proj.GetComponent<Projectile>().Init(gameObject);
+
+        Rigidbody rb = proj.GetComponent<Rigidbody>();
+        rb.velocity = direction * speed;
     }
 
     protected override void Setting()
     {
         var idle = new AIIdleState(gameObject);
-        var chase = new AIChasingState(gameObject, TestGameManager.Inst.testPlayer.transform);
+        var chase = new AIFlyingChaseState(gameObject, TestGameManager.Inst.testPlayer.transform);
         var attack = new AIAttackState(gameObject);
-        var overWall = new AIOverWallState(gameObject, TestGameManager.Inst.testPlayer.transform);
+        
         var dead = new AIDeadState(gameObject);
 
         fsm.SetInitialState(idle);
 
         fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) < enemyData.chasingRange);
-        //fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, player.transform.position) < enemyData.attackRange);
+        fsm.AddTransition(chase, attack, () =>
+        {
+            var target = chase.CurrentTarget;
+            if (target == null) return false;
 
-        fsm.AddTransition(chase, idle, () => Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) > enemyData.chasingRange);
-        fsm.AddTransition(chase, overWall, () => Vector3.Distance(transform.position, chase.CurrentTarget.position) < enemyData.attackRange);
+            float dist = Vector3.Distance(transform.position, target.position);
 
-        fsm.AddTransition(overWall, idle, () => overWall.IsClimbComplete);
-        //fsm.AddTransition(attack, chase, () => Vector3.Distance(transform.position, player.transform.position) > attackRange);
+            bool readyToAttack = dist < enemyData.attackRange;
+
+            if (readyToAttack)
+            {
+                attack.SetTarget(chase.CurrentTarget.gameObject);
+            }
+
+            return dist < enemyData.attackRange;
+        });
+
+        fsm.AddTransition(attack, idle, () =>
+        {
+            var t = attack.CurrentTarget;
+            return t == null || !t.activeInHierarchy;
+        });
+
         fsm.AddAnyTransition(dead, () => GetComponent<Health>().IsDead);
 
     }

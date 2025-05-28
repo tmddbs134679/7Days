@@ -24,17 +24,19 @@ public class AIChasingState : AIState
             wallDetectDistance = data.wallDetectDistance;
         }
 
-       // this.target = target;
-        this.agent = owner.GetComponent<NavMeshAgent>();
-
+    
+         this.agent = owner.GetComponent<NavMeshAgent>();
      
     }
 
     public override void Enter()
     {
         hasAssignedWallOffset = false;
-        agent.isStopped = false;
+ 
         Debug.Log("Chasing");
+   
+        agent.isStopped = false;
+       
     }
     public override void Tick()
     {
@@ -119,13 +121,14 @@ public class AIChasingState : AIState
     {
         return CurrentTarget == null || !CurrentTarget.gameObject.activeInHierarchy;
     }
+
     Vector3 GetOffsetWallPosition(Transform wall)
     {
         Vector3 wallPosition = wall.position;
         Vector3 right = owner.transform.right;
 
         // 좌우 랜덤 오프셋
-        float offsetRange = 5.0f; // 퍼짐 범위 설정 (원하면 조절 가능)
+        float offsetRange = 3.0f; // 퍼짐 범위 설정 (원하면 조절 가능)
         float randomOffset = Random.Range(-offsetRange, offsetRange);
 
         // offset 적용
