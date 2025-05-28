@@ -58,7 +58,7 @@ public class Player : MonoBehaviour
         if (playerVehicle)
             playerVehicle.Init(this);
         if (playerWeapon)
-            playerWeapon.Init(this);
+            playerWeapon.Init();
 
         curState = PlayerState.Idle;
 
@@ -125,6 +125,9 @@ public class Player : MonoBehaviour
         playerWeapon.CheckThrow();
     }
 
+    /// <summary>
+    /// 무기 조준 시작
+    /// </summary>
     public void StartAiming()
     {
         playerWeapon.StartAiming();
@@ -134,6 +137,7 @@ public class Player : MonoBehaviour
     {
         playerWeapon.StopAiming();
     }
+
     public void Dead()
     {
         IsDead = true;

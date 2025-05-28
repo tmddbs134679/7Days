@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2189252460244473654}
   - component: {fileID: 8855473012451023543}
   - component: {fileID: 5264265699088302067}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7624873625169955814}
   - component: {fileID: 372482045123418405}
   - component: {fileID: 4505082472676435886}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: DeBuffGrenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -131,6 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buffEffect: {fileID: 0}
+  effectedTargets: []
 --- !u!136 &372482045123418405
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3641440696029349525}
   - component: {fileID: 1267077489720973417}
   - component: {fileID: 627108715068198944}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BuffGrenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buffEffect: {fileID: 0}
+  effectedTargets: []
 --- !u!136 &1267077489720973417
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -109,7 +110,7 @@ GameObject:
   - component: {fileID: 2307321126201128038}
   - component: {fileID: 5295590411099517734}
   - component: {fileID: 8863324521775581811}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}

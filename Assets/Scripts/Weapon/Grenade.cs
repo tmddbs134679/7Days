@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Grenade : MonoBehaviour
@@ -8,6 +9,7 @@ public class Grenade : MonoBehaviour
 
     [SerializeField] GameObject buffEffect;
     private bool isExplosion = false;
+    [SerializeField] List<Collider> effectedTargets = new List<Collider>(); 
 
     public void Init(WeaponDataSO weaponDataSO, Vector3 direction, float force)
     {
@@ -34,20 +36,22 @@ public class Grenade : MonoBehaviour
     IEnumerator GrenadeEffectCoroutine()
     {
         yield return new WaitForSeconds(weaponDataSO.explosionDelay);
-
+        
+        // 수류탄 모델 비활성화 후 이펙트 생성
+        transform.GetChild(0).gameObject.SetActive(false);
         //Instantiate(buffEffect, transform.position, Quaternion.identity);
 
-        Collider[] hits = Physics.OverlapSphere(transform.position, weaponDataSO.range);
-        foreach (var hit in hits)
+        Collider[] targets = Physics.OverlapSphere(transform.position, weaponDataSO.range);
+        foreach (var target in targets)
         {
-            ApplyEffect(hit);
+            ApplyEffect(target);
         }
 
         yield return new WaitForSeconds(weaponDataSO.duration);
 
-        foreach (var hit in hits)
+        foreach (var target in effectedTargets)
         {
-            RemoveEffect(hit);
+            RemoveEffect(target);
         }
 
         Destroy(gameObject);
@@ -61,6 +65,7 @@ public class Grenade : MonoBehaviour
                 if (col.TryGetComponent(out Turret turret))
                 {
                     // 터렛 공격속도 강화 효과
+                    effectedTargets.Add(col);
                 }
                 break;
 
@@ -68,6 +73,7 @@ public class Grenade : MonoBehaviour
                 if (col.TryGetComponent(out AI_Base enemy))
                 {
                     // 적 이동속도 감소 효과
+                    effectedTargets.Add(col);
                 }
                 break;
         }

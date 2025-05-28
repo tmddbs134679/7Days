@@ -2,19 +2,15 @@ using UnityEngine;
 
 public class PlayerWeaponHandler : MonoBehaviour
 {
-    private Player player;
     [SerializeField] WeaponController[] weapons;
     [SerializeField] WeaponController curWeapon;
     [SerializeField] Transform throwPoint;
     private bool isAiming = false;
     private TrajectoryController trajectoryController;
 
-    public void Init(Player player)
+    public void Init()
     {
-        this.player = player;
-
         ChangeWeapon(0);
-
         trajectoryController = GetComponentInChildren<TrajectoryController>();
         
         if (trajectoryController)
