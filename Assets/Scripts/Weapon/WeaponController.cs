@@ -20,7 +20,7 @@ public class WeaponController : MonoBehaviour
     {
         if (!isCoolDown)
         {
-            GameObject obj = Instantiate(grenadePrefab, throwPoint.position, Quaternion.identity);
+            GameObject obj = Instantiate(grenadePrefab, throwPoint.position, Quaternion.Euler(Random.Range(0f, 360f), 0f, Random.Range(0f, 360f)));
 
             if (obj.TryGetComponent(out Grenade grenade))
             {
