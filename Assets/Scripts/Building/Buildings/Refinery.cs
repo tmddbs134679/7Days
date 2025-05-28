@@ -48,5 +48,6 @@ public class Refinery : BaseBuilding<BuildingData<ProductionBuildingData>>
     // 생산량만큼 적재
     void Production() => productAmount = Mathf.Clamp(productAmount + data.buildingDatas[level].amount, 0, data.buildingDatas[level].capacity);
     
-    void GetProduct() => inventoryManager.AddResource(data.buildingDatas[level].product, productAmount);
+    // 생산한 아이템을 인벤토리에 넣게끔
+    public void OnInteract() => inventoryManager.AddResource(data.buildingDatas[level].product, productAmount);
 }
