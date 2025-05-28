@@ -40,7 +40,10 @@ public class UI_Inventory : UI_Popup
         Equip,
         Unequip,
     }
-
+    private void Awake()
+    {
+        inventoryManager = T_PC.instance.inventoryManager;
+    }
     public override void Init()
     {
         base.Init();
@@ -50,7 +53,6 @@ public class UI_Inventory : UI_Popup
        // Bind<Button>(typeof(Buttons));
 
         ItemSlotLayout = Get<GridLayoutGroup>((int)Grid.ItemSlotLayout).gameObject;
-        inventoryManager = T_PC.instance.inventoryManager;
         SetSlot();
         /*
         _detailNameTxt = Get<TextMeshProUGUI>((int)TMPs.Name);
