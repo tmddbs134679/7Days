@@ -51,7 +51,7 @@ public class UI_ItemSlot : MonoBehaviour
     // UI 등당 합수
     public void ShowDetail()
     {
-      //  if (Item != null)
-        //    uI_Inventory.ShowDetail(index);
+        if (Item != null)
+            inventory.ShowDetail(index);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,23 +8,32 @@ using UnityEngine.UI;
 
 public class UI_Inventory : UI_Popup
 {
-   public InventoryManager inventoryManager;
+    public InventoryManager inventoryManager;
 
     [SerializeField] private int slotCount;
 
     private GameObject ItemSlotLayout;
     private List<UI_ItemSlot> slots = new List<UI_ItemSlot>();
-    /*
-    //Detail 파트
-    private ItemData _curItemData;
-    private int _curIndex;
 
-    private TextMeshProUGUI _detailNameTxt;
-    private TextMeshProUGUI _detailDescritionTxt;
-    private Button _consumBtn;
-    private Button _equipBtn;
-    private Button _unequipBtn;
-    */
+    private ItemInfo curItemInfo;
+    private ItemData curItemData;
+    private int curSlotIndex =-1;
+    private int quickSlotCount = 4;
+
+    private Image icon;
+    private TextMeshProUGUI nameTxt;
+    private TextMeshProUGUI descriptionTxt;
+    private Button useBtn;
+    private Button quickBtn;
+    private Button deductBtn;
+    private Button deductAllBtn;
+    private Button[] setQuickBtn;
+    private Button closeQuickBtn;
+    private Transform setSlots;
+
+    //색상
+    private Color _alpha0 = new Color(255, 255, 255, 0);
+    private Color _alpha255 = new Color(255, 255, 255, 255);
 
     enum Grid
     {
@@ -31,55 +41,82 @@ public class UI_Inventory : UI_Popup
     }
     enum TMPs
     {
-        Name,
-        Description
+        Detail_Name,
+        Detail_Description,
     }
     enum Buttons
     {
-        UseConsumable,
-        Equip,
-        Unequip,
+        UseBtn,
+        QuickBtn,
+        DeductBtn,
+        DeductAllBtn,
+        SetQuickBtn_1,
+        SetQuickBtn_2,
+        SetQuickBtn_3,
+        SetQuickBtn_4,
+        CloseQuick,
     }
+    enum Images
+    {
+        Detail_Icon,
+    }
+    enum Transforms
+    {
+        SetSlots,
+    }
+
     private void Awake()
     {
         inventoryManager = T_PC.instance.inventoryManager;
     }
     public override void Init()
     {
+
+    }
+    private void Start()
+    {
+        // 초기화
         base.Init();
 
+        setQuickBtn = new Button[quickSlotCount];
+
         Bind<GridLayoutGroup>(typeof(Grid));
-      //  Bind<TextMeshProUGUI>(typeof(TMPs));
-       // Bind<Button>(typeof(Buttons));
+        Bind<TextMeshProUGUI>(typeof(TMPs));
+        Bind<Button>(typeof(Buttons));
+        Bind<Image>(typeof(Images));
+        Bind<Transform>(typeof(Transforms));
 
         ItemSlotLayout = Get<GridLayoutGroup>((int)Grid.ItemSlotLayout).gameObject;
+        icon = Get<Image>((int)Images.Detail_Icon);
+        nameTxt = Get<TextMeshProUGUI>((int)TMPs.Detail_Name);
+        descriptionTxt = Get<TextMeshProUGUI>((int)TMPs.Detail_Description);
+        useBtn = Get<Button>((int)Buttons.UseBtn);
+        quickBtn = Get<Button>((int)Buttons.QuickBtn);
+        deductBtn = Get<Button>((int)Buttons.DeductBtn);
+        deductAllBtn = Get<Button>((int)Buttons.DeductAllBtn);
+        quickBtn = Get<Button>((int)Buttons.QuickBtn);
+        setSlots = Get<Transform>((int)Transforms.SetSlots);
+        setQuickBtn[0] = Get<Button>((int)Buttons.SetQuickBtn_1);
+        setQuickBtn[1] = Get<Button>((int)Buttons.SetQuickBtn_2);
+        setQuickBtn[2] = Get<Button>((int)Buttons.SetQuickBtn_3);
+        setQuickBtn[3] = Get<Button>((int)Buttons.SetQuickBtn_4);
+        closeQuickBtn = Get<Button>((int)Buttons.CloseQuick);
+        CloseInventoruDetail();
         SetSlot();
-        /*
-        _detailNameTxt = Get<TextMeshProUGUI>((int)TMPs.Name);
-        _detailDescritionTxt = Get<TextMeshProUGUI>((int)TMPs.Description);
-        _consumBtn = Get<Button>((int)Buttons.UseConsumable);
-        _equipBtn = Get<Button>((int)Buttons.Equip);
-        _unequipBtn = Get<Button>((int)Buttons.Unequip);
 
+        // 버튼 함수 연결
+        useBtn.onClick.AddListener(OnConsumItem);
+        deductBtn.onClick.AddListener(OnDeductItem);
+        deductAllBtn.onClick.AddListener(OnDeductAllItem);
+        quickBtn.onClick.AddListener(OnSetQuickSlot);
 
-        //함수 연결
-        _consumBtn.onClick.AddListener(ConsumItem);
-        _equipBtn.onClick.AddListener(EquipItem);
-        _unequipBtn.onClick.AddListener(UnequipItem);
-        */
-
-        //초기화 작업
-        CloseAllBtn();
-
-        for (int i = 0; i < slotCount; i++)
-        {/*
-            var go = Instantiate(_slotPrefab);
-            itemSlots.Add(go.GetComponent<ItemSlot>());
-            itemSlots[i].uI_Inventory = this;
-            itemSlots[i].Idx = i;
-            go.transform.SetParent(_slots.transform, false);
-            */
+        for (int i = 0; i < quickSlotCount; i++)
+        {
+            int slotIndex = i;
+            setQuickBtn[i].onClick.AddListener(() => OnSetSlot(slotIndex));
         }
+        closeQuickBtn.onClick.AddListener(OnCloseQuickPanel);
+
     }
     private void SetSlot()
     {
@@ -96,81 +133,126 @@ public class UI_Inventory : UI_Popup
         }
 
         // 인벤토리에서 슬롯 반영
-        var curSlots =  inventoryManager.itemSlots;
+        //var curSlots = inventoryManager.itemSlots;
         for (int i = 0; i < slotCount; i++)
         {
-            if (curSlots[i] != null)
-            {
-                slots[i].Item = curSlots[i].data;
-                slots[i].Stack = curSlots[i].count;
-                slots[i].UpdateIcon(curSlots[i].data.icon);
-                slots[i].UpdateTMP();
-            }
+            UpdateSlotData(i);
         }
 
     }
 
-    private void OnDisable()
+    public void UpdateSlotData(int index)
     {
-      //  _interaction.OnAddItem -= AddItem;
+        if(inventoryManager.itemSlots[index] == null)
+        {
+            slots[index].ResetSlot();
+            return;
+        }
+
+        ItemInfo curSlots = inventoryManager.itemSlots[index];
+
+
+        if (curSlots != null&& curSlots.data != null)
+        {
+            slots[index].Item = curSlots.data;
+            slots[index].Stack = curSlots.count;
+            slots[index].UpdateIcon(curSlots.data.icon);
+            slots[index].UpdateTMP();
+        }
+        else
+        {
+            slots[index].ResetSlot();
+        }
     }
 
-    // stack과 빈칸을 확인해서 생성 가능한지 확인하는 함수.
+    // 버튼 함수 할당
+    private void OnConsumItem()
+    {
+        setSlots.gameObject.SetActive(false);
+        if (curItemData != null)
+        {
+            inventoryManager.OnUseItem(curSlotIndex);
+            UpdateSlotData(curSlotIndex);
+        }
+    }
+    private void OnDeductItem()
+    {
+        setSlots.gameObject.SetActive(false);
+        if (curItemData != null)
+        {
+            inventoryManager.DeductItemBySlot(curSlotIndex,1);
+            UpdateSlotData(curSlotIndex);
+        }
+    }
+    private void OnDeductAllItem()
+    {
+        setSlots.gameObject.SetActive(false);
+        if (curItemData != null)
+        {
+            inventoryManager.DeductItemBySlot(curSlotIndex, curItemInfo.count);
+            UpdateSlotData(curSlotIndex);
+        }
+    }
+    // 퀵슬롯 버튼
+    private void OnSetQuickSlot()
+    {
+        setSlots.gameObject.SetActive(true);
+    }
+    private void OnSetSlot(int index)
+    {
+        //슬롯인덱스, 아이템위치 인덱스, 아이템 정보
+        inventoryManager.SetQuickSlot(index, curSlotIndex, curItemInfo);
+        OnCloseQuickPanel();
+    }
+
+    private void OnCloseQuickPanel()
+    {
+        setSlots.gameObject.SetActive(false);
+    }
 
 
     public void ShowDetail(int index)
-    {/*
-        var slot = itemSlots[_curIndex];
-        _curIndex = index;
-        _curItemData = itemSlots[_curIndex].Item;
-        _detailNameTxt.text = _curItemData.DisplayName;
-        _detailDescritionTxt.text = _curItemData.Descrition;
+    {
+        CloseInventoruDetail();
+        OpenInventoruDetail();
+        var slot = slots[index];
+        curSlotIndex = index;
+        curItemInfo = inventoryManager.itemSlots[curSlotIndex];
+        curItemData = slot.Item;
+        icon.sprite = curItemData.icon;
+        nameTxt.text = curItemData.resourceName;
+        descriptionTxt.text = curItemData.description;
 
-        CloseAllBtn();
-
-        switch (_curItemData.Type)
+        switch (curItemData.type)
         {
             case ItemType.Consumable:
-                _consumBtn.gameObject.SetActive(true);
-                break;
-            case ItemType.Equipable:
-                if (slot.isEquiped)
-                {
-                    _unequipBtn.gameObject.SetActive(true);
-                    _equipBtn.gameObject.SetActive(false);
-                }
-                else
-                {
-                    _unequipBtn.gameObject.SetActive(false);
-                    _equipBtn.gameObject.SetActive(true);
-                }
+                useBtn.gameObject.SetActive(true);
+                quickBtn.gameObject.SetActive(true);
                 break;
         }
-        */
     }
 
-
-
-    void ResetDetail()
+    void CloseInventoruDetail()
     {
-       // _detailNameTxt.text = "";
-      //  _detailDescritionTxt.text = "";
-        CloseAllBtn();
+        curItemData = null;
+        curItemInfo = null;
+        curSlotIndex = -1;
+        icon.color = _alpha0;
+        nameTxt.gameObject.SetActive(false);
+        descriptionTxt.gameObject.SetActive(false);
+        useBtn.gameObject.SetActive(false);
+        quickBtn.gameObject.SetActive(false);
+        deductBtn.gameObject.SetActive(false);
+        deductAllBtn.gameObject.SetActive(false);
+        setSlots.gameObject.SetActive(false);
     }
-    void CloseAllBtn()
+    void OpenInventoruDetail()
     {
-        //_consumBtn.gameObject.SetActive(false);
-       // _equipBtn.gameObject.SetActive(false);
-       // _unequipBtn.gameObject.SetActive(false);
+        icon.color = _alpha255;
+        nameTxt.gameObject.SetActive(true);
+        descriptionTxt.gameObject.SetActive(true);
+        deductBtn.gameObject.SetActive(true);
+        deductAllBtn.gameObject.SetActive(true);
     }
-
-    public void OnInventory()
-    {
-     //   if (_inventory.activeSelf == true)
-     //       _inventory.SetActive(false);
-     //   else
-      //      _inventory.SetActive(true);
-    }
-
 
 }
