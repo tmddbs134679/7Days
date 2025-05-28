@@ -19,7 +19,7 @@ MonoBehaviour:
   useStamina: 15
   explosionDelay: 1
   buffEffect:
-    attackSpeedMultiplier: 30
+    attackSpeedMultiplier: 1.3
   debuffEffect:
-    defenseReductionPercent: 0
+    speedMultiplier: 0
   unlockCondition: 

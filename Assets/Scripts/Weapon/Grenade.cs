@@ -73,6 +73,7 @@ public class Grenade : MonoBehaviour
                 if (col.TryGetComponent(out AI_Base enemy))
                 {
                     // 적 이동속도 감소 효과
+                    enemy.ApplyBuff(weaponDataSO.debuffEffect.speedMultiplier);
                     effectedTargets.Add(col);
                 }
                 break;
@@ -94,6 +95,7 @@ public class Grenade : MonoBehaviour
                 if (col.TryGetComponent(out AI_Base enemy))
                 {
                     // 적 감소 효과 제거
+                    enemy.RemoveBuff();
                 }
                 break;
         }

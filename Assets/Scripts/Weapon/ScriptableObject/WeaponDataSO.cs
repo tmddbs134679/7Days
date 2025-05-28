@@ -11,7 +11,7 @@ public struct BuffEffect
 [System.Serializable]
 public struct DebuffEffect
 {
-    public float defenseReductionPercent;
+    public float speedMultiplier;
 }
 
 [CreateAssetMenu(fileName = "WeaponData", menuName = "Weapon/New WeaponData")]
