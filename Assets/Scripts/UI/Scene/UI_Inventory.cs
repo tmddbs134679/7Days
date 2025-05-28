@@ -71,6 +71,11 @@ public class UI_Inventory : UI_Popup
     }
     public override void Init()
     {
+
+    }
+    private void Start()
+    {
+        // 초기화
         base.Init();
 
         setQuickBtn = new Button[quickSlotCount];
@@ -99,13 +104,13 @@ public class UI_Inventory : UI_Popup
         CloseInventoruDetail();
         SetSlot();
 
-
         // 버튼 함수 연결
         useBtn.onClick.AddListener(OnConsumItem);
         deductBtn.onClick.AddListener(OnDeductItem);
         deductAllBtn.onClick.AddListener(OnDeductAllItem);
         quickBtn.onClick.AddListener(OnSetQuickSlot);
-        for(int i = 0; i < quickSlotCount; i++)
+
+        for (int i = 0; i < quickSlotCount; i++)
         {
             int slotIndex = i;
             setQuickBtn[i].onClick.AddListener(() => OnSetSlot(slotIndex));
@@ -136,12 +141,18 @@ public class UI_Inventory : UI_Popup
 
     }
 
-    private void UpdateSlotData(int index)
+    public void UpdateSlotData(int index)
     {
-        var curSlots = inventoryManager.itemSlots[index];
+        if(inventoryManager.itemSlots[index] == null)
+        {
+            slots[index].ResetSlot();
+            return;
+        }
+
+        ItemInfo curSlots = inventoryManager.itemSlots[index];
 
 
-        if (curSlots != null)
+        if (curSlots != null&& curSlots.data != null)
         {
             slots[index].Item = curSlots.data;
             slots[index].Stack = curSlots.count;
@@ -189,7 +200,8 @@ public class UI_Inventory : UI_Popup
     }
     private void OnSetSlot(int index)
     {
-        inventoryManager.SetQuickSlot(index, curItemInfo);
+        //슬롯인덱스, 아이템위치 인덱스, 아이템 정보
+        inventoryManager.SetQuickSlot(index, curSlotIndex, curItemInfo);
         OnCloseQuickPanel();
     }
 

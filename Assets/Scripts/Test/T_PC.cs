@@ -63,8 +63,8 @@ public class T_PC : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             // 이부분의 UI 반영은 나중에 인벤토리에 넣어주어야함.
-            inventoryManager.AddItem(items[0], 500);
-            inventoryManager.AddItem(items[1], 500);
+            inventoryManager.AddItem(items[0], 1);
+            inventoryManager.AddItem(items[1], 1);
         }
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {

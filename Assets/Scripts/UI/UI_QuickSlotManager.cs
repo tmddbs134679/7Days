@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using static UnityEditor.Progress;
 
 public class UI_QuickSlotManager : MonoBehaviour
@@ -20,10 +21,11 @@ public class UI_QuickSlotManager : MonoBehaviour
 
     public void SetItemSlot(int index, ItemInfo info, float cooldown = 0)
     {
-        itemSlots[index].SetSlot(info.data.icon, cooldown);
+        itemSlots[index].SetSlot(info.data, cooldown);
     }
     public void ClearItemSlot(int index)
     {
+
         itemSlots[index].ClearSlot();
     }
 
@@ -36,14 +38,16 @@ public class UI_QuickSlotManager : MonoBehaviour
     {
         itemSlots[index].TriggerCooldown();
     }
-
-
-    //테스트
-    private void Update()
+    // 추후 플레이어컨트롤러와 연결해주어야함.
+    public void OnDash()
     {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            itemSlots[dashIndex].TriggerCooldown();
-        }
+        itemSlots[dashIndex].TriggerCooldown();
     }
+    public bool CheckQuick(int index)
+    {
+         return itemSlots[index].TriggerCooldown();
+    }
+
+
+
 }
