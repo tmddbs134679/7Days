@@ -6,6 +6,8 @@ using UnityEngine;
 public class TestGameManager : MonoBehaviour
 {
     public GameObject testPlayer;
+       public WaveController waveController;
+
     public static TestGameManager Inst { get; private set; }
     void Awake()
     {
@@ -19,4 +21,8 @@ public class TestGameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject); 
     }
 
+    private void Start()
+    {
+        waveController.StartNextWave();
+    }
 }
