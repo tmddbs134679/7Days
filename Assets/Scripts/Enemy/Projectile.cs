@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,14 +6,16 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public GameObject attacker { get; private set; }
-   
-    protected float damage;
+    [SerializeField] private float autoDestroyTime = 5f;
 
-    public void Init(GameObject attacker, float speed, float dmg)
+    public void Init(GameObject attacker)
     {
         this.attacker = attacker;
-        damage = dmg;
+
+        Invoke(nameof(DestroyObject), autoDestroyTime);
     }
+
+ 
 
     protected virtual void OnTriggerEnter(Collider other)
     {
@@ -34,7 +37,11 @@ public class Projectile : MonoBehaviour
 
             Destroy(gameObject); // 투사체 제거
         }
-      
-      
+
+    }
+
+    private void DestroyObject()
+    {
+        Destroy(gameObject);
     }
 }

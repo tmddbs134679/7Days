@@ -11,9 +11,9 @@ public class AI_Husk : AI_Base
     }
     public override void Attack(GameObject target)
     {
-        if(target.TryGetComponent(out PlayerStatus status))
+        if(target.TryGetComponent(out IDamageable player))
         {
-            status.TakeDamage(enemyData.attackPower);
+            player.TakeDamage(enemyData.attackPower);
         }
 
      
@@ -35,7 +35,18 @@ public class AI_Husk : AI_Base
             return Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) < enemyData.chasingRange;
         });
 
- 
+        fsm.AddTransition(chase, attack, () =>
+        {
+            attack.SetTarget(chase.CurrentTarget.gameObject);
+            return Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) < enemyData.attackRange;
+        });
+
+        fsm.AddTransition(attack, chase, () =>
+        {
+            return Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) > enemyData.attackRange;
+        });
+        fsm.AddTransition(chase, idle, () => Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) > enemyData.chasingRange);
+
         fsm.AddAnyTransition(dead, () => GetComponent<Health>().IsDead);
 
         fsm.SetInitialState(idle);

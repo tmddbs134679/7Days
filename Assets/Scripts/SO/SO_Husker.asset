@@ -15,11 +15,16 @@ MonoBehaviour:
   type: 0
   maxHealth: 60
   attackPower: 5
+  attackCoolTime: 2
   moveSpeed: 3
   canClimbWall: 0
   canJumpOverWall: 0
   isStealth: 0
   isRanged: 0
   targetsDronesFirst: 0
-  attackRange: 1
+  attackRange: 3
   chasingRange: 100
+  wallDetectDistance: 0
+  StealthTime: 5
+  StealthRange: 10
+  StealthDurtaion: 5

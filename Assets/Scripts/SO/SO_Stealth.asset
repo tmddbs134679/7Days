@@ -15,6 +15,7 @@ MonoBehaviour:
   type: 5
   maxHealth: 100
   attackPower: 12
+  attackCoolTime: 2
   moveSpeed: 2
   canClimbWall: 0
   canJumpOverWall: 0

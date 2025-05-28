@@ -72,6 +72,7 @@ public class AI_Acid : AI_Base
         }
 
         GameObject proj = GameObject.Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+        proj.GetComponent<Projectile>().Init(gameObject);
         proj.GetComponent<Rigidbody>().velocity = launchVelocity;
 
     }

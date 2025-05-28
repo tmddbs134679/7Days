@@ -46,27 +46,20 @@ public class AIChasingState : AIState
                 targetOffsetPosition = GetOffsetWallPosition(wall);
                 agent.SetDestination(targetOffsetPosition);
                 hasAssignedWallOffset = true;
-                return;
+               
             }
+            return;
         }
 
-        if (CurrentTarget == null || IsDead(CurrentTarget))
-        {
-            CurrentTarget = SelectTarget(type);
-            hasAssignedWallOffset = false;
-
-            if (CurrentTarget != null)
-            {
-                // targetOffsetPositionµµ ¾÷µ¥ÀÌÆ®
-                targetOffsetPosition = CurrentTarget.position;
-                agent.SetDestination(targetOffsetPosition);
-            }
-        }
+        CurrentTarget = SelectTarget(type);
+        hasAssignedWallOffset = false;
 
         if (CurrentTarget != null)
         {
-            agent.SetDestination(targetOffsetPosition); // Ç×»ó offsetµÈ À§Ä¡·Î
+            targetOffsetPosition = CurrentTarget.position;
+            agent.SetDestination(targetOffsetPosition);
         }
+
     }
 
 
@@ -77,7 +70,7 @@ public class AIChasingState : AIState
     Transform SelectTarget(EENEMYTYPE type)
     {
 
-        // ÇÃ·¹ÀÌ¾î ±âº» Å¸°Ù
+        // í”Œë ˆì´ì–´ ê¸°ë³¸ íƒ€ê²Ÿ
         Transform player = TestGameManager.Inst.testPlayer.transform;
 
         if (type == EENEMYTYPE.RUNNER || type == EENEMYTYPE.SPINE)
@@ -131,11 +124,11 @@ public class AIChasingState : AIState
         Vector3 wallPosition = wall.position;
         Vector3 right = owner.transform.right;
 
-        // ÁÂ¿ì ·£´ı ¿ÀÇÁ¼Â
-        float offsetRange = 5.0f; // ÆÛÁü ¹üÀ§ ¼³Á¤ (¿øÇÏ¸é Á¶Àı °¡´É)
+        // ì¢Œìš° ëœë¤ ì˜¤í”„ì…‹
+        float offsetRange = 5.0f; // í¼ì§ ë²”ìœ„ ì„¤ì • (ì›í•˜ë©´ ì¡°ì ˆ ê°€ëŠ¥)
         float randomOffset = Random.Range(-offsetRange, offsetRange);
 
-        // offset Àû¿ë
+        // offset ì ìš©
         Vector3 offsetPosition = wallPosition + right * randomOffset;
 
         return offsetPosition;

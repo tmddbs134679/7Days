@@ -8,7 +8,7 @@ public class AIAttackState : AIState
     private GameObject target;
     private NavMeshAgent agent;
     private float attackCooldown;
-    private float lastAttackTime = Mathf.NegativeInfinity; // ¸¶Áö¸· °ø°İ ½Ã°£
+    private float lastAttackTime = Mathf.NegativeInfinity; // ë§ˆì§€ë§‰ ê³µê²© ì‹œê°„
     public GameObject CurrentTarget => target;
     public AIAttackState(GameObject owner) : base(owner)
     {
@@ -16,7 +16,7 @@ public class AIAttackState : AIState
 
     public override void Enter()
     {
-        SetTarget(target);
+       // SetTarget(target);
         Debug.Log("Attack");
         agent = owner.GetComponent<NavMeshAgent>();
         agent.isStopped = true;
@@ -34,7 +34,7 @@ public class AIAttackState : AIState
         if (Time.time - lastAttackTime >= attackCooldown)
         {
             lastAttackTime = Time.time;
-            owner.GetComponent<AI_Base>().Attack(target); // Base Å¬·¡½º °ø°İ È£Ãâ
+            owner.GetComponent<AI_Base>().Attack(target); // Base í´ë˜ìŠ¤ ê³µê²© í˜¸ì¶œ
         }
     }
 
