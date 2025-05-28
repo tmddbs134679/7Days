@@ -21,17 +21,20 @@ public class Projectile : MonoBehaviour
         // 자신한테 맞지 않게
         if (other.gameObject == attacker) return;
 
-        // 대상에게 Health 컴포넌트가 있을 때만 적용 test용
-        if (other.TryGetComponent(out Health targetHealth))
+        
+        if (other.TryGetComponent(out BaseBuilding<MonoBehaviour> target))
         {
             // 중복 DoT 방지 (선택)
             if (other.GetComponent<DamageDotTime>() == null)
             {
                 var dot = other.gameObject.AddComponent<DamageDotTime>();
-                dot.Apply(targetHealth);
+                dot.Apply(target);
+               
             }
-        }
 
-        Destroy(gameObject); // 투사체 제거
+            Destroy(gameObject); // 투사체 제거
+        }
+      
+      
     }
 }

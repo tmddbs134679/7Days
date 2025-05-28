@@ -8,9 +8,9 @@ public class DamageDotTime : MonoBehaviour
     public float tickInterval = 1f;
     public float duration = 5f;
 
-    private Health target;      //Test용
+    private BaseBuilding<MonoBehaviour> target;      //Test용
 
-    public void Apply(Health target)
+    public void Apply(BaseBuilding<MonoBehaviour> target)
     {
         this.target = target;
         StartCoroutine(DoTickDamage());
@@ -24,7 +24,7 @@ public class DamageDotTime : MonoBehaviour
             if (target == null)
                 yield break;
 
-            //target.TakeDamage(damagePerTick);
+            target.Damage(damagePerTick);
             yield return new WaitForSeconds(tickInterval);
             elapsed += tickInterval;
         }

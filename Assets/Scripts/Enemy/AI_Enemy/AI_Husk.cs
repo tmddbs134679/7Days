@@ -11,7 +11,12 @@ public class AI_Husk : AI_Base
     }
     public override void Attack(GameObject target)
     {
-        //대미지 주기
+        if(target.TryGetComponent(out PlayerStatus status))
+        {
+            status.TakeDamage(enemyData.attackPower);
+        }
+
+     
     }
 
     protected override void Setting()
