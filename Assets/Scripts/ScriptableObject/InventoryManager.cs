@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 [Serializable]
 public class ItemInfo // 리스트에 추가할 아이템 정보
@@ -34,7 +35,7 @@ public enum FloatType
 public class InventoryManager : MonoBehaviour
 {
 
-    //기초 자원
+    // 기초 자원
     [SerializeField]
     private List<ItemDictionaryEntry> itemEntries = new List<ItemDictionaryEntry>();
     public Dictionary<string, ItemInfo> itemList = new Dictionary<string, ItemInfo>();
@@ -42,10 +43,17 @@ public class InventoryManager : MonoBehaviour
     public event Action<int> OnCircuitChanged;
     public event Action<int> OnFuelChanged;
 
-    //인벤토리 아이템
+    // 인벤토리 아이템
     public ItemInfo[] itemSlots;
     [SerializeField] private int slotCount = 20;
     private bool isOpenInventory = false;
+
+    // 퀵슬롯
+    public ItemInfo[] quickSlots = new ItemInfo[4];
+    public UI_QuickSlotManager quickSlotManager;
+
+
+
     private void Awake()
     {
         itemSlots = new ItemInfo[slotCount];
@@ -57,6 +65,33 @@ public class InventoryManager : MonoBehaviour
                 itemList.Add(entry.ItemType.ToString(), entry.ItemData);
             }
         }
+    }
+
+    // 퀵슬롯 설정
+    public void SetQuickSlot(int index, ItemInfo info)
+    {
+        // 이미 해당 아이템이 등록되었는지 체크
+        bool isSet = false;
+        int itemIndex = -1;
+        for(int i = 0; i  < 4; i++)
+        {
+            if (quickSlots[i].data == null)
+                continue;
+
+            if (quickSlots[i].data.resourceName == info.data.resourceName)
+            {
+                isSet = true;
+                itemIndex = i;
+            }
+        }
+        
+        // 이전에 등록이 안되어 있었다면 등록.
+        if(isSet == false)
+        {
+            quickSlots[index] = info;
+            quickSlotManager.SetItemSlot(index, info);
+        }
+
     }
 
 
@@ -157,7 +192,18 @@ public class InventoryManager : MonoBehaviour
         return -1; // 빈 슬롯이 없는 경우
     }
 
+    public bool DeductItemBySlot(int slotIndex, int amount)
+    {
+        // 아이템 차감
+        itemSlots[slotIndex].count -= amount;
 
+        // 스택이 0이 되면 슬롯을 비움
+        if (itemSlots[slotIndex].count <= 0)
+        {
+            itemSlots[slotIndex] = null;
+        }
+        return true;
+    }
 
     public bool DeductItem(ItemData itemData, int amount)
     {
@@ -240,11 +286,12 @@ public class InventoryManager : MonoBehaviour
         return totalFoundAmount >= requiredAmount;
     }
 
-
-    public void OnUseItem()
+    // 소모품 아이템 사용
+    public void OnUseItem(int index, int amount = 1)
     {
-
+        DeductItemBySlot(index, amount);
     }
+
     public void OnInventory()
     {
         if (isOpenInventory)

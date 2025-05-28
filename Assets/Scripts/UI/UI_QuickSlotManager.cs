@@ -11,14 +11,16 @@ public class UI_QuickSlotManager : MonoBehaviour
     [SerializeField] private UI_QuickSlot[] itemSlots;
 
     private int dashIndex = 4;
+
     private void Start()
     {
+        T_PC.instance.inventoryManager.quickSlotManager = this;
         SetDashSlot(2.0f); // 추후 변경
     }
 
-    public void SetItemSlot(int index, Sprite sprite, float cooldown)
+    public void SetItemSlot(int index, ItemInfo info, float cooldown = 0)
     {
-        // 아이템 관련 슬롯 설정
+        itemSlots[index].SetSlot(info.data.icon, cooldown);
     }
     public void SetDashSlot(float cooldown)
     {
