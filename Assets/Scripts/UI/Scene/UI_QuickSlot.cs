@@ -9,8 +9,7 @@ public class UI_QuickSlot : UI_Scene
     private Image cooldownOverlay;
     private float cooldownTime = -999;
     private float lastUsedTime = -999;
-    private Sprite icon;
-
+    [SerializeField] private Sprite baseIcon;
     public enum Images
     {
         IconBack,
@@ -30,14 +29,18 @@ public class UI_QuickSlot : UI_Scene
 
     public void SetSlot(Sprite icon, float cooldown)
     {
-        this.icon = icon;
         this.cooldownTime = cooldown;
         this.lastUsedTime = -cooldown; 
         iconImage.sprite = icon;
         cooldownOverlay.sprite = icon;
         cooldownOverlay.fillAmount = 1f;
     }
-
+    public void ClearSlot()
+    {
+        iconImage.sprite = baseIcon;
+        cooldownOverlay.sprite = baseIcon;
+        cooldownOverlay.fillAmount = 1f;
+    }
     public void TriggerCooldown()
     {
         lastUsedTime = Time.time;

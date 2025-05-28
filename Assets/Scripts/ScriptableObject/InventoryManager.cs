@@ -58,6 +58,10 @@ public class InventoryManager : MonoBehaviour
     {
         itemSlots = new ItemInfo[slotCount];
         itemList.Clear();
+        for(int i = 0; i < quickSlots.Length; i++)
+        {
+            quickSlots[i] = null;
+        }
         foreach (var entry in itemEntries)
         {
             if (!itemList.ContainsKey(entry.ItemType.ToString()))
@@ -75,7 +79,7 @@ public class InventoryManager : MonoBehaviour
         int itemIndex = -1;
         for(int i = 0; i  < 4; i++)
         {
-            if (quickSlots[i].data == null)
+            if (quickSlots[i] == null)
                 continue;
 
             if (quickSlots[i].data.resourceName == info.data.resourceName)
@@ -90,6 +94,26 @@ public class InventoryManager : MonoBehaviour
         {
             quickSlots[index] = info;
             quickSlotManager.SetItemSlot(index, info);
+        }
+        else
+        {
+            // 만일 해당 슬롯이 비어있다면
+            if (quickSlots[index] == null)
+            {
+                quickSlots[itemIndex] = null;
+                quickSlotManager.ClearItemSlot(itemIndex);
+                quickSlots[index] = info;
+                quickSlotManager.SetItemSlot(index, info);
+            }
+            else       // 비어있지 않다면 교체
+            {
+                var temp = quickSlots[itemIndex];
+                quickSlots[itemIndex] = quickSlots[index];
+                quickSlotManager.SetItemSlot(itemIndex, quickSlots[index]);
+                quickSlots[index] = temp;
+                quickSlotManager.SetItemSlot(index, temp);
+            }
+     
         }
 
     }

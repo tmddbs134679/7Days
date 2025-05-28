@@ -22,6 +22,11 @@ public class UI_QuickSlotManager : MonoBehaviour
     {
         itemSlots[index].SetSlot(info.data.icon, cooldown);
     }
+    public void ClearItemSlot(int index)
+    {
+        itemSlots[index].ClearSlot();
+    }
+
     public void SetDashSlot(float cooldown)
     {
         itemSlots[dashIndex].SetSlot(dashSprite, cooldown);

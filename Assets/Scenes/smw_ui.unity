@@ -972,6 +972,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasLayer: 0
+  baseIcon: {fileID: 21300000, guid: 129f697c51c0f534eb121be2fd2f6657, type: 3}
 --- !u!1 &478411589
 GameObject:
   m_ObjectHideFlags: 0
@@ -1579,6 +1580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasLayer: 0
+  baseIcon: {fileID: 21300000, guid: 129f697c51c0f534eb121be2fd2f6657, type: 3}
 --- !u!1 &813430974
 GameObject:
   m_ObjectHideFlags: 0
@@ -2364,6 +2366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasLayer: 0
+  baseIcon: {fileID: 21300000, guid: 129f697c51c0f534eb121be2fd2f6657, type: 3}
 --- !u!1 &961136297
 GameObject:
   m_ObjectHideFlags: 0
@@ -2565,6 +2568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasLayer: 0
+  baseIcon: {fileID: 21300000, guid: 129f697c51c0f534eb121be2fd2f6657, type: 3}
 --- !u!1 &1056179311
 GameObject:
   m_ObjectHideFlags: 0
@@ -3364,6 +3368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvasLayer: 0
+  baseIcon: {fileID: 21300000, guid: 129f697c51c0f534eb121be2fd2f6657, type: 3}
 --- !u!1 &1378778633
 GameObject:
   m_ObjectHideFlags: 0
@@ -4332,7 +4337,7 @@ MonoBehaviour:
   inventoryManager: {fileID: 7000841128769044579}
   items:
   - {fileID: 11400000, guid: 492f0782014ddd94faba6c6802e9a4dc, type: 2}
-  - {fileID: 11400000, guid: d3b4e7c6521027148ba0932c125c048a, type: 2}
+  - {fileID: 11400000, guid: 4733040c154e1884e8ddc56c01d51a2b, type: 2}
   resources:
   - {fileID: 11400000, guid: 1c983398b7c76c04e99fe4c351025bda, type: 2}
   - {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae, type: 2}
