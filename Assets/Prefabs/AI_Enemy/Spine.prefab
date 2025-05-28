@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 426860212979595419}
   - component: {fileID: 2116843323758582622}
   - component: {fileID: 8911345502631872770}
+  - component: {fileID: 7493750477930977207}
   m_Layer: 0
   m_Name: Spine
   m_TagString: Untagged
@@ -35,7 +36,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.6995947, z: 0, w: 0.7145399}
   m_LocalPosition: {x: -18.26, y: 1.1, z: 28.67}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 6.068343, y: 0.74305683, z: 3.244954}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -109,9 +110,9 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
+  m_Radius: 0.57
+  m_Height: 1.13
+  m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &6072642247449304536
 Animator:
@@ -264,7 +265,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -283,7 +284,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 5d94a3774699ddc49aadf9e2df3cb66e, type: 2}
   player: {fileID: 0}
+  projectilePrefab: {fileID: 6187024989849396510, guid: 5ccb631283041d94c9464f13de7b2f75,
+    type: 3}
 --- !u!114 &8911345502631872770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8320420875000842671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171f5e6710bb7c64794f2e65233b7196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+--- !u!114 &7493750477930977207
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

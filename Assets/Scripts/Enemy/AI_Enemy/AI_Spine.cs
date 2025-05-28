@@ -5,13 +5,19 @@ using UnityEngine;
 public class AI_Spine : AI_Base
 {
     [SerializeField] private GameObject projectilePrefab;
+    private float startY = 9f;
     protected override void Start()
     {
         base.Start();
         Setting();
     }
 
-
+    public override void Init()
+    {
+        Vector3 pos = transform.position;
+        pos.y = startY;
+        transform.position = pos;
+    }
 
     public override void Attack(GameObject target)
     {

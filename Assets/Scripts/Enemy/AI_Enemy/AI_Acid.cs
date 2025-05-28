@@ -53,9 +53,9 @@ public class AI_Acid : AI_Base
 
     public override void Attack(GameObject target)
     {
-        Debug.Log("acid attack");
+       // Debug.Log("acid attack");
 
-
+        // 시간 남으면 따로 뺴기
         if (projectilePrefab == null || target == null)
             return;
 
@@ -79,7 +79,7 @@ public class AI_Acid : AI_Base
 
     private bool IsWallOrTurretNearby()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, enemyData.attackRange); // 필요시 LayerMask 수정
+        Collider[] hits = Physics.OverlapSphere(transform.position, enemyData.attackRange); 
         foreach (var hit in hits)
         {
             if (hit.CompareTag("Wall") || hit.CompareTag("Turret"))
@@ -91,14 +91,6 @@ public class AI_Acid : AI_Base
         return false;
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        if (enemyData == null) return;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, enemyData.attackRange);
-    }
-
     public static Vector3 CalculateLaunchVelocity(Vector3 start, Vector3 target, float timeToTarget)
     {
         Vector3 displacement = target - start;
@@ -108,4 +100,11 @@ public class AI_Acid : AI_Base
         return velocity;
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        if (enemyData == null) return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, enemyData.attackRange);
+    }
 }

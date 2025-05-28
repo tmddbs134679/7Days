@@ -36,6 +36,11 @@ public abstract class AI_Base : MonoBehaviour
         health.Init(enemyData.maxHealth);
     }
 
+    public virtual void Init()
+    {
+
+    }
+
     protected virtual void Update()
     {
         fsm.Tick();

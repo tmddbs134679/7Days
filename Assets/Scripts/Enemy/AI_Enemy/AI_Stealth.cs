@@ -11,11 +11,6 @@ public class AI_Stealth : AI_Base
         base.Start();
         Setting();
     }
-    public override void Attack(GameObject target)
-    {
-      
-    }
-
     protected override void Setting()
     {
         var idle = new AIIdleState(gameObject);
@@ -31,4 +26,14 @@ public class AI_Stealth : AI_Base
 
         fsm.SetInitialState(idle);
     }
+
+    public override void Attack(GameObject target)
+    {
+        if (target.TryGetComponent(out IDamageable player))
+        {
+            player.TakeDamage(enemyData.attackPower);
+        }
+    }
+
+
 }

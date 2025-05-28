@@ -37,6 +37,7 @@ public class WaveController : MonoBehaviour
         currentWave++;
     }
 
+    //시간남으면 Factory 패턴이랑 결합
     private IEnumerator SpawnWave(WaveData wave)
     {
         foreach (var info in wave.spawnList)
@@ -49,7 +50,7 @@ public class WaveController : MonoBehaviour
                 monster.transform.position = spawnPos;
 
                 // 몬스터 초기화 필요시 호출
-                //monster.GetComponent<AI_Base>()?.Initialize();
+                monster.GetComponent<AI_Base>()?.Init();
 
                 yield return new WaitForSeconds(0.6f); // 간격 배치
             }

@@ -12,16 +12,6 @@ public class AI_Runner : AI_Base
         Setting();
     }
 
-
-    public override void Attack(GameObject target)
-    {
-        if (target.TryGetComponent(out IDamageable player))
-        {
-            player.TakeDamage(enemyData.attackPower);
-        }
-
-    }
-
     protected override void Setting()
     {
         var idle = new AIIdleState(gameObject);
@@ -63,12 +53,14 @@ public class AI_Runner : AI_Base
 
     }
 
-
-    protected override void Awake()
+    public override void Attack(GameObject target)
     {
-        base.Awake();
-    }
+        if (target.TryGetComponent(out IDamageable player))
+        {
+            player.TakeDamage(enemyData.attackPower);
+        }
 
+    }
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
