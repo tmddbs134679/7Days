@@ -18,7 +18,7 @@ public class AI_Spine : AI_Base
         if (projectilePrefab == null || target == null)
             return;
 
-        Vector3 spawnPos = transform.position + Vector3.back * 1.2f;
+        Vector3 spawnPos = transform.position + Vector3.back * 4f;
         Vector3 targetPos = target.transform.position;
 
         Vector3 direction = (targetPos - spawnPos).normalized;
