@@ -130,8 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a93588ae50bb44a4fb64d7e3b3bc1b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buffEffect: {fileID: 0}
-  effectedTargets: []
+  buffEffect: {fileID: 8515513377288545650, guid: 499b8b74d2b10e140a4c691cfb45ad90,
+    type: 3}
 --- !u!136 &372482045123418405
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 275e4e1ecf799304e8257db260d0e087, type: 2}
 --- !u!1001 &174580776
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -493,7 +493,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!64 &1306455767
 MeshCollider:
@@ -878,16 +878,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1149898956392314981, guid: fa25adfe071d71142944905b20694f38,
-        type: 3}
-      propertyPath: pointCount
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1925233067947021925, guid: fa25adfe071d71142944905b20694f38,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 3947668164823473271, guid: fa25adfe071d71142944905b20694f38,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -938,60 +928,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4838730511702922891, guid: fa25adfe071d71142944905b20694f38,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6735640462218048730, guid: fa25adfe071d71142944905b20694f38,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 6833490445572759189, guid: fa25adfe071d71142944905b20694f38,
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6833490445572759189, guid: fa25adfe071d71142944905b20694f38,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7129246627396965477, guid: fa25adfe071d71142944905b20694f38,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7383487810159736040, guid: fa25adfe071d71142944905b20694f38,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7383487810159736040, guid: fa25adfe071d71142944905b20694f38,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7383487810159736040, guid: fa25adfe071d71142944905b20694f38,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key0.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7383487810159736040, guid: fa25adfe071d71142944905b20694f38,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.key1.a
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7383487810159736040, guid: fa25adfe071d71142944905b20694f38,
-        type: 3}
-      propertyPath: m_Parameters.colorGradient.m_ColorSpace
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7790699881570896081, guid: fa25adfe071d71142944905b20694f38,
-        type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

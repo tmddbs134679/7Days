@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: DeBuffWeapon
   m_EditorClassIdentifier: 
   weaponType: 1
-  range: 0
-  duration: 0
-  cooldown: 0
-  useStamina: 0
-  explosionDelay: 1
+  range: 3
+  duration: 6
+  cooldown: 30
+  useStamina: 20
+  explosionDelay: 0.5
   buffEffect:
     attackSpeedMultiplier: 0
   debuffEffect:
