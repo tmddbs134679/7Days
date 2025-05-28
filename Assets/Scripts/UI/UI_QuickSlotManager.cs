@@ -47,7 +47,4 @@ public class UI_QuickSlotManager : MonoBehaviour
     {
          return itemSlots[index].TriggerCooldown();
     }
-
-
-
 }

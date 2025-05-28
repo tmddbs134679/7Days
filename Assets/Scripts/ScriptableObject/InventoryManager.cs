@@ -62,7 +62,6 @@ public class InventoryManager : MonoBehaviour
         quickSlotsIndex = new ItemInfo[4];
         quickSlots = new Dictionary<ItemInfo, int>();
         itemSlots = new ItemInfo[slotCount];
-
         itemList.Clear();
 
         foreach (var entry in itemEntries)
@@ -159,7 +158,9 @@ public class InventoryManager : MonoBehaviour
         // 기존 스택에 채우기 시도
         for (int i = 0; i < slotCount; i++)
         {
-            if(itemSlots[i] != null)
+            if(itemSlots[i] == null)
+                continue;
+            if (itemSlots[i].data == null)
                 continue;
             // 해당 슬롯이 null이 아니고, 같은 아이템이며, 스택에 여유가 있을 때
             if ( itemSlots[i].data.name == item.name && itemSlots[i].count < item.maxStackAmount)
@@ -203,7 +204,7 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < slotCount; i++)
         {
-            if (itemSlots[i].data == null)
+            if (itemSlots[i] == null ||itemSlots[i].data == null)
             {
                 return i;
             }
@@ -220,7 +221,8 @@ public class InventoryManager : MonoBehaviour
         // 스택이 0이 되면 슬롯을 비움
         if (itemSlots[slotIndex].count <= 0)
         {
-            itemSlots[slotIndex] = null;
+            itemSlots[slotIndex].data = null;
+            itemSlots[slotIndex].count = 0;
         }
         return true;
     }
@@ -250,7 +252,8 @@ public class InventoryManager : MonoBehaviour
                 // 스택이 0이 되면 슬롯을 비움 (완전 삭제)
                 if (itemSlots[i].count <= 0)
                 {
-                    itemSlots[i] = null;
+                    itemSlots[i].data = null;
+                    itemSlots[i].count = 0;
                 }
                 if (uiInventory != null)
                     uiInventory.UpdateSlotData(i);
@@ -353,7 +356,7 @@ public class InventoryManager : MonoBehaviour
     }
     public void OnQuick1()
     {
-        if (itemSlots[0] != null)
+        if (itemSlots[0] != null&& uiInventory == null)
         {
             if(itemSlots[0].count != 1)
                 quickSlotManager.CheckQuick(0);
@@ -362,7 +365,7 @@ public class InventoryManager : MonoBehaviour
     }
     public void OnQuick2()
     {
-        if (itemSlots[1] != null)
+        if (itemSlots[1] != null && uiInventory == null)
         {
             if (itemSlots[1].count != 1)
                 quickSlotManager.CheckQuick(1);
@@ -371,7 +374,7 @@ public class InventoryManager : MonoBehaviour
     }
     public void OnQuick3()
     {
-        if (itemSlots[2] != null )
+        if (itemSlots[2] != null && uiInventory == null)
         {
             if (itemSlots[2].count != 1)
                 quickSlotManager.CheckQuick(2);
@@ -380,7 +383,7 @@ public class InventoryManager : MonoBehaviour
     }
     public void OnQuick4()
     {
-        if (itemSlots[3] != null)
+        if (itemSlots[3] != null && uiInventory == null)
         {
             if (itemSlots[3].count != 1)
                 quickSlotManager.CheckQuick(3);
@@ -388,11 +391,4 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            quickSlotManager.CheckQuick(0);
-        }
-    }
 }
