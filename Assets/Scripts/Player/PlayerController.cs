@@ -117,4 +117,28 @@ public class PlayerController : MonoBehaviour
             player.PlayerEvents.RaisedSeletSlot(slotIdx);
         }
     }
+
+    public void OnThrow(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            player.ThrowGrenade();
+        }
+    }
+
+    public void OnStartAiming(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            player.StartAiming();
+        }
+    }
+
+    public void OnStopAiming(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            player.StopAiming();
+        }
+    }
 }

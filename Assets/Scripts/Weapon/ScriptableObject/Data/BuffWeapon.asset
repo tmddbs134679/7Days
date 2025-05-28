@@ -16,7 +16,9 @@ MonoBehaviour:
   range: 6
   duration: 10
   cooldown: 25
+  throwForce: 10
   useStamina: 15
+  explosionDelay: 1
   buffEffect:
     attackSpeedMultiplier: 30
   debuffEffect:

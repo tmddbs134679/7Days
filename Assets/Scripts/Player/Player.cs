@@ -120,6 +120,20 @@ public class Player : MonoBehaviour
         playerStatus.SetItemStat(consumable.type, consumable.value);
     }
 
+    public void ThrowGrenade()
+    {
+        playerWeapon.CheckThrow();
+    }
+
+    public void StartAiming()
+    {
+        playerWeapon.StartAiming();
+    }
+
+    public void StopAiming()
+    {
+        playerWeapon.StopAiming();
+    }
     public void Dead()
     {
         IsDead = true;
