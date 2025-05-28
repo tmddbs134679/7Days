@@ -5048,6 +5048,23 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5947683717014089026, guid: fa25adfe071d71142944905b20694f38,
+        type: 3}
+      propertyPath: weapons.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947683717014089026, guid: fa25adfe071d71142944905b20694f38,
+        type: 3}
+      propertyPath: weapons.Array.data[0]
+      value: 
+      objectReference: {fileID: 857907295050315608, guid: 8b65eceb8f07eea45be3eca87f9c7968,
+        type: 3}
+    - target: {fileID: 5947683717014089026, guid: fa25adfe071d71142944905b20694f38,
+        type: 3}
+      propertyPath: weapons.Array.data[1]
+      value: 
+      objectReference: {fileID: 8145697788076273732, guid: ea3b4f3f349fb194281aa674f292871f,
+        type: 3}
     - target: {fileID: 6405524551783380993, guid: fa25adfe071d71142944905b20694f38,
         type: 3}
       propertyPath: m_ActionEvents.Array.size

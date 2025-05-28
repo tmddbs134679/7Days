@@ -8,7 +8,7 @@ public class PlayerWeaponHandler : MonoBehaviour
     [SerializeField] List<WeaponController> unlockWeapons = new List<WeaponController>();
     [SerializeField] WeaponController curWeapon;
     [SerializeField] Transform throwPoint;
-    
+
     private bool isAiming = false;
     private TrajectoryController trajectoryController;
 
@@ -28,7 +28,7 @@ public class PlayerWeaponHandler : MonoBehaviour
     public void UnlockWeapon(int idx)
     {
         GameObject obj = Instantiate(weapons[idx].gameObject, throwPoint);
-        obj.GetComponentInChildren<MeshRenderer>().enabled = false;
+        obj.transform.Find("Model").gameObject.SetActive(false);
 
         WeaponController weapon = obj.GetComponent<WeaponController>();
         weapon.Init(throwPoint);
@@ -40,13 +40,13 @@ public class PlayerWeaponHandler : MonoBehaviour
     {
         if (curWeapon != null)
         {
-            curWeapon.GetComponentInChildren<MeshRenderer>().enabled = false;
+            curWeapon.transform.Find("Model").gameObject.SetActive(false);
         }
 
         if (idx > -1 && idx < unlockWeapons.Count)
         {
             curWeapon = unlockWeapons[idx];
-            curWeapon.GetComponentInChildren<MeshRenderer>().enabled = true;
+            curWeapon.transform.Find("Model").gameObject.SetActive(true);
         }
     }
 
