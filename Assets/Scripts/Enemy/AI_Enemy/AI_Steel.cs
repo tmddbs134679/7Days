@@ -2,30 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI_Husk : AI_Base
+public class AI_Steel : AI_Base
 {
+    // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();
         Setting();
     }
-    public override void Attack(GameObject target)
-    {
-       
-    }
-
     protected override void Setting()
     {
         var idle = new AIIdleState(gameObject);
         var chase = new AIChasingState(gameObject, TestGameManager.Inst.testPlayer.transform);
         var attack = new AIAttackState(gameObject);
+        var dead = new AIDeadState(gameObject);
 
-        fsm.SetInitialState(idle);
-
-        //var dead = new AIDeadState(gameObject);
-        //fsm.AddAnyTransition(dead, () => GetComponent<Health>().CurrentHealth <= 0);
-
-        fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) < enemyData.chasingRange);
+       // fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, player.transform.position) < enemyData.chasingRange);
         fsm.AddTransition(idle, chase, () =>
         {
             if (DroneManager.HasAliveDrones)
@@ -33,6 +25,13 @@ public class AI_Husk : AI_Base
 
             return Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) < enemyData.chasingRange;
         });
-    }
 
+        fsm.AddAnyTransition(dead, () => GetComponent<Health>().IsDead);
+
+        fsm.SetInitialState(idle);
+    }
+    public override void Attack(GameObject target)
+    {
+
+    }
 }

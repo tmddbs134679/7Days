@@ -23,6 +23,7 @@ public class AI_Runner : AI_Base
         var idle = new AIIdleState(gameObject);
         var chase = new AIChasingState(gameObject, TestGameManager.Inst.testPlayer.transform);
         var attack = new AIAttackState(gameObject);
+        var dead = new AIDeadState(gameObject);
 
         fsm.SetInitialState(idle);
 
@@ -52,7 +53,10 @@ public class AI_Runner : AI_Base
             var t = attack.CurrentTarget;
             return t == null || !t.gameObject.activeInHierarchy;
         });
-       // fsm.AddTransition(attack, chase, () => Vector3.Distance(transform.position, chase.CurrentTarget.position) < enemyData.chasingRange);
+        // fsm.AddTransition(attack, chase, () => Vector3.Distance(transform.position, chase.CurrentTarget.position) < enemyData.chasingRange);
+
+        fsm.AddAnyTransition(dead, () => GetComponent<Health>().IsDead);
+
     }
 
 
