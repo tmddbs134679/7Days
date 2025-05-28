@@ -1,5 +1,6 @@
 public class Wall : BaseBuilding<BuildingData<BasicBuildingData>>
 {
+    BasicBuildingData basicBuildingData;
     protected override void Init()
     {
         // 데이터 받아오기
@@ -12,8 +13,24 @@ public class Wall : BaseBuilding<BuildingData<BasicBuildingData>>
     protected override void SetBuildingStatus()
     {
         // 해당 레벨에 맞는 데이터
-        var levelData = data.buildingDatas[level];
+        basicBuildingData = data.buildingDatas[level];
         // 레벨업으로 인한 최대 HP 증가
-        hpMax = levelData.hpMax;
+        hpMax = basicBuildingData.hpMax;
+    }
+
+    public override (BasicBuildingData, BuildingStatus) OnClick() => (basicBuildingData, new BuildingStatus(level, levelMax, hpCurrent));
+}
+
+public class BuildingStatus
+{
+    public int level, // 건물 레벨
+               levelMax; // 해당 건물 종류의 최대 레벨
+    public float hpCurrent; // 현재 체력
+
+    public BuildingStatus(int level, int levelMax, float hpCurrent)
+    {
+        this.level = level;
+        this.levelMax = levelMax;
+        this.hpCurrent = hpCurrent;
     }
 }

@@ -1,5 +1,7 @@
 public class DroneManagerOffice : BaseBuilding<BuildingData<WorkerOfficeData>>
 {
+    WorkerOfficeData workerOfficeData;
+
     protected override void Init()
     {
         // 데이터 받아오기
@@ -12,8 +14,16 @@ public class DroneManagerOffice : BaseBuilding<BuildingData<WorkerOfficeData>>
     protected override void SetBuildingStatus()
     {
         // 해당 레벨에 맞는 데이터
-        var levelData = data.buildingDatas[level];
+        workerOfficeData = data.buildingDatas[level];
         // 레벨업으로 인한 최대 HP 증가
-        hpMax = levelData.hpMax;
+        hpMax = workerOfficeData.hpMax;
+    }
+    public override (BasicBuildingData, BuildingStatus) OnClick() => (workerOfficeData, new WorkerOfficeStatus(level, levelMax, hpCurrent));
+}
+
+public class WorkerOfficeStatus : BuildingStatus
+{
+    public WorkerOfficeStatus(int level, int levelMax, float hpCurrent) : base(level, levelMax, hpCurrent)
+    {
     }
 }

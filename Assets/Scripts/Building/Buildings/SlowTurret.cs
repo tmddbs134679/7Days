@@ -1,5 +1,6 @@
 public class SlowTurret : BaseBuilding<BuildingData<DebuffTurretData>>
 {
+    DebuffTurretData debuffTurretData;
     protected override void Init()
     {
         // 데이터 받아오기
@@ -15,5 +16,13 @@ public class SlowTurret : BaseBuilding<BuildingData<DebuffTurretData>>
         var levelData = data.buildingDatas[level];
         // 레벨업으로 인한 최대 HP 증가
         hpMax = levelData.hpMax;
+    }
+    public override (BasicBuildingData, BuildingStatus) OnClick() => (debuffTurretData, new DebuffTurretStatus(level, levelMax, hpCurrent));
+}
+
+public class DebuffTurretStatus : BuildingStatus
+{
+    public DebuffTurretStatus(int level, int levelMax, float hpCurrent) : base(level, levelMax, hpCurrent)
+    {
     }
 }

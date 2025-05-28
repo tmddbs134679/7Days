@@ -65,25 +65,8 @@ public abstract class BaseBuilding<T> : MonoBehaviour
     // 최대 레벨인지 여부 반환 (건물 업그레이드 가능 체크에 사용)
     public bool isMaxLevel() => level.Equals(levelMax);
 
-    // 건물을 클릭했을 때 해당 메서드 호출 >> 데이터 반환
-    public virtual Status_BaseBuilding OnClick()
-    {
-        return new Status_BaseBuilding(level, levelMax, hpCurrent, hpMax);
-    }
-}
-
-public class Status_BaseBuilding
-{
-    public int level, // 건물 레벨
-               levelMax; // 해당 건물 종류의 최대 레벨
-    public float hpCurrent, // 현재 체력
-                 hpMax; // 현재 레벨의 최대 체력
-
-    public Status_BaseBuilding(int level, int levelMax, float hpCurrent, float hpMax)
-    {
-        this.level = level;
-        this.levelMax = levelMax;
-        this.hpCurrent = hpCurrent;
-        this.hpMax = hpMax;
-    }
+    // 건물을 클릭했을 때 해당 메서드 호출하기 >> 해당 건물의 데이터 반환
+    // commonData : 해당 건물 종류의 고정 데이터
+    // individualData : 건물 각각이 다르게 가질 수 있는 값
+    public abstract (BasicBuildingData commonData, BuildingStatus individualData) OnClick();
 }

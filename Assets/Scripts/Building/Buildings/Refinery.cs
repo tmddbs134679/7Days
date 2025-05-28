@@ -1,8 +1,16 @@
 using UnityEngine;
 
-public class Refinery : BaseBuilding<BuildingData<ProductionBuildingData>>
+// 상호작용 가능한 건물들에 부여
+public interface IInteractactble
+{
+    public abstract void OnInteract();
+}
+
+public class Refinery : BaseBuilding<BuildingData<ProductionBuildingData>>, IInteractactble
 {
     [SerializeField] InventoryManager inventoryManager;
+
+    public ProductionBuildingData productBuildingData { get; private set; }
     // 제작 진행 시간, 제작에 필요한 시간
     float progressTime, requireTime;
     // 생산된 양
@@ -50,4 +58,18 @@ public class Refinery : BaseBuilding<BuildingData<ProductionBuildingData>>
     
     // 생산한 아이템을 인벤토리에 넣게끔
     public void OnInteract() => inventoryManager.AddResource(data.buildingDatas[level].product, productAmount);
+
+    public override (BasicBuildingData, BuildingStatus) OnClick() => (productBuildingData, new ProductBuildingStatus(level, levelMax, hpCurrent, progressTime, productAmount));
+}
+
+public class ProductBuildingStatus : BuildingStatus
+{
+    public float progressTime; // 제작 진행 시간
+    public int productAmount; // 생산된 양
+
+    public ProductBuildingStatus(int level, int levelMax, float hpCurrent, float progressTime, int productAmount) : base(level, levelMax, hpCurrent)
+    {
+        this.progressTime = progressTime;
+        this.productAmount = productAmount;
+    }
 }

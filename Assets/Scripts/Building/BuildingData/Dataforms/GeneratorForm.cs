@@ -18,6 +18,6 @@ public class GeneratorForm : BaseBuildingForm<BuildingData<GeneratorData>>
 [Serializable]
 public class GeneratorData : BasicBuildingData
 {
-    [Header("발전기 정보")]
-    public float activeRange; // 발전기의 출력이 미치는 범위
+    [Header("발전기 정보"), Tooltip("발전기의 출력이 미치는 범위 = 건설 가능 범위")]
+    public float activeRange;
 }
