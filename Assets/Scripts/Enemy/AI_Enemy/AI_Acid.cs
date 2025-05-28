@@ -18,8 +18,9 @@ public class AI_Acid : AI_Base
         var idle = new AIIdleState(gameObject);
         var chase = new AIChasingState(gameObject, TestGameManager.Inst.testPlayer.transform);
         var attack = new AIAttackState(gameObject);
+        var dead = new AIDeadState(gameObject);
 
-        fsm.SetInitialState(idle);
+      
 
         fsm.AddTransition(idle, chase, () =>
         {
@@ -43,9 +44,11 @@ public class AI_Acid : AI_Base
         {
             var t = attack.CurrentTarget;
             return t == null || !t.activeInHierarchy;
-
-
         });
+
+        fsm.AddAnyTransition(dead, () => GetComponent<Health>().IsDead);
+
+        fsm.SetInitialState(idle);
     }
 
     public override void Attack(GameObject target)
@@ -75,7 +78,7 @@ public class AI_Acid : AI_Base
 
     private bool IsWallOrTurretNearby()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, enemyData.attackRange); // ÇÊ¿ä½Ã LayerMask ¼öÁ¤
+        Collider[] hits = Physics.OverlapSphere(transform.position, enemyData.attackRange); // í•„ìš”ì‹œ LayerMask ìˆ˜ì •
         foreach (var hit in hits)
         {
             if (hit.CompareTag("Wall") || hit.CompareTag("Turret"))

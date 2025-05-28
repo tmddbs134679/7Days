@@ -1,3 +1,4 @@
+using UnityEngine;
 public class Turret : BaseBuilding<BuildingData<TurretData>>
 {
     protected override void Init()
