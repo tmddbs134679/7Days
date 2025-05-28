@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, IDamageable
 {
 
     [SerializeField] private float health;
@@ -16,12 +16,29 @@ public class Health : MonoBehaviour
         this.health = maxHP;
     }
 
-    public void DealDamage(float dmg)
+    //public void DealDamage(float dmg)
+    //{
+    //    if (health == 0)
+    //        return;
+
+    //    health = Mathf.Max(health - dmg, 0);
+
+    //    OnTakeDamage?.Invoke();
+
+    //    if (health == 0)
+    //    {
+    //        OnDie?.Invoke();
+
+    //    }
+
+    //}
+
+    public void TakeDamage(float amount)
     {
         if (health == 0)
             return;
 
-        health = Mathf.Max(health - dmg, 0);
+        health = Mathf.Max(health - amount, 0);
 
         OnTakeDamage?.Invoke();
 
@@ -30,6 +47,5 @@ public class Health : MonoBehaviour
             OnDie?.Invoke();
 
         }
-
     }
 }

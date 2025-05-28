@@ -22,13 +22,13 @@ public class Projectile : MonoBehaviour
         if (other.gameObject == attacker) return;
 
         
-        if (other.TryGetComponent(out BaseBuilding<MonoBehaviour> target))
+        if (other.TryGetComponent(out IDamageable target))
         {
             // 중복 DoT 방지 (선택)
             if (other.GetComponent<DamageDotTime>() == null)
             {
                 var dot = other.gameObject.AddComponent<DamageDotTime>();
-                dot.Apply(target);
+                dot.Apply();
                
             }
 
