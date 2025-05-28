@@ -24,7 +24,7 @@ public class WeaponController : MonoBehaviour
     {
         if (weaponDataSO.weaponType == WeaponType.Buff)
         {
-            if (other.TryGetComponent(out BaseBuilding turret))
+            if (other.TryGetComponent(out Turret turret))
             {
                 if (!effectedTarget.Contains(turret.gameObject))
                 {
@@ -51,7 +51,7 @@ public class WeaponController : MonoBehaviour
     {
         if (weaponDataSO.weaponType == WeaponType.Buff)
         {
-            if (other.TryGetComponent(out BaseBuilding turret))
+            if (other.TryGetComponent(out Turret turret))
             {
                 if (effectedTarget.Contains(turret.gameObject))
                 {
