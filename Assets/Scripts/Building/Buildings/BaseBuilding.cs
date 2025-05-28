@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public enum BuildingIndex
@@ -24,7 +23,7 @@ public abstract class BaseBuilding<T> : MonoBehaviour
     protected float hpCurrent, // 현재 체력
                     hpMax; // 현재 레벨의 최대 체력
 
-    private void Start()
+    protected virtual void Start()
     {
         Init();
     }
@@ -62,4 +61,7 @@ public abstract class BaseBuilding<T> : MonoBehaviour
 
     // 수리
     public void Fix(float amount) => hpCurrent = Mathf.Clamp(hpCurrent + amount, 0, hpMax);
+
+    // 최대 레벨인지 여부 반환 (건물 업그레이드 가능 체크에 사용)
+    public bool isMaxLevel() => level.Equals(levelMax);
 }
