@@ -1,6 +1,8 @@
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public enum PlayerState
 {
@@ -67,6 +69,8 @@ public class Player : MonoBehaviour, IDamageable
         IsDead = false;
         OnBattle = true;
     }
+
+
 
     void FixedUpdate()
     {
