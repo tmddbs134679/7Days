@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: BuffWeapon
   m_EditorClassIdentifier: 
   weaponType: 0
-  range: 10
+  range: 6
   duration: 10
-  cooldown: 1
+  cooldown: 25
   useStamina: 15
   explosionDelay: 0.5
   buffEffect:

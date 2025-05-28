@@ -126,9 +126,10 @@ public class Player : MonoBehaviour, IDamageable
         playerWeapon.CheckThrow();
     }
 
-    /// <summary>
-    /// 무기 조준 시작
-    /// </summary>
+    public void SelectWeapon(int idx)
+    {
+        playerWeapon.ChangeWeapon(idx);
+    }
     public void StartAiming()
     {
         playerWeapon.StartAiming();

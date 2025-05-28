@@ -50,7 +50,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buffEffect: {fileID: 8524153478235943522, guid: ff6a3768457eaec4f820ca3f7772b9d1,
     type: 3}
-  effectedTargets: []
 --- !u!136 &1267077489720973417
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -183,7 +182,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: a2482f9d46800c64abafbe8383e84e51, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

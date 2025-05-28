@@ -7,7 +7,7 @@ public class WeaponController : MonoBehaviour
     public WeaponDataSO WeaponDataSO { get => weaponDataSO; }
     [SerializeField] GameObject grenadePrefab;
     Transform throwPoint;
-    private bool isCoolDown;
+    [SerializeField] private bool isCoolDown;
     public bool IsCoolDown { get => isCoolDown; }
 
     public void Init(Transform throwPoint)
@@ -38,5 +38,4 @@ public class WeaponController : MonoBehaviour
 
         isCoolDown = false;
     }
-
 }

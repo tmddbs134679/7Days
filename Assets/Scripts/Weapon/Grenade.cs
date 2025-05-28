@@ -117,7 +117,7 @@ public class Grenade : MonoBehaviour
             case WeaponType.Debuff:
                 if (target.TryGetComponent(out AI_Base enemy))
                 {
-                    // 적 감소 효과 제거
+                    // 적 디버프 제거
                     enemy.RemoveBuff();
                 }
                 break;
@@ -137,10 +137,5 @@ public class Grenade : MonoBehaviour
         }
 
         return effect;
-    }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(transform.position, weaponDataSO.range);
     }
 }

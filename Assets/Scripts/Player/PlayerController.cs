@@ -118,6 +118,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnSelectWeapon(InputAction.CallbackContext context)
+    {
+        if (context.phase != InputActionPhase.Started) return;
+
+        string keyString = context.control.name;
+
+        if (int.TryParse(keyString, out int keyNum))
+        {
+            int weaponIdx = keyNum == 5 ? 0 : 1;
+
+            player.SelectWeapon(weaponIdx);
+        }
+    }
+
     public void OnThrow(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
