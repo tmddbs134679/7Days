@@ -372,7 +372,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2237758194652697973, guid: a626198b83ce92d47b2caa7b7acfc70e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -681,6 +682,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   formList:
+  - {fileID: 11400000, guid: e86e12a0f521aa844a06cfe8fa712a5c, type: 2}
+  - {fileID: 11400000, guid: eb607c389717e464097bda953cebc9d3, type: 2}
+  - {fileID: 11400000, guid: c49ba4a0f37c46f4590409fc1b3f65fc, type: 2}
+  - {fileID: 11400000, guid: f1e7d29d596264149b5ea3397f63cd3f, type: 2}
+  - {fileID: 11400000, guid: f289582b9cc9f354991369ae54d29940, type: 2}
   - {fileID: 11400000, guid: 771e1ff439d7ed147a7ec3e1f9f906f4, type: 2}
 --- !u!4 &1287446772
 Transform:

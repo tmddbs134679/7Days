@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 3750957465003519269}
   - component: {fileID: 9219236839027749432}
   - component: {fileID: 9089591248906987185}
+  - component: {fileID: 5777375339236341065}
   m_Layer: 0
   m_Name: Stealth
   m_TagString: Untagged
@@ -318,3 +319,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7a31e3d7fb513f429dcdff9fdb9b415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5777375339236341065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124220903192209986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171f5e6710bb7c64794f2e65233b7196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0

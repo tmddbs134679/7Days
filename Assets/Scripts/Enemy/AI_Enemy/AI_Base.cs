@@ -38,5 +38,19 @@ public abstract class AI_Base : MonoBehaviour
 
     protected abstract void Setting();
 
-     
+
+    // 버프 적용 [speed만 있어서 일단 이렇게 적용]
+    public void ApplyBuff(float multiplier)
+    {
+        agent.speed *= multiplier;
+    }
+
+    // 버프 해제
+    public void RemoveBuff()
+    {
+        agent.speed = enemyData.moveSpeed;
+    }
+
+
+
 }

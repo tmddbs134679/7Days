@@ -16,7 +16,9 @@ MonoBehaviour:
   range: 0
   duration: 0
   cooldown: 0
+  throwForce: 10
   useStamina: 0
+  explosionDelay: 1
   buffEffect:
     attackSpeedMultiplier: 0
   debuffEffect:

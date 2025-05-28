@@ -23,6 +23,7 @@ public class AI_Spine : AI_Base
         var chase = new AIChasingState(gameObject, TestGameManager.Inst.testPlayer.transform);
         var attack = new AIAttackState(gameObject);
         var overWall = new AIOverWallState(gameObject, TestGameManager.Inst.testPlayer.transform);
+        var dead = new AIDeadState(gameObject);
 
         fsm.SetInitialState(idle);
 
@@ -34,5 +35,7 @@ public class AI_Spine : AI_Base
 
         fsm.AddTransition(overWall, idle, () => overWall.IsClimbComplete);
         //fsm.AddTransition(attack, chase, () => Vector3.Distance(transform.position, player.transform.position) > attackRange);
+        fsm.AddAnyTransition(dead, () => GetComponent<Health>().IsDead);
+
     }
 }

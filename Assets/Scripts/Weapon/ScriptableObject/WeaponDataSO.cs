@@ -25,6 +25,7 @@ public class WeaponDataSO : ScriptableObject
     public float duration;    
     public float cooldown;
     public float useStamina;
+    public float explosionDelay;
 
     [Header("Effect")]
     public BuffEffect buffEffect;

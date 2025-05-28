@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,7 +11,7 @@ public enum PlayerState
     Vehicle
 }
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     private Rigidbody _rigidbody;
     private PlayerInput playerInput; // PlayerInput
@@ -58,7 +59,7 @@ public class Player : MonoBehaviour
         if (playerVehicle)
             playerVehicle.Init(this);
         if (playerWeapon)
-            playerWeapon.Init(this);
+            playerWeapon.Init(playerStatus);
 
         curState = PlayerState.Idle;
 
@@ -98,7 +99,7 @@ public class Player : MonoBehaviour
 
     public void SetVehicle(VehicleController vehicle)
     {
-        _rigidbody.isKinematic = curState != PlayerState.Vehicle ? true : false;
+        _rigidbody.isKinematic = curState != PlayerState.Vehicle;
         playerVehicle.SetVehicle(vehicle, playerInput);
     }
 
@@ -120,8 +121,34 @@ public class Player : MonoBehaviour
         playerStatus.SetItemStat(consumable.type, consumable.value);
     }
 
+    public void ThrowGrenade()
+    {
+        playerWeapon.CheckThrow();
+    }
+
+    /// <summary>
+    /// 무기 조준 시작
+    /// </summary>
+    public void StartAiming()
+    {
+        playerWeapon.StartAiming();
+    }
+
+    public void StopAiming()
+    {
+        playerWeapon.StopAiming();
+    }
+
+    public void TakeDamage(float amount)
+    {
+        playerStatus.TakeDamage(amount);
+    }
+
     public void Dead()
     {
+        StopAllCoroutines();
         IsDead = true;
     }
+
+    
 }

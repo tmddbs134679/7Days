@@ -18,13 +18,14 @@ GameObject:
   - component: {fileID: 426860212979595419}
   - component: {fileID: 1808254490822127902}
   - component: {fileID: 2116843323758582622}
+  - component: {fileID: 8911345502631872770}
   m_Layer: 0
   m_Name: Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3664390733848408680
 Transform:
   m_ObjectHideFlags: 0
@@ -33,7 +34,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8320420875000842671}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.6995922, z: -0, w: 0.7145425}
+  m_LocalRotation: {x: 0, y: 0.6995947, z: 0, w: 0.7145399}
   m_LocalPosition: {x: -18.26, y: 1.1, z: 28.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -305,3 +306,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 5d94a3774699ddc49aadf9e2df3cb66e, type: 2}
   player: {fileID: 0}
+--- !u!114 &8911345502631872770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8320420875000842671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 171f5e6710bb7c64794f2e65233b7196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
