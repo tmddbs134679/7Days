@@ -1,8 +1,5 @@
-using JetBrains.Annotations;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 
 public enum PlayerState
 {
@@ -10,13 +7,16 @@ public enum PlayerState
     Walk,
     Dash,
     Gathering,
-    Vehicle
+    Throw,
+    Vehicle,
+    Death
 }
 
 public class Player : MonoBehaviour, IDamageable
 {
     private Rigidbody _rigidbody;
     private PlayerInput playerInput; // PlayerInput
+    private Animator anim;
 
     // Player Data
     [SerializeField] private PlayerDataSO playerDataSO;
@@ -27,7 +27,9 @@ public class Player : MonoBehaviour, IDamageable
     private PlayerStatus playerStatus; // 플레이어 스탯 관련
     private PlayerMovement playerMovement; // 플레이어 이동 관련
     private PlayerVehicleHandler playerVehicle; // 탈 것 관리
-    public PlayerWeaponHandler playerWeapon; // 무기 관리
+    private PlayerWeaponHandler playerWeapon; // 무기 관리
+    private PlayerAnimationHandler playerAnimation; // 애니메이션 관리
+    private PlayerAudioHandler playerAudio; // 사운드 관리
 
     [SerializeField] PlayerState curState;
     public PlayerState CurState { get => curState; } // 플레이어 상태
@@ -35,6 +37,7 @@ public class Player : MonoBehaviour, IDamageable
     // Player Events
     public PlayerEventHandler PlayerEvents { get; private set; }
 
+    public bool CanMove => CurState != PlayerState.Vehicle && CurState != PlayerState.Gathering && CurState != PlayerState.Death && CurState != PlayerState.Throw;
     public bool CanDash { get; set; }
     public bool IsDead { get; private set; }
     public bool OnBattle { get; private set; }
@@ -43,44 +46,51 @@ public class Player : MonoBehaviour, IDamageable
     {
         _rigidbody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
+        anim = GetComponent<Animator>();
 
         PlayerEvents = new PlayerEventHandler();
 
+        playerAnimation = GetComponent<PlayerAnimationHandler>();
         playerController = GetComponent<PlayerController>();
         playerStatus = GetComponent<PlayerStatus>();
         playerMovement = GetComponent<PlayerMovement>();
         playerVehicle = GetComponent<PlayerVehicleHandler>();
         playerWeapon = GetComponent<PlayerWeaponHandler>();
+        playerAudio = GetComponent<PlayerAudioHandler>();
 
+        if (playerAnimation)
+            playerAnimation.Init(anim);
         if (playerController)
             playerController.Init(this);
         if (playerStatus)
             playerStatus.Init(this);
         if (playerMovement)
-            playerMovement.Init(this, _rigidbody);
+            playerMovement.Init(this, _rigidbody, playerAnimation);
         if (playerVehicle)
-            playerVehicle.Init(this);
+            playerVehicle.Init(this, playerAnimation);
         if (playerWeapon)
-            playerWeapon.Init(this,playerStatus);
+            playerWeapon.Init(this, playerStatus, playerAnimation);
+        if (playerAudio)
+            playerAudio.Init();
 
         curState = PlayerState.Idle;
 
         CanDash = true;
         IsDead = false;
         OnBattle = true;
+        
+        playerAnimation.SetDash(IsDead);
     }
-
-
 
     void FixedUpdate()
     {
-        if (CurState != PlayerState.Vehicle && CurState != PlayerState.Gathering)
+        if (CanMove)
             playerMovement.Move(playerController.MoveDirection, playerStatus.MoveSpeed);
     }
 
     void Update()
     {
-        if (CurState != PlayerState.Vehicle && CurState != PlayerState.Gathering)
+        if (CanMove)
             playerMovement.Rotate(playerController.LookDirection);
     }
 
@@ -105,22 +115,24 @@ public class Player : MonoBehaviour, IDamageable
     {
         playerVehicle.CallVehicle();
     }
-    
+
     public void SetVehicle(VehicleController vehicle)
     {
         _rigidbody.isKinematic = curState != PlayerState.Vehicle;
         playerVehicle.SetVehicle(vehicle, playerInput);
     }
 
-    public void GatherResource(Resource resource)
+    public void GatheringResource(Resource resource)
     {
         if (playerStatus.UseStamina(playerDataSO.GatherStamina))
         {
             ChangeState(PlayerState.Gathering);
+            playerAnimation.SetGathering(true);
 
             StartCoroutine(resource.GetResource(() =>
             {
                 ChangeState(PlayerState.Idle);
+                playerAnimation.SetGathering(false);
             }));
         }
     }
@@ -135,11 +147,11 @@ public class Player : MonoBehaviour, IDamageable
         playerWeapon.CheckThrow();
     }
 
-    public void UnlockWeapon(int idx)
+    public void UnlockWeapon(WeaponType type)
     {
-        playerWeapon.UnlockWeapon(idx);
+        playerWeapon.UnlockWeapon(type);
     }
-    
+
     public void SelectWeapon(int idx)
     {
         playerWeapon.ChangeWeapon(idx);
@@ -158,11 +170,15 @@ public class Player : MonoBehaviour, IDamageable
     public void TakeDamage(float amount)
     {
         playerStatus.TakeDamage(amount);
+        playerAnimation.Hit();
     }
 
     public void Dead()
     {
         StopAllCoroutines();
         IsDead = true;
+        playerAnimation.SetDeath();
+
+        ChangeState(PlayerState.Death);
     }
 }

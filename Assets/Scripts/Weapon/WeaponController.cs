@@ -45,4 +45,9 @@ public class WeaponController : MonoBehaviour
 
         isCoolDown = false;
     }
+
+    public WeaponType GetWeaponType()
+    {
+        return weaponDataSO.weaponType;
+    }
 }

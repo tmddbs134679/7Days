@@ -58,10 +58,13 @@ public class PlayerStatus : MonoBehaviour
 
     // 체력 회복량
     private float healthRecoverPerInterval;
+    private float staminaRecoverPerInterval;
     #endregion
 
-    private bool CanHeal => curStamina >= conditionSO.MinConditionToHeal && curHealth < maxHealth;
-    private bool IsDanger => curStamina <= conditionSO.MinStaminaToDecay || curHydration <= conditionSO.MinHydrationToDecay;
+    private bool CanHeal { get => curStamina >= conditionSO.HealthRecoveryThreshold && curHealth < maxHealth; }
+    private bool CanRecoverStamina { get => curHydration >= conditionSO.StaminaRecoveryThreshold && curStamina < maxStamina; }
+    private bool IsDanger { get => curStamina <= conditionSO.MinStaminaToDecay || curHydration <= conditionSO.MinHydrationToDecay; }
+
 
     public void Init(Player player)
     {
@@ -80,6 +83,7 @@ public class PlayerStatus : MonoBehaviour
         hydrationDecayPerInterval = conditionSO.HydrationDecayPerInterval;
 
         healthRecoverPerInterval = conditionSO.HealthRecoverPerInterval;
+        staminaRecoverPerInterval = conditionSO.StaminaDecayPerInterval;
 
         interval = conditionSO.Interval;
 
@@ -94,6 +98,11 @@ public class PlayerStatus : MonoBehaviour
 
             if (player.CurState == PlayerState.Walk)
                 CurStamina -= staminaDecayPerInterval;
+
+            if (CanRecoverStamina)
+            {
+                CurStamina += staminaRecoverPerInterval;
+            }
 
             if (CanHeal)
             {
@@ -115,7 +124,9 @@ public class PlayerStatus : MonoBehaviour
         CurHealth -= amount;
 
         if (CurHealth <= 0)
+        {
             player.Dead();
+        }
     }
 
     public bool UseStamina(float amount)

@@ -17,7 +17,9 @@ MonoBehaviour:
   staminaDecayPerInterval: 0.2
   hydrationDecayPerInterval: 0.1
   healthRecoverPerInterval: 0.5
-  minConditionToHeal: 70
+  staminaRecoverPerInterval: 1
+  healthRecoveryThreshold: 30
+  staminaRecoveryThreshold: 10
   minStaminaToDecay: 10
   minHydrationToDecay: 20
   moveSpeedPenalty: 1.5

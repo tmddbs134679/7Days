@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (player.IsDead) return;
+
         if (context.phase == InputActionPhase.Performed)
         {
             Vector2 moveInput = context.ReadValue<Vector2>();
@@ -36,6 +38,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnDash(InputAction.CallbackContext context)
     {
+        if (player.IsDead) return;
+
         if (context.phase == InputActionPhase.Started)
         {
             player.Dash();
@@ -44,6 +48,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnLook(InputAction.CallbackContext context)
     {
+        if (player.IsDead) return;
+
         Vector2 mouseScreenPos = context.ReadValue<Vector2>();
 
         Ray ray = cam.ScreenPointToRay(mouseScreenPos);
@@ -68,6 +74,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext context)
     {
+        if (player.IsDead) return;
+
         if (context.phase == InputActionPhase.Started)
         {
             // 현재 탈 것 탑승중이면 해제
@@ -89,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
                 else if (hit.collider.TryGetComponent(out Resource resource))
                 {
-                    player.GatherResource(resource);
+                    player.GatheringResource(resource);
                 }
             }
         }
@@ -97,6 +105,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnCallVehicle(InputAction.CallbackContext context)
     {
+        if (player.IsDead) return;
+
         if (context.phase == InputActionPhase.Started)
         {
             player.CallVehicle();
@@ -105,6 +115,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnCommand(InputAction.CallbackContext context)
     {
+        if (player.IsDead) return;
+
         if (context.phase == InputActionPhase.Started)
         {
 
@@ -113,6 +125,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnSelectSlot(InputAction.CallbackContext context)
     {
+        if (player.IsDead) return;
+
         if (context.phase != InputActionPhase.Started) return;
 
         string keyString = context.control.name;
@@ -122,12 +136,14 @@ public class PlayerController : MonoBehaviour
             int slotIdx = keyNum - 1;
 
             // 선택한 슬롯 인덱스 이벤트 호출
-            player.PlayerEvents.RaisedSeletSlot(slotIdx);
+            player.PlayerEvents.RaisedSelectSlot(slotIdx);
         }
     }
 
     public void OnSelectWeapon(InputAction.CallbackContext context)
     {
+        if (player.IsDead) return;
+
         if (context.phase != InputActionPhase.Started) return;
 
         string keyString = context.control.name;
@@ -142,6 +158,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnThrow(InputAction.CallbackContext context)
     {
+        if (player.IsDead) return;
+
         if (context.phase == InputActionPhase.Started)
         {
             player.ThrowGrenade();
@@ -150,6 +168,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnStartAiming(InputAction.CallbackContext context)
     {
+        if (player.IsDead || player.CurState == PlayerState.Gathering) return;
+
         if (context.phase == InputActionPhase.Started)
         {
             player.StartAiming();
@@ -158,6 +178,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnStopAiming(InputAction.CallbackContext context)
     {
+        if (player.IsDead) return;
+
         if (context.phase == InputActionPhase.Started)
         {
             player.StopAiming();
