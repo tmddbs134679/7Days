@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-public class GeneratorManager : MonoBehaviour
+public class GeneratorManager : Singleton<GeneratorManager>
 {
     // 필드에 설치된 발전기들
     List<Generator> generators = new List<Generator>();
