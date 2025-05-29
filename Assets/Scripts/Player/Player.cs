@@ -29,6 +29,7 @@ public class Player : MonoBehaviour, IDamageable
     private PlayerVehicleHandler playerVehicle; // 탈 것 관리
     private PlayerWeaponHandler playerWeapon; // 무기 관리
     private PlayerAnimationHandler playerAnimation; // 애니메이션 관리
+    private PlayerAudioHandler playerAudio; // 사운드 관리
 
     [SerializeField] PlayerState curState;
     public PlayerState CurState { get => curState; } // 플레이어 상태
@@ -55,6 +56,7 @@ public class Player : MonoBehaviour, IDamageable
         playerMovement = GetComponent<PlayerMovement>();
         playerVehicle = GetComponent<PlayerVehicleHandler>();
         playerWeapon = GetComponent<PlayerWeaponHandler>();
+        playerAudio = GetComponent<PlayerAudioHandler>();
 
         if (playerAnimation)
             playerAnimation.Init(anim);
@@ -68,7 +70,8 @@ public class Player : MonoBehaviour, IDamageable
             playerVehicle.Init(this, playerAnimation);
         if (playerWeapon)
             playerWeapon.Init(this, playerStatus, playerAnimation);
-
+        if (playerAudio)
+            playerAudio.Init();
 
         curState = PlayerState.Idle;
 

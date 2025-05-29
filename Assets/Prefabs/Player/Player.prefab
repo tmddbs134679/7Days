@@ -1937,6 +1937,7 @@ GameObject:
   - component: {fileID: 4435518168140403343}
   - component: {fileID: 228338296607648976}
   - component: {fileID: 9150300794316735265}
+  - component: {fileID: 8577047115873724712}
   - component: {fileID: 1116126209046886868}
   m_Layer: 10
   m_Name: Player
@@ -2320,6 +2321,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnOffset: {x: 1, y: -1, z: 1}
+--- !u!114 &8577047115873724712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6833490445572759189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 905a56f223f730f45adf2e200a8f3e7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &1116126209046886868
 Animator:
   serializedVersion: 5
