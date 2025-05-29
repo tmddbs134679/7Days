@@ -27,6 +27,7 @@ public class UI_QuickSlot : UI_Scene
     public override void Init()
     {
         base.Init();
+        ClearSlot();
     }
 
     public void SetSlot(Sprite icon, float cooldown)
@@ -35,6 +36,7 @@ public class UI_QuickSlot : UI_Scene
         this.lastUsedTime = -cooldown; 
         iconImage.sprite = icon;
         cooldownOverlay.sprite = icon;
+        iconImage.fillAmount = 1;
         cooldownOverlay.fillAmount = 1f;
     }
     public void SetSlot(ItemInfo info, float cooldown)
@@ -43,6 +45,7 @@ public class UI_QuickSlot : UI_Scene
         this.lastUsedTime = -cooldown;
         iconImage.sprite = info.data.icon;
         cooldownOverlay.sprite = info.data.icon;
+        iconImage.fillAmount = 1;
         cooldownOverlay.fillAmount = 1f;
         stackTxt.gameObject.SetActive(true);
         stackTxt.text = info.count.ToString();
@@ -51,8 +54,10 @@ public class UI_QuickSlot : UI_Scene
     {
         iconImage.sprite = baseIcon;
         cooldownOverlay.sprite = baseIcon;
-        cooldownOverlay.fillAmount = 1f;
-        stackTxt.gameObject.SetActive(false);
+        iconImage.fillAmount = 0;
+        cooldownOverlay.fillAmount = 0f;
+        if(stackTxt != null)
+            stackTxt.gameObject.SetActive(false);
     }
     public void UpdateStack(ItemInfo info)
     {
