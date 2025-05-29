@@ -21,7 +21,7 @@ public class UI_FloatType : UI_Scene
     {
         base.Init();
         Bind<TextMeshProUGUI>(typeof(TMP));
-        inventoryManager = T_PC.instance.inventoryManager;
+        inventoryManager = InventoryManager.instance;
         countTxt = Get<TextMeshProUGUI>((int)TMP.CountTxt);
         switch (type)
         {

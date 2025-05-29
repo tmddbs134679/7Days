@@ -103,7 +103,7 @@ public class Player : MonoBehaviour, IDamageable
             float dashSpeed = playerDataSO.DashSpeed;
             float duration = playerDataSO.DashDuration;
             float cooldown = playerDataSO.DashCoolDown;
-
+            PlayerEvents.RaisedDash();
             StartCoroutine(playerMovement.DashCoroutine(playerController.LookDirection, dashSpeed, duration, cooldown));
         }
     }

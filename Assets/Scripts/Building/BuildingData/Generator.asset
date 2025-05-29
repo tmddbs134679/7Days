@@ -18,7 +18,7 @@ MonoBehaviour:
     description: "\uBC94\uC704 \uB0B4 \uAC74\uBB3C\uC5D0 \uC804\uAE30\uB97C \uACF5\uAE09\uD558\uC5EC
       \uC791\uB3D9\uD558\uAC8C\uB054 \uD569\uB2C8\uB2E4."
     sprite: {fileID: 0}
-    buildingDatas:
+    dataByLevel:
     - time: 15
       hpMax: 200
       resources:
