@@ -41,14 +41,15 @@ public class Player : MonoBehaviour, IDamageable
     public bool CanDash { get; set; }
     public bool IsDead { get; private set; }
     public bool OnBattle { get; private set; }
-
+    private void Awake()
+    {
+        PlayerEvents = new PlayerEventHandler();
+    }
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
         anim = GetComponent<Animator>();
-
-        PlayerEvents = new PlayerEventHandler();
 
         playerAnimation = GetComponent<PlayerAnimationHandler>();
         playerController = GetComponent<PlayerController>();
@@ -124,7 +125,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void GatheringResource(Resource resource)
     {
-        if (playerStatus.UseStamina(playerDataSO.GatherStamina))
+        if (curState != PlayerState.Gathering && playerStatus.UseStamina(playerDataSO.GatherStamina))
         {
             ChangeState(PlayerState.Gathering);
             playerAnimation.SetGathering(true);
@@ -144,7 +145,8 @@ public class Player : MonoBehaviour, IDamageable
 
     public void ThrowGrenade()
     {
-        playerWeapon.CheckThrow();
+        if(curState != PlayerState.Throw)
+            playerWeapon.CheckThrow();
     }
 
     public void UnlockWeapon(WeaponType type)
