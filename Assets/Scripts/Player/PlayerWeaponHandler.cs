@@ -14,7 +14,7 @@ public class PlayerWeaponHandler : MonoBehaviour
     [SerializeField] Transform throwPoint;
 
     private bool isAiming = false;
-    
+
     public void Init(Player player, PlayerStatus playerStatus, PlayerAnimationHandler playerAnim)
     {
         this.player = player;
@@ -109,5 +109,7 @@ public class PlayerWeaponHandler : MonoBehaviour
             player.ChangeState(PlayerState.Idle);
             playerAnim.SetThrow(false);
         }
+
+        player.PlayerEvents.RaisedWeaponUsed(curWeapon.GetWeaponType());
     }
 }
