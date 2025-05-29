@@ -15,9 +15,8 @@ MonoBehaviour:
   resourceName: "\uACE0\uCCA0"
   description: "\uAE30\uBCF8 \uAC74\uCD95 \uC790\uC6D0"
   type: 2
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: cd9b64a853241f442a7325bf226c0a31, type: 3}
   canStack: 1
   maxStackAmount: 999
   consumables: []
-  equipable: []
   equipPrefab: {fileID: 0}
