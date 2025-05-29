@@ -41,14 +41,15 @@ public class Player : MonoBehaviour, IDamageable
     public bool CanDash { get; set; }
     public bool IsDead { get; private set; }
     public bool OnBattle { get; private set; }
-
+    private void Awake()
+    {
+        PlayerEvents = new PlayerEventHandler();
+    }
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
         anim = GetComponent<Animator>();
-
-        PlayerEvents = new PlayerEventHandler();
 
         playerAnimation = GetComponent<PlayerAnimationHandler>();
         playerController = GetComponent<PlayerController>();

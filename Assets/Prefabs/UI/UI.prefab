@@ -129,6 +129,23 @@ PrefabInstance:
       propertyPath: quickSlotManager
       value: 
       objectReference: {fileID: 6722189234006346363}
+    - target: {fileID: 6074516384797537116, guid: f57aaba8233d2be45965ad993b00c196,
+        type: 3}
+      propertyPath: weaponDataSO.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074516384797537116, guid: f57aaba8233d2be45965ad993b00c196,
+        type: 3}
+      propertyPath: weaponDataSO.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3fce2f1d3bd48964a8aaf73e89f30083,
+        type: 2}
+    - target: {fileID: 6074516384797537116, guid: f57aaba8233d2be45965ad993b00c196,
+        type: 3}
+      propertyPath: weaponDataSO.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1474a64bce5b35b47a2d8b2d3d6f6b46,
+        type: 2}
     - target: {fileID: 7070067360046191489, guid: f57aaba8233d2be45965ad993b00c196,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -276,6 +293,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: UI_Scene
+      objectReference: {fileID: 0}
+    - target: {fileID: 6298097919815513190, guid: 0d38e9214d7c4c54abf8fd5bf4da81da,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6862675894427980254, guid: 0d38e9214d7c4c54abf8fd5bf4da81da,
         type: 3}
