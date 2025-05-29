@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerWeaponHandler : MonoBehaviour
 {
     PlayerStatus playerStatus;
-    [SerializeField] WeaponController[] weapons;
+    [SerializeField] WeaponController[] weapons; // 나중에 Resources 에서 가져오는 걸로
     [SerializeField] List<WeaponController> unlockWeapons = new List<WeaponController>();
     [SerializeField] WeaponController curWeapon;
     [SerializeField] Transform throwPoint;
@@ -20,7 +20,7 @@ public class PlayerWeaponHandler : MonoBehaviour
         UnlockWeapon(1);
 
         trajectoryController = GetComponentInChildren<TrajectoryController>();
-    
+
         if (trajectoryController)
             trajectoryController.Init(throwPoint);
     }
@@ -28,9 +28,9 @@ public class PlayerWeaponHandler : MonoBehaviour
     public void UnlockWeapon(int idx)
     {
         GameObject obj = Instantiate(weapons[idx].gameObject, throwPoint);
-        obj.transform.Find("Model").gameObject.SetActive(false);
 
         WeaponController weapon = obj.GetComponent<WeaponController>();
+        weapon.ShowModel(false);
         weapon.Init(throwPoint);
 
         unlockWeapons.Add(weapon);
@@ -40,13 +40,13 @@ public class PlayerWeaponHandler : MonoBehaviour
     {
         if (curWeapon != null)
         {
-            curWeapon.transform.Find("Model").gameObject.SetActive(false);
+            curWeapon.ShowModel(false);
         }
 
         if (idx > -1 && idx < unlockWeapons.Count)
         {
             curWeapon = unlockWeapons[idx];
-            curWeapon.transform.Find("Model").gameObject.SetActive(true);
+            curWeapon.ShowModel(true);
         }
     }
 
@@ -71,7 +71,7 @@ public class PlayerWeaponHandler : MonoBehaviour
         isAiming = false;
         trajectoryController.Hide();
 
-        Vector3 direction = trajectoryController.GetAimDirection(out float force);
+        Vector3 direction = trajectoryController.GetAimDirectionForce(out float force);
         curWeapon.ThrowWeapon(direction, force);
     }
 }

@@ -6,6 +6,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] WeaponDataSO weaponDataSO;
     public WeaponDataSO WeaponDataSO { get => weaponDataSO; }
     [SerializeField] GameObject grenadePrefab;
+    [SerializeField] GameObject modelObject;
     Transform throwPoint;
     [SerializeField] private bool isCoolDown;
     public bool IsCoolDown { get => isCoolDown; }
@@ -14,6 +15,12 @@ public class WeaponController : MonoBehaviour
     {
         isCoolDown = false;
         this.throwPoint = throwPoint;
+    }
+
+    public void ShowModel(bool isShow)
+    {
+        if (modelObject != null)
+            modelObject.SetActive(isShow);
     }
 
     public void ThrowWeapon(Vector3 direction, float force)

@@ -131,6 +131,7 @@ MonoBehaviour:
   weaponDataSO: {fileID: 11400000, guid: 1474a64bce5b35b47a2d8b2d3d6f6b46, type: 2}
   grenadePrefab: {fileID: 580658849767384148, guid: 0192e70469602c740bee7b7a40f05615,
     type: 3}
+  modelObject: {fileID: 5597562123163871843}
   isCoolDown: 0
 --- !u!1 &4017937575987126179
 GameObject:

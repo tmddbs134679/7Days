@@ -135,10 +135,16 @@ public class Player : MonoBehaviour, IDamageable
         playerWeapon.CheckThrow();
     }
 
+    public void UnlockWeapon(int idx)
+    {
+        playerWeapon.UnlockWeapon(idx);
+    }
+    
     public void SelectWeapon(int idx)
     {
         playerWeapon.ChangeWeapon(idx);
     }
+
     public void StartAiming()
     {
         playerWeapon.StartAiming();
