@@ -15,7 +15,7 @@ MonoBehaviour:
   resourceName: "\uD68C\uB85C \uC870\uAC01"
   description: "\uC804\uC790 \uAD6C\uC870\uBB3C\uC5D0 \uD544\uC694\uD55C \uBD80\uD488"
   type: 2
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 18ecec775d670a44c9f728f0d73e63a6, type: 3}
   canStack: 1
   maxStackAmount: 999
   consumables: []

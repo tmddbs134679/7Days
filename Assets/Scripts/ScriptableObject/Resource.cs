@@ -37,7 +37,7 @@ public class Resource : MonoBehaviour
         {
             for (int i = 0; i < deductItem.Length; i++)
             {
-                if (inventory.itemList[deductItem[i].resourceName].count < dedcuctCount[i])
+                if (inventory.itemList[deductItem[i].name].count < dedcuctCount[i])
                 {
                     Debug.Log("재료가 부족합니다.");
                     yield break;
