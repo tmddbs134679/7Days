@@ -20,13 +20,13 @@ TagManager:
   - 
   - Player
   - Weapon
+  - Vehicle
   - 
   - 
   - 
-  - 
-  - 
+  - GeneratorZone
   - Ground
-  - 
+  - Building
   - Minimap
   - 
   - 
