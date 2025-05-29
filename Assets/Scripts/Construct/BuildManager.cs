@@ -97,8 +97,8 @@ public class BuildManager : MonoBehaviour
         buildingScript.enabled = true;
         // enabled를 true로 만들고 바로 자원을 차감하려면 먹히지 않기에 1프레임 대기
         yield return null;
-        // 건설 자원 차감 
-        buildingScript.ResourceConsumption(0);
+        // 건설 자원 차감 !!! 병합 후 주석 풀고 테스트
+        // buildingScript.ResourceConsumption(0);
         // 청사진 기능 해제 및 제거
         buildingBluePrint.WhenBuildComplete();
         // 발전기들의 전력 공급 가능 범위 표시 끄기

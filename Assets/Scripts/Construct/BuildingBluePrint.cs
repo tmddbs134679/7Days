@@ -49,8 +49,11 @@ public class BuildingBluePrint : MonoBehaviour
             col.isTrigger = true;
 
         // 해당 건물이 발전기를 필요로 하는 것이라면, 이를 기억
-       if(TryGetComponent(out buildingRequireEnegy))
+        if (TryGetComponent(out buildingRequireEnegy))
+        {
             isNeedGenerator = true;
+            ChangeNotConstructable(); // 발전기 존이 필요한 건물은 초기에 건설 불가로
+        }
     }
 
     // 건물 설치 완료 때 호출하여 청사진 기능 해제 및 제거
@@ -70,21 +73,12 @@ public class BuildingBluePrint : MonoBehaviour
     // 겹치는지 여부 판정 및 색상 변화
     private void OnTriggerEnter(Collider other)
     {
-        // 발전기를 필요로 하는 건물이고
-        if(isNeedGenerator)
-        {
-            // 발전기 존과 땅이 아닌 것에 들어갔다면
-            if(other.gameObject.layer != generatorZoneLayer && other.gameObject.layer != groundLayer)
-            {
-                // 건설 불가 판정
-                ChangeNotConstructable(other);
-            }
-        }
-        // 발전기를 필요로 하지 않고, 땅이 아닌 충돌체와 닿았다면
-        else if (other.gameObject.layer != groundLayer)
+        // 발전기 존과 땅이 아닌 것에 들어갔다면
+        if (other.gameObject.layer != generatorZoneLayer && other.gameObject.layer != groundLayer)
         {
             // 건설 불가 판정
-            ChangeNotConstructable(other);
+            ChangeNotConstructable();
+            colliders.Add(other);
         }
     }
 
@@ -97,35 +91,29 @@ public class BuildingBluePrint : MonoBehaviour
             if (colliders.Count.Equals(0) && other.gameObject.layer == generatorZoneLayer)
             {
                 // 건설 가능
-                CanConstruct = true;
-                meshRenderer.material.color = originColor;
+                ChangeToConstructable();
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        // 발전기를 요구하는 건물이고
-        if(isNeedGenerator)
-        {
-            // 땅, 발전기 적용 영역이 아닌 충돌체가 빠져나갔다면
-            if(other.gameObject.layer != groundLayer && other.gameObject.layer != generatorZoneLayer)
-            {
-                // 트리거에서 나간 콜라이더는 리스트에서 제거
-                colliders.Remove(other);
-            }
-        }
-        // 발전기를 요구하지 않는 건물이고, 땅이 아닌 충돌체가 트리거에서 나갔다면
-        else if (other.gameObject.layer != LayerMask.NameToLayer(groundLayerName))
+        // 발전기 존과 땅이 아닌 것이 나갔다면
+        if (other.gameObject.layer != generatorZoneLayer && other.gameObject.layer != groundLayer)
         {
             // 트리거에서 나간 콜라이더는 리스트에서 제거
             colliders.Remove(other);
-            // 트리거 내 콜라이더가 0개라면 설치 가능한 상태로
+            // 발전기가 필요한 건물이 아니고, 트리거 내 콜라이더가 0개라면 설치 가능한 상태로
             if (colliders.Count.Equals(0))
             {
-                CanConstruct = true;
-                meshRenderer.material.color = originColor;
+                ChangeToConstructable();
             }
+        }
+
+        // 발전기가 필요한 건물이 발전기 영역 내에서 나가면 설치 불가
+        if(isNeedGenerator && other.gameObject.layer == generatorZoneLayer)
+        {
+            ChangeNotConstructable();
         }
     }
 
@@ -141,15 +129,15 @@ public class BuildingBluePrint : MonoBehaviour
     }
 
     // 건설 불가 판정 및 표시
-    void ChangeNotConstructable(Collider other)
+    void ChangeNotConstructable()
     {
         CanConstruct = false;
         meshRenderer.material.color *= Color.red;
-        colliders.Add(other);
     }
-
-    private void OnDestroy()
+    // 건설 불가 판정 및 표시
+    void ChangeToConstructable()
     {
-        
+        CanConstruct = true;
+        meshRenderer.material.color = originColor;
     }
 }
