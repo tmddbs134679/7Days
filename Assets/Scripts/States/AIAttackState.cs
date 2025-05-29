@@ -10,13 +10,16 @@ public class AIAttackState : AIState
     private float attackCooldown;
     private float lastAttackTime = Mathf.NegativeInfinity; // 마지막 공격 시간
     public GameObject CurrentTarget => target;
+    private readonly int AttackHas = Animator.StringToHash("Attack");
+    private const float CrossFadeDuration = 0.1f;
     public AIAttackState(GameObject owner) : base(owner)
     {
     }
 
     public override void Enter()
     {
-       // SetTarget(target);
+        owner.GetComponent<Animator>().CrossFadeInFixedTime(AttackHas, CrossFadeDuration);
+        // SetTarget(target);
         Debug.Log("Attack");
 
         if (owner.TryGetComponent(out NavMeshAgent agent))

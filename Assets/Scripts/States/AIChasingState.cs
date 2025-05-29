@@ -14,6 +14,10 @@ public class AIChasingState : AIState
     private float wallDetectDistance;
     private bool hasAssignedWallOffset = false;
     private Vector3 targetOffsetPosition;
+    private readonly int RunHas = Animator.StringToHash("Run");
+    private const float CrossFadeDuration = 0.1f;
+
+
     public AIChasingState(GameObject owner, Transform target) : base(owner)
     {
         SO_EnemyAI data = owner.GetComponent<AI_Base>().enemyData;
@@ -31,6 +35,7 @@ public class AIChasingState : AIState
 
     public override void Enter()
     {
+        owner.GetComponent<Animator>().CrossFadeInFixedTime(RunHas, CrossFadeDuration);
         hasAssignedWallOffset = false;
  
         Debug.Log("Chasing");

@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class AIIdleState : AIState
 {
+    private readonly int IdleHas = Animator.StringToHash("Idle");
+    private const float CrossFadeDuration = 0.1f;
+
     public AIIdleState(GameObject owner) : base(owner)
     {
+        owner.GetComponent<Animator>().CrossFadeInFixedTime(IdleHas, CrossFadeDuration);
     }
 
     public override void Enter()

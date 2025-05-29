@@ -41,7 +41,13 @@ public class AI_Runner : AI_Base
 
             return dist < enemyData.attackRange;
         });
-
+        fsm.AddTransition(attack, chase, () =>
+        {
+            var t = attack.CurrentTarget;
+            return t == null
+                || !t.activeInHierarchy
+                || Vector3.Distance(transform.position, t.transform.position) > enemyData.attackRange;
+        });
         fsm.AddTransition(attack, idle, () =>
         {
             var t = attack.CurrentTarget;
