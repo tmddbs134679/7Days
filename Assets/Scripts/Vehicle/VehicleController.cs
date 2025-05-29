@@ -1,4 +1,3 @@
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,7 +6,6 @@ public class VehicleController : MonoBehaviour
     [SerializeField] VehicleDataSO vehicleDataSO;
     [SerializeField] private Transform mountPos;
     VehicleAudioHandler vehicleAudio;
-
     public Transform MountPos { get => mountPos; }
 
     // Vehicle Stats

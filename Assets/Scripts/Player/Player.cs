@@ -124,7 +124,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void GatheringResource(Resource resource)
     {
-        if (playerStatus.UseStamina(playerDataSO.GatherStamina))
+        if (curState != PlayerState.Gathering && playerStatus.UseStamina(playerDataSO.GatherStamina))
         {
             ChangeState(PlayerState.Gathering);
             playerAnimation.SetGathering(true);
@@ -144,7 +144,8 @@ public class Player : MonoBehaviour, IDamageable
 
     public void ThrowGrenade()
     {
-        playerWeapon.CheckThrow();
+        if(curState != PlayerState.Throw)
+            playerWeapon.CheckThrow();
     }
 
     public void UnlockWeapon(WeaponType type)
