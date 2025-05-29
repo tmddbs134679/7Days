@@ -24,6 +24,7 @@ public class UI_Inventory : UI_Popup
     private TextMeshProUGUI nameTxt;
     private TextMeshProUGUI descriptionTxt;
     private Button useBtn;
+    private Button closeBtn;
     private Button quickBtn;
     private Button deductBtn;
     private Button deductAllBtn;
@@ -46,6 +47,7 @@ public class UI_Inventory : UI_Popup
     }
     enum Buttons
     {
+        CloseBtn,
         UseBtn,
         QuickBtn,
         DeductBtn,
@@ -76,7 +78,7 @@ public class UI_Inventory : UI_Popup
     private void Start()
     {
         // 초기화
-        base.Init();
+        //base.Init();
 
         setQuickBtn = new Button[quickSlotCount];
 
@@ -91,6 +93,7 @@ public class UI_Inventory : UI_Popup
         nameTxt = Get<TextMeshProUGUI>((int)TMPs.Detail_Name);
         descriptionTxt = Get<TextMeshProUGUI>((int)TMPs.Detail_Description);
         useBtn = Get<Button>((int)Buttons.UseBtn);
+        closeBtn = Get<Button>((int)Buttons.CloseBtn);
         quickBtn = Get<Button>((int)Buttons.QuickBtn);
         deductBtn = Get<Button>((int)Buttons.DeductBtn);
         deductAllBtn = Get<Button>((int)Buttons.DeductAllBtn);
@@ -109,6 +112,7 @@ public class UI_Inventory : UI_Popup
         deductBtn.onClick.AddListener(OnDeductItem);
         deductAllBtn.onClick.AddListener(OnDeductAllItem);
         quickBtn.onClick.AddListener(OnSetQuickSlot);
+        closeBtn.onClick.AddListener(inventoryManager.OnInventory);
 
         for (int i = 0; i < quickSlotCount; i++)
         {
