@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] WeaponDataSO weaponDataSO;
+    [SerializeField] public WeaponDataSO weaponDataSO;
     public WeaponDataSO WeaponDataSO { get => weaponDataSO; }
     [SerializeField] GameObject grenadePrefab;
     [SerializeField] GameObject modelObject;
