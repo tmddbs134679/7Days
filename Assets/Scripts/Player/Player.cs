@@ -22,7 +22,6 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] private PlayerDataSO playerDataSO;
     public PlayerDataSO PlayerDataSO { get => playerDataSO; }
 
-
     private PlayerController playerController; // 플레이어 인풋 관련
     private PlayerStatus playerStatus; // 플레이어 스탯 관련
     private PlayerMovement playerMovement; // 플레이어 이동 관련
@@ -81,7 +80,7 @@ public class Player : MonoBehaviour, IDamageable
         CanDash = true;
         IsDead = false;
         OnBattle = true;
-        
+
         playerAnimation.SetDash(IsDead);
     }
 
@@ -136,6 +135,8 @@ public class Player : MonoBehaviour, IDamageable
 
     public void GatheringResource(Resource resource)
     {
+        if (!resource.CheckCanGatherResource()) return;
+        
         if (curState != PlayerState.Gathering && playerStatus.UseStamina(playerDataSO.GatherStamina))
         {
             ChangeState(PlayerState.Gathering);
@@ -156,7 +157,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void ThrowGrenade()
     {
-        if(curState != PlayerState.Throw)
+        if (curState != PlayerState.Throw)
             playerWeapon.CheckThrow();
     }
 
@@ -198,7 +199,7 @@ public class Player : MonoBehaviour, IDamageable
         StopAllCoroutines();
         IsDead = true;
         playerAnimation.SetDeath();
-        
+
         ChangeState(PlayerState.Death);
     }
 }

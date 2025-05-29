@@ -55,7 +55,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         StartCoroutine(HitCoroutine(onCompleted));
     }
 
-    IEnumerator HitCoroutine(Action OnCompleted)
+    IEnumerator HitCoroutine(Action onCompleted)
     {
         float time = 0f;
         float t = 0f;
@@ -83,6 +83,6 @@ public class PlayerAnimationHandler : MonoBehaviour
             renderer.material.color = Color.white;
         }
 
-        OnCompleted?.Invoke();
+        onCompleted?.Invoke();
     }
 }

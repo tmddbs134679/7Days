@@ -484,6 +484,14 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public bool CheckContainItem(string name)
+    {
+        if (itemList.ContainsKey(name))
+            return true;
+        else
+            return false;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.I))

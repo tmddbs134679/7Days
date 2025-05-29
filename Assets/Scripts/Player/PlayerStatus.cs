@@ -65,7 +65,6 @@ public class PlayerStatus : MonoBehaviour
     private bool CanRecoverStamina { get => curHydration >= conditionSO.StaminaRecoveryThreshold && curStamina < maxStamina; }
     private bool IsDanger { get => curStamina <= conditionSO.MinStaminaToDecay || curHydration <= conditionSO.MinHydrationToDecay; }
 
-
     public void Init(Player player)
     {
         this.player = player;

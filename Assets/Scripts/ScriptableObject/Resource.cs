@@ -22,7 +22,6 @@ public class Resource : MonoBehaviour
     public int[] dedcuctCount;
     bool deduct;
 
- 
     private void Start()
     {
         parentObject = transform.parent.gameObject;
@@ -40,6 +39,7 @@ public class Resource : MonoBehaviour
                 if (inventory.itemList[deductItem[i].name].count < dedcuctCount[i])
                 {
                     Debug.Log("재료가 부족합니다.");
+                    onCompleted?.Invoke();
                     yield break;
                 }
                 else deduct = true;
@@ -56,6 +56,23 @@ public class Resource : MonoBehaviour
         parentObject.SetActive(false);
 
         onCompleted?.Invoke();
+    }
+
+    public bool CheckCanGatherResource()
+    {
+        if (deductItem.Length > 0)
+        {
+            for (int i = 0; i < deductItem.Length; i++)
+            {
+                if (!inventory.CheckContainItem(deductItem[i].name) || inventory.itemList[deductItem[i].name].count < dedcuctCount[i])
+                {
+                    Debug.Log("재료가 부족합니다.");
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     IEnumerator DigResource() //  AI 자원 채굴
