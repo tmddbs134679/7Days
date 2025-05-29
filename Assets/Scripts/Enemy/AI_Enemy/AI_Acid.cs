@@ -6,6 +6,7 @@ public class AI_Acid : AI_Base
 {
     private GameObject rangedTarget;
     [SerializeField] private GameObject projectilePrefab;
+    private GameObject target;
 
     protected override void Start()
     {
@@ -53,27 +54,10 @@ public class AI_Acid : AI_Base
 
     public override void Attack(GameObject target)
     {
-       // Debug.Log("acid attack");
+        // Debug.Log("acid attack");
 
-        // 시간 남으면 따로 뺴기
-        if (projectilePrefab == null || target == null)
-            return;
-
-        Vector3 spawnPos = transform.position + Vector3.up;
-        Vector3 targetPos = target.transform.position;
-
-
-        Vector3 launchVelocity = CalculateLaunchVelocity(spawnPos, targetPos, 2);
-
-        if (launchVelocity == Vector3.zero)
-        {
-            Debug.LogWarning("Target out of range or invalid launch");
-            return;
-        }
-
-        GameObject proj = GameObject.Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
-        proj.GetComponent<Projectile>().Init(gameObject);
-        proj.GetComponent<Rigidbody>().velocity = launchVelocity;
+        if (target == null)
+            this.target = target;
 
     }
 
@@ -106,5 +90,28 @@ public class AI_Acid : AI_Base
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, enemyData.attackRange);
+    }
+
+    public void AnimAttack()
+    {
+       
+        if (projectilePrefab == null || rangedTarget == null)
+            return;
+
+        Vector3 spawnPos = transform.position + Vector3.up + Vector3.forward;
+        Vector3 targetPos = rangedTarget.transform.position;
+
+
+        Vector3 launchVelocity = CalculateLaunchVelocity(spawnPos, targetPos, 2);
+
+        if (launchVelocity == Vector3.zero)
+        {
+            Debug.LogWarning("Target out of range or invalid launch");
+            return;
+        }
+
+        GameObject proj = GameObject.Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+        proj.GetComponent<Projectile>().Init(gameObject);
+        proj.GetComponent<Rigidbody>().velocity = launchVelocity;
     }
 }
