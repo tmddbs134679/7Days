@@ -115,7 +115,9 @@ public class PlayerStatus : MonoBehaviour
         CurHealth -= amount;
 
         if (CurHealth <= 0)
+        {
             player.Dead();
+        }
     }
 
     public bool UseStamina(float amount)

@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class PlayerWeaponHandler : MonoBehaviour
 {
+    Player player;
     PlayerStatus playerStatus;
+    PlayerAnimationHandler playerAnim;
+
     [SerializeField] WeaponController[] weapons; // 나중에 Resources 에서 가져오는 걸로
     [SerializeField] List<WeaponController> unlockWeapons = new List<WeaponController>();
     [SerializeField] WeaponController curWeapon;
@@ -12,14 +15,16 @@ public class PlayerWeaponHandler : MonoBehaviour
     private bool isAiming = false;
     private TrajectoryController trajectoryController;
 
-    public void Init(PlayerStatus playerStatus)
+    public void Init(Player player, PlayerStatus playerStatus, PlayerAnimationHandler playerAnim)
     {
+        this.player = player;
         this.playerStatus = playerStatus;
+        this.playerAnim = playerAnim;
 
         UnlockWeapon(0);
         UnlockWeapon(1);
 
-        trajectoryController = GetComponentInChildren<TrajectoryController>();
+        trajectoryController = transform.parent.GetComponentInChildren<TrajectoryController>();
 
         if (trajectoryController)
             trajectoryController.Init(throwPoint);
@@ -68,10 +73,26 @@ public class PlayerWeaponHandler : MonoBehaviour
     {
         if (!isAiming || !playerStatus.UseStamina(curWeapon.WeaponDataSO.useStamina)) return;
 
+        if (player.CurState != PlayerState.Vehicle)
+        {
+            player.ChangeState(PlayerState.Throw);
+            playerAnim.PlayThrow();
+        }
+        else
+        {
+            ThrowGrenade();
+        }
+    }
+
+    public void ThrowGrenade()
+    {
         isAiming = false;
         trajectoryController.Hide();
 
         Vector3 direction = trajectoryController.GetAimDirectionForce(out float force);
         curWeapon.ThrowWeapon(direction, force);
+
+        if(player.CurState != PlayerState.Vehicle)
+            player.ChangeState(PlayerState.Idle);
     }
 }
