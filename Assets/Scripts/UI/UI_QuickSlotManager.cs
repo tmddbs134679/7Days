@@ -7,6 +7,8 @@ using static UnityEditor.Progress;
 
 public class UI_QuickSlotManager : MonoBehaviour
 {
+    private PlayerEventHandler eventHandler;
+    private PlayerDataSO playerData;
     // 대쉬 이미지는 고정
     [SerializeField] private Sprite dashSprite;
     [SerializeField] private UI_QuickSlot[] itemSlots;
@@ -15,8 +17,12 @@ public class UI_QuickSlotManager : MonoBehaviour
 
     private void Start()
     {
-        T_PC.instance.inventoryManager.quickSlotManager = this;
-        SetDashSlot(2.0f); // 추후 변경
+        playerData = InventoryManager.instance.player.PlayerDataSO;
+        eventHandler= InventoryManager.instance.player.PlayerEvents;
+        InventoryManager.instance.quickSlotManager = this;
+        SetDashSlot(playerData.DashCoolDown);
+
+        eventHandler.onDash += OnDash;
     }
 
     public void SetItemSlot(int index, ItemInfo info, float cooldown = 0)
@@ -50,4 +56,6 @@ public class UI_QuickSlotManager : MonoBehaviour
     {
         itemSlots[index].UpdateStack(info);
     }
+
+
 }
