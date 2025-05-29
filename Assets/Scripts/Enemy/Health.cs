@@ -22,23 +22,6 @@ public class Health : MonoBehaviour, IDamageable
         this.health = maxHP;
     }
 
-    //public void DealDamage(float dmg)
-    //{
-    //    if (health == 0)
-    //        return;
-
-    //    health = Mathf.Max(health - dmg, 0);
-
-    //    OnTakeDamage?.Invoke();
-
-    //    if (health == 0)
-    //    {
-    //        OnDie?.Invoke();
-
-    //    }
-
-    //}
-
     public void TakeDamage(float amount)
     {
         if (health == 0)

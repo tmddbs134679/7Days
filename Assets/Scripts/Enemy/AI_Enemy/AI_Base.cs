@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.UI.GridLayoutGroup;
+using Random = UnityEngine.Random;
 
 public abstract class AI_Base : MonoBehaviour
 {
@@ -15,8 +16,9 @@ public abstract class AI_Base : MonoBehaviour
     public GameObject player;
     private Health health;
 
+    private float shakeDuration = 0.5f;
+    private float magnitude = 0.05f;
 
-    public abstract void Attack(GameObject target);
     protected virtual void Awake()
     {
         health = GetComponent<Health>();
@@ -30,6 +32,19 @@ public abstract class AI_Base : MonoBehaviour
         }
 
     }
+
+    protected virtual void OnEnable()
+    {
+        health.OnTakeDamage += DamageEffect;
+    }
+
+
+
+    protected virtual void OnDisable()
+    {
+        health.OnTakeDamage -= DamageEffect;
+    }
+
 
     protected virtual void Start()
     {
@@ -45,6 +60,7 @@ public abstract class AI_Base : MonoBehaviour
     {
         fsm.Tick();
     }
+    public abstract void Attack(GameObject target);
 
     protected abstract void Setting();
 
@@ -61,6 +77,25 @@ public abstract class AI_Base : MonoBehaviour
         agent.speed = enemyData.moveSpeed;
     }
 
+    private void DamageEffect()
+    {
+        StartCoroutine(Shake(0.2f, 0.1f));  // 지속시간, 진폭
+    }
 
+    private IEnumerator Shake(float v1, float v2)
+    {
+        Vector3 originalPos = transform.localPosition;
+        float elapsed = 0f;
 
+        while (elapsed < shakeDuration)
+        {
+            float offsetX = Random.Range(-1f, 1f) * magnitude;
+            transform.localPosition = originalPos + new Vector3(offsetX, 0, 0);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.localPosition = originalPos;
+    }
 }

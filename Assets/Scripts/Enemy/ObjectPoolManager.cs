@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObjectPoolManager : MonoBehaviour
 {
     public static ObjectPoolManager Inst;
-
+    private Transform aIPool;
     [System.Serializable]
     public class Pool
     {
@@ -23,6 +23,9 @@ public class ObjectPoolManager : MonoBehaviour
         Inst = this;
         poolDict = new Dictionary<EENEMYTYPE, Queue<GameObject>>();
 
+        aIPool = new GameObject("aIPool").transform;
+        aIPool.SetParent(transform); 
+
         foreach (var pool in pools)
         {
             var type = pool.prefab.GetComponent<AI_Base>().enemyData.type;
@@ -31,7 +34,7 @@ public class ObjectPoolManager : MonoBehaviour
             var queue = new Queue<GameObject>();
             for (int i = 0; i < pool.initialSize; i++)
             {
-                var obj = Instantiate(pool.prefab);
+                var obj = Instantiate(pool.prefab, aIPool);
                 obj.SetActive(false);
                 queue.Enqueue(obj);
             }

@@ -37,15 +37,6 @@ public class AIFlyingChaseState : AIState
         CurrentTarget = SelectTarget();
 
         owner.transform.position += dir * speed * Time.deltaTime;
-
-        //if (IsWallInFront(out Transform wall))
-        //{
-        //    if (CurrentTarget != wall)
-        //    {
-        //        CurrentTarget = wall;
-        //    }
-        //    return;
-        //}
     }
 
     public override void Exit()
