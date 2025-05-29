@@ -27,12 +27,10 @@ public abstract class AI_Base : MonoBehaviour
         animator =  GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
-        if (TryGetComponent(out NavMeshAgent agent))
+        if (TryGetComponent(out agent))
         {
-            agent = GetComponent<NavMeshAgent>();
             agent.speed = enemyData.moveSpeed;
         }
-
     }
 
     protected virtual void OnEnable()

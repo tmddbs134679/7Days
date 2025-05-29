@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -58,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
         player.ChangeState(PlayerState.Idle);
         playerAnim.SetDash(false);
 
+        player.OnInvincible = false;
+        
         // 대시 쿨타임 적용
         yield return new WaitForSeconds(cooldown);
         player.CanDash = true;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -49,12 +50,12 @@ public class PlayerAnimationHandler : MonoBehaviour
         anim.SetBool(IsGathering, isGathering);
     }
 
-    public void Hit()
+    public void Hit(Action onCompleted)
     {
-        StartCoroutine(HitCoroutine());
+        StartCoroutine(HitCoroutine(onCompleted));
     }
 
-    IEnumerator HitCoroutine()
+    IEnumerator HitCoroutine(Action OnCompleted)
     {
         float time = 0f;
         float t = 0f;
@@ -81,5 +82,7 @@ public class PlayerAnimationHandler : MonoBehaviour
         {
             renderer.material.color = Color.white;
         }
+
+        OnCompleted?.Invoke();
     }
 }

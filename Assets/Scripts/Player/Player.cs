@@ -41,6 +41,8 @@ public class Player : MonoBehaviour, IDamageable
     public bool CanDash { get; set; }
     public bool IsDead { get; private set; }
     public bool OnBattle { get; private set; }
+    public bool OnInvincible { get; set; }
+
     private void Awake()
     {
         PlayerEvents = new PlayerEventHandler();
@@ -100,14 +102,23 @@ public class Player : MonoBehaviour, IDamageable
         curState = state;
     }
 
+    public void StopVelocity()
+    {
+        _rigidbody.velocity = Vector3.zero;
+    }
+
     public void Dash()
     {
         if (CanDash && CurState != PlayerState.Vehicle && playerStatus.UseStaminaAndHydration(playerDataSO.DashStamina, playerDataSO.DashHydration))
         {
+            PlayerEvents.RaisedDash();
+
+            OnInvincible = true;
+
             float dashSpeed = playerDataSO.DashSpeed;
             float duration = playerDataSO.DashDuration;
             float cooldown = playerDataSO.DashCoolDown;
-            PlayerEvents.RaisedDash();
+
             StartCoroutine(playerMovement.DashCoroutine(playerController.LookDirection, dashSpeed, duration, cooldown));
         }
     }
@@ -171,18 +182,23 @@ public class Player : MonoBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
+        if (OnInvincible) return;
+
+        OnInvincible = true;
         playerStatus.TakeDamage(amount);
-        playerAnimation.Hit();
+        playerAnimation.Hit(() => OnInvincible = false);
     }
 
     public void Dead()
     {
         if (IsDead) return;
-        
+
+        StopVelocity();
+
         StopAllCoroutines();
         IsDead = true;
         playerAnimation.SetDeath();
-
+        
         ChangeState(PlayerState.Death);
     }
 }
