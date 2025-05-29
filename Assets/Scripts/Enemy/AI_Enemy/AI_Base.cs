@@ -70,12 +70,14 @@ public abstract class AI_Base : MonoBehaviour
     // 버프 적용 [speed만 있어서 일단 이렇게 적용]
     public void ApplyBuff(float multiplier)
     {
+        Debug.Log("DeBuff Apply");
         agent.speed *= multiplier;
     }
 
     // 버프 해제
     public void RemoveBuff()
     {
+        Debug.Log("DeBuff hh");
         agent.speed = enemyData.moveSpeed;
     }
 

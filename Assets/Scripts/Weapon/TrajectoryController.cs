@@ -20,8 +20,8 @@ public class TrajectoryController : MonoBehaviour
         Hide();
     }
 
-    public void Show() => trajectoryLine.enabled = true;
-    public void Hide() => trajectoryLine.enabled = false;
+    public void Show() => gameObject.SetActive(true);
+    public void Hide() => gameObject.SetActive(false);
 
     void Update()
     {
