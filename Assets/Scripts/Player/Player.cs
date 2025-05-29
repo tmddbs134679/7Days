@@ -27,7 +27,7 @@ public class Player : MonoBehaviour, IDamageable
     private PlayerStatus playerStatus; // 플레이어 스탯 관련
     private PlayerMovement playerMovement; // 플레이어 이동 관련
     private PlayerVehicleHandler playerVehicle; // 탈 것 관리
-    private PlayerWeaponHandler playerWeapon; // 무기 관리
+    public PlayerWeaponHandler playerWeapon; // 무기 관리
 
     [SerializeField] PlayerState curState;
     public PlayerState CurState { get => curState; } // 플레이어 상태
@@ -61,7 +61,7 @@ public class Player : MonoBehaviour, IDamageable
         if (playerVehicle)
             playerVehicle.Init(this);
         if (playerWeapon)
-            playerWeapon.Init(playerStatus);
+            playerWeapon.Init(this,playerStatus);
 
         curState = PlayerState.Idle;
 

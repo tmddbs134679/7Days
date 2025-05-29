@@ -611,6 +611,18 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 66253d30bc42cae4d9f76ad2f0492963, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &447342192 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3320162663656616329, guid: 0d38e9214d7c4c54abf8fd5bf4da81da,
+    type: 3}
+  m_PrefabInstance: {fileID: 1348498562}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d708de00219dce47803cdbbe635cb89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &459962976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2042,7 +2054,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3251981719790927476, guid: f57aaba8233d2be45965ad993b00c196, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3495,7 +3508,7 @@ PrefabInstance:
     - target: {fileID: 8634701569432130999, guid: 1fcec9937f1cd924eaf2314de4da6998,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3769,6 +3782,45 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 488337468722307336, guid: 0d38e9214d7c4c54abf8fd5bf4da81da,
+        type: 3}
+      propertyPath: SkillASprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 46f8e920ae5eb184cadd6aeb2f1df88f,
+        type: 3}
+    - target: {fileID: 488337468722307336, guid: 0d38e9214d7c4c54abf8fd5bf4da81da,
+        type: 3}
+      propertyPath: SkillBSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c6b2d7023ea7ddf4f9e2ecf8f1e57736,
+        type: 3}
+    - target: {fileID: 488337468722307336, guid: 0d38e9214d7c4c54abf8fd5bf4da81da,
+        type: 3}
+      propertyPath: skillASprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 46f8e920ae5eb184cadd6aeb2f1df88f,
+        type: 3}
+    - target: {fileID: 488337468722307336, guid: 0d38e9214d7c4c54abf8fd5bf4da81da,
+        type: 3}
+      propertyPath: skillBSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c6b2d7023ea7ddf4f9e2ecf8f1e57736,
+        type: 3}
+    - target: {fileID: 488337468722307336, guid: 0d38e9214d7c4c54abf8fd5bf4da81da,
+        type: 3}
+      propertyPath: itemSlots.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 488337468722307336, guid: 0d38e9214d7c4c54abf8fd5bf4da81da,
+        type: 3}
+      propertyPath: itemSlots.Array.data[5]
+      value: 
+      objectReference: {fileID: 447342192}
+    - target: {fileID: 488337468722307336, guid: 0d38e9214d7c4c54abf8fd5bf4da81da,
+        type: 3}
+      propertyPath: itemSlots.Array.data[6]
+      value: 
+      objectReference: {fileID: 2028066659}
     - target: {fileID: 798265242592270882, guid: 0d38e9214d7c4c54abf8fd5bf4da81da,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -4094,7 +4146,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7887249013897100855, guid: 0d38e9214d7c4c54abf8fd5bf4da81da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -5919,6 +5972,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2004329219}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2028066659 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1064400144742439331, guid: 0d38e9214d7c4c54abf8fd5bf4da81da,
+    type: 3}
+  m_PrefabInstance: {fileID: 1348498562}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d708de00219dce47803cdbbe635cb89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2059731789
 GameObject:
   m_ObjectHideFlags: 0
@@ -6347,7 +6412,7 @@ Transform:
   m_GameObject: {fileID: 5313052803012608907}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.09, y: 0.24999988, z: -7.55}
+  m_LocalPosition: {x: 3.09, y: 0.24999988, z: 0.48}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:

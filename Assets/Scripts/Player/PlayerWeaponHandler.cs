@@ -4,18 +4,19 @@ using UnityEngine;
 public class PlayerWeaponHandler : MonoBehaviour
 {
     PlayerStatus playerStatus;
-    [SerializeField] WeaponController[] weapons; // 나중에 Resources 에서 가져오는 걸로
+    [SerializeField] public WeaponController[] weapons; // 나중에 Resources 에서 가져오는 걸로
     [SerializeField] List<WeaponController> unlockWeapons = new List<WeaponController>();
     [SerializeField] WeaponController curWeapon;
     [SerializeField] Transform throwPoint;
-
+    private  PlayerEventHandler playerEvents;
+    private int curWeaponIdx = -1;
     private bool isAiming = false;
     private TrajectoryController trajectoryController;
 
-    public void Init(PlayerStatus playerStatus)
+    public void Init(Player player, PlayerStatus playerStatus)
     {
         this.playerStatus = playerStatus;
-
+        playerEvents = player.PlayerEvents;
         UnlockWeapon(0);
         UnlockWeapon(1);
 
@@ -46,6 +47,7 @@ public class PlayerWeaponHandler : MonoBehaviour
         if (idx > -1 && idx < unlockWeapons.Count)
         {
             curWeapon = unlockWeapons[idx];
+            curWeaponIdx = idx;
             curWeapon.ShowModel(true);
         }
     }
@@ -70,6 +72,16 @@ public class PlayerWeaponHandler : MonoBehaviour
 
         isAiming = false;
         trajectoryController.Hide();
+
+        switch (curWeaponIdx)
+        {
+            case 0:
+                playerEvents.RaisedSkillA();
+                break;
+            case 1:
+                playerEvents.RaisedSkillB();
+                break;
+        }
 
         Vector3 direction = trajectoryController.GetAimDirectionForce(out float force);
         curWeapon.ThrowWeapon(direction, force);
