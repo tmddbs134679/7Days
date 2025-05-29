@@ -64,9 +64,15 @@ public class Resource : MonoBehaviour
         {
             for (int i = 0; i < deductItem.Length; i++)
             {
-                if (!inventory.CheckContainItem(deductItem[i].name) || inventory.itemList[deductItem[i].name].count < dedcuctCount[i])
+                if (!inventory.CheckContainItem(deductItem[i].name))
                 {
-                    Debug.Log("재료가 부족합니다.");
+                    Debug.Log("재료가 없어요~");
+                    return false;
+                }
+
+                if (inventory.itemList[deductItem[i].name].count < dedcuctCount[i])
+                {
+                    Debug.Log("재료가 부족해요~");
                     return false;
                 }
             }
