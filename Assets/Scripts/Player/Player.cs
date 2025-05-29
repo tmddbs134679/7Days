@@ -1,6 +1,8 @@
+using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public enum PlayerState
 {
@@ -68,6 +70,8 @@ public class Player : MonoBehaviour, IDamageable
         OnBattle = true;
     }
 
+
+
     void FixedUpdate()
     {
         if (CurState != PlayerState.Vehicle && CurState != PlayerState.Gathering)
@@ -92,11 +96,16 @@ public class Player : MonoBehaviour, IDamageable
             float dashSpeed = playerDataSO.DashSpeed;
             float duration = playerDataSO.DashDuration;
             float cooldown = playerDataSO.DashCoolDown;
-
+            PlayerEvents.RaisedDash();
             StartCoroutine(playerMovement.DashCoroutine(playerController.LookDirection, dashSpeed, duration, cooldown));
         }
     }
 
+    public void CallVehicle()
+    {
+        playerVehicle.CallVehicle();
+    }
+    
     public void SetVehicle(VehicleController vehicle)
     {
         _rigidbody.isKinematic = curState != PlayerState.Vehicle;
@@ -126,9 +135,16 @@ public class Player : MonoBehaviour, IDamageable
         playerWeapon.CheckThrow();
     }
 
-    /// <summary>
-    /// 무기 조준 시작
-    /// </summary>
+    public void UnlockWeapon(int idx)
+    {
+        playerWeapon.UnlockWeapon(idx);
+    }
+    
+    public void SelectWeapon(int idx)
+    {
+        playerWeapon.ChangeWeapon(idx);
+    }
+
     public void StartAiming()
     {
         playerWeapon.StartAiming();
@@ -149,6 +165,4 @@ public class Player : MonoBehaviour, IDamageable
         StopAllCoroutines();
         IsDead = true;
     }
-
-    
 }

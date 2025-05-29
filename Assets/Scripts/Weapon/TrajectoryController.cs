@@ -27,7 +27,7 @@ public class TrajectoryController : MonoBehaviour
     {
         if (!trajectoryLine.enabled) return;
 
-        Vector3 direction = GetAimDirection(out float force);
+        Vector3 direction = GetAimDirectionForce(out float force);
         Vector3[] points = new Vector3[pointCount];
 
         Vector3 pos = throwPoint.position;
@@ -43,7 +43,7 @@ public class TrajectoryController : MonoBehaviour
         trajectoryLine.SetPositions(points);
     }
 
-    public Vector3 GetAimDirection(out float force)
+    public Vector3 GetAimDirectionForce(out float force)
     {
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         Plane groundPlane = new Plane(Vector3.up, throwPoint.position);
@@ -68,7 +68,6 @@ public class TrajectoryController : MonoBehaviour
     {
         float distance = Vector3.Distance(throwPoint.position, targetPos);
         float t = Mathf.Clamp01(distance / maxDistance);
-        return Mathf.Lerp(minThrowForce, maxThrowForce, t);   
+        return Mathf.Lerp(minThrowForce, maxThrowForce, t);
     }
-
 }

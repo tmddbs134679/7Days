@@ -5,6 +5,8 @@ public class PlayerVehicleHandler : MonoBehaviour
 {
     Player player;
     VehicleController curVehicle;
+    Transform motorCycle;
+    [SerializeField] Vector3 spawnOffset;
 
     public void Init(Player player)
     {
@@ -13,8 +15,15 @@ public class PlayerVehicleHandler : MonoBehaviour
 
     public void SetVehicle(VehicleController vehicle, PlayerInput playerInput)
     {
+
         if (vehicle != null)
         {
+            // 처음 탑승 시 본인 탈 것 저장
+            if (motorCycle == null)
+            {
+                motorCycle = vehicle.transform;
+            }
+
             player.ChangeState(PlayerState.Vehicle);
             curVehicle = vehicle;
 
@@ -26,11 +35,19 @@ public class PlayerVehicleHandler : MonoBehaviour
         else
         {
             player.ChangeState(PlayerState.Idle);
-            
+
             transform.SetParent(null);
             curVehicle.StopControl();
 
             curVehicle = null;
         }
+    }
+
+    public void CallVehicle()
+    {
+        if (motorCycle == null || player.CurState == PlayerState.Vehicle) return;
+
+        motorCycle.position = player.transform.position + spawnOffset;
+        motorCycle.rotation = Quaternion.identity;
     }
 }

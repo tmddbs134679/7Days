@@ -1,11 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerWeaponHandler : MonoBehaviour
 {
     PlayerStatus playerStatus;
-    [SerializeField] WeaponController[] weapons;
+    [SerializeField] WeaponController[] weapons; // 나중에 Resources 에서 가져오는 걸로
+    [SerializeField] List<WeaponController> unlockWeapons = new List<WeaponController>();
     [SerializeField] WeaponController curWeapon;
     [SerializeField] Transform throwPoint;
+
     private bool isAiming = false;
     private TrajectoryController trajectoryController;
 
@@ -13,26 +16,37 @@ public class PlayerWeaponHandler : MonoBehaviour
     {
         this.playerStatus = playerStatus;
 
-        ChangeWeapon(0);
+        UnlockWeapon(0);
+        UnlockWeapon(1);
+
         trajectoryController = GetComponentInChildren<TrajectoryController>();
-        
+
         if (trajectoryController)
             trajectoryController.Init(throwPoint);
+    }
+
+    public void UnlockWeapon(int idx)
+    {
+        GameObject obj = Instantiate(weapons[idx].gameObject, throwPoint);
+
+        WeaponController weapon = obj.GetComponent<WeaponController>();
+        weapon.ShowModel(false);
+        weapon.Init(throwPoint);
+
+        unlockWeapons.Add(weapon);
     }
 
     public void ChangeWeapon(int idx)
     {
         if (curWeapon != null)
         {
-            Destroy(curWeapon.gameObject);
+            curWeapon.ShowModel(false);
         }
 
-        GameObject obj = Instantiate(weapons[idx].gameObject, throwPoint);
-
-        if (obj.TryGetComponent(out WeaponController weapon))
+        if (idx > -1 && idx < unlockWeapons.Count)
         {
-            curWeapon = weapon;
-            curWeapon.Init(throwPoint);
+            curWeapon = unlockWeapons[idx];
+            curWeapon.ShowModel(true);
         }
     }
 
@@ -57,7 +71,7 @@ public class PlayerWeaponHandler : MonoBehaviour
         isAiming = false;
         trajectoryController.Hide();
 
-        Vector3 direction = trajectoryController.GetAimDirection(out float force);
+        Vector3 direction = trajectoryController.GetAimDirectionForce(out float force);
         curWeapon.ThrowWeapon(direction, force);
     }
 }

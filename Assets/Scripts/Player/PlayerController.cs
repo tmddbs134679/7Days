@@ -95,6 +95,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnCallVehicle(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            player.CallVehicle();
+        }
+    }
+
     public void OnCommand(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Started)
@@ -115,6 +123,20 @@ public class PlayerController : MonoBehaviour
 
             // 선택한 슬롯 인덱스 이벤트 호출
             player.PlayerEvents.RaisedSeletSlot(slotIdx);
+        }
+    }
+
+    public void OnSelectWeapon(InputAction.CallbackContext context)
+    {
+        if (context.phase != InputActionPhase.Started) return;
+
+        string keyString = context.control.name;
+
+        if (int.TryParse(keyString, out int keyNum))
+        {
+            int weaponIdx = keyNum == 5 ? 0 : 1;
+
+            player.SelectWeapon(weaponIdx);
         }
     }
 

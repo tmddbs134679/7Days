@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4117212306968886591}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ThrowPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 5939623042292470439}
   - component: {fileID: 5758072038778041640}
   - component: {fileID: 4761859479994430328}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BackPack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   - component: {fileID: 2346412494981648067}
   - component: {fileID: 7524142391095722384}
   - component: {fileID: 9044492788031863392}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 4435518168140403343}
   - component: {fileID: 9150300794316735265}
   - component: {fileID: 5947683717014089026}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -488,6 +488,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9f7673df-d405-40ac-9ffd-04e294e74cec
     m_ActionName: Player/StopAiming[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 298235457003207780}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSelectWeapon
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 08dd8d68-4e2c-4d2d-ba46-eaf9ab554823
+    m_ActionName: Player/SelectWeapon[/Keyboard/5,/Keyboard/6]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 298235457003207780}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnCallVehicle
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ecf040ad-2888-455b-b002-f2a4181f202f
+    m_ActionName: Player/OnCallVehicle[/Keyboard/g]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -561,6 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8293d3b0bfce7643ab0ba8365e7af77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnOffset: {x: 1, y: -1, z: 1}
 --- !u!114 &5947683717014089026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -574,8 +607,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weapons:
-  - {fileID: 5423105646942639009, guid: d386f3a093364ba4693354b656711cea, type: 3}
-  - {fileID: 4597003214637651930, guid: 69391fa57e62e4f42a9eaf14b076cc78, type: 3}
+  - {fileID: 857907295050315608, guid: 8b65eceb8f07eea45be3eca87f9c7968, type: 3}
+  - {fileID: 8145697788076273732, guid: ea3b4f3f349fb194281aa674f292871f, type: 3}
+  unlockWeapons: []
   curWeapon: {fileID: 0}
   throwPoint: {fileID: 4117212306968886591}
 --- !u!1 &7129246627396965477
@@ -589,7 +623,7 @@ GameObject:
   - component: {fileID: 538394282877696751}
   - component: {fileID: 1149898956392314981}
   - component: {fileID: 7383487810159736040}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TrajectoryController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -623,8 +657,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7428be65cb2c4564695254d0ea78954c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwForce: 10
-  pointCount: 30
+  minThrowForce: 2
+  maxThrowForce: 10
+  maxDistance: 10
+  pointCount: 10
   timeStep: 0.1
 --- !u!120 &7383487810159736040
 LineRenderer:
@@ -691,8 +727,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 1, g: 0, b: 0, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 0}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -716,7 +752,7 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -742,7 +778,7 @@ GameObject:
   - component: {fileID: 3093216872630134103}
   - component: {fileID: 3831039765130801340}
   - component: {fileID: 2390174793587455392}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Goggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -34,7 +34,7 @@ public enum FloatType
 
 public class InventoryManager : MonoBehaviour
 {
-
+    public static InventoryManager instance;
     // 기초 자원
     [SerializeField]
     private List<ItemDictionaryEntry> itemEntries = new List<ItemDictionaryEntry>();
@@ -54,11 +54,21 @@ public class InventoryManager : MonoBehaviour
     public Dictionary<ItemInfo, int> quickSlots; // 해당 아이템이 아이템슬롯 몇번과 연결되어있는가
     public ItemInfo[] quickSlotsIndex; // 해당 아이템이 퀵슬롯 몇번과 연결되어 있는가.
     public UI_QuickSlotManager quickSlotManager;
+    public Player player;
     public event Action<int> OnHealthChanged;
 
 
     private void Awake()
     {
+        // 싱글톤
+        if (null == instance)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+            Destroy(this.gameObject);
+
         quickSlotsIndex = new ItemInfo[4];
         quickSlots = new Dictionary<ItemInfo, int>();
         itemSlots = new ItemInfo[slotCount];
