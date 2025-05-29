@@ -9,16 +9,7 @@ public class AI_Husk : AI_Base
         base.Start();
         Setting();
     }
-    public override void Attack(GameObject target)
-    {
-        if(target.TryGetComponent(out IDamageable player))
-        {
-            player.TakeDamage(enemyData.attackPower);
-        }
-
-     
-    }
-
+ 
     protected override void Setting()
     {
         var idle = new AIIdleState(gameObject);
@@ -50,6 +41,13 @@ public class AI_Husk : AI_Base
         fsm.AddAnyTransition(dead, () => GetComponent<Health>().IsDead);
 
         fsm.SetInitialState(idle);
+    }
+    public override void Attack(GameObject target)
+    {
+        if (target.TryGetComponent(out IDamageable player))
+        {
+            player.TakeDamage(enemyData.attackPower);
+        }
     }
 
 }

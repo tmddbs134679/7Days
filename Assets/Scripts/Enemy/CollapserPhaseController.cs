@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CollapserPhaseController : MonoBehaviour
 {
     public EBOSSPHASE CurrentPhase { get; private set; } = EBOSSPHASE.PHASE1;
@@ -19,13 +20,15 @@ public class CollapserPhaseController : MonoBehaviour
     {
         float hpRatio = health.CurrentHealth / health.MaxHealth;
 
-        if (hpRatio <= 0.4f && !isPhase2)
+        if (hpRatio <= 0.4f && !isPhase3)
         {
+            CurrentPhase = EBOSSPHASE.PHASE3;
             isPhase3 = true;
             Phase3();
         }
-        else if (hpRatio <= 0.7f && !isPhase3)
+        else if (hpRatio <= 0.7f && !isPhase2)
         {
+            CurrentPhase= EBOSSPHASE.PHASE2;
             isPhase2 = true;
             Phase2();
         }
@@ -33,11 +36,13 @@ public class CollapserPhaseController : MonoBehaviour
 
     private void Phase2()
     {
+        Debug.Log("페이즈 2");
         //플레이어 시야 혼선, 드론 혼란상태
     }
 
     private void Phase3()
     {
+        Debug.Log("페이즈 3");
         //플레이어의 분신을 소환해서 공격 / 광역 타격
     }
 }

@@ -19,26 +19,6 @@ public class AI_Spine : AI_Base
         transform.position = pos;
     }
 
-    public override void Attack(GameObject target)
-    {
-        if (projectilePrefab == null || target == null)
-            return;
-
-        Vector3 spawnPos = transform.position + Vector3.back * 4f;
-        Vector3 targetPos = target.transform.position;
-
-        Vector3 direction = (targetPos - spawnPos).normalized;
-        float distance = Vector3.Distance(spawnPos, targetPos);
-        float duration = 2f;
-        float speed = distance / duration;
-
-        GameObject proj = GameObject.Instantiate(projectilePrefab, spawnPos, Quaternion.LookRotation(direction));
-        proj.GetComponent<Projectile>().Init(gameObject);
-
-        Rigidbody rb = proj.GetComponent<Rigidbody>();
-        rb.velocity = direction * speed;
-    }
-
     protected override void Setting()
     {
         var idle = new AIIdleState(gameObject);
@@ -47,7 +27,7 @@ public class AI_Spine : AI_Base
         
         var dead = new AIDeadState(gameObject);
 
-        fsm.SetInitialState(idle);
+       
 
         fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) < enemyData.chasingRange);
         fsm.AddTransition(chase, attack, () =>
@@ -75,5 +55,28 @@ public class AI_Spine : AI_Base
 
         fsm.AddAnyTransition(dead, () => GetComponent<Health>().IsDead);
 
+        fsm.SetInitialState(idle);
+
     }
+
+    public override void Attack(GameObject target)
+    {
+        if (projectilePrefab == null || target == null)
+            return;
+
+        Vector3 spawnPos = transform.position + Vector3.back * 4f;
+        Vector3 targetPos = target.transform.position;
+
+        Vector3 direction = (targetPos - spawnPos).normalized;
+        float distance = Vector3.Distance(spawnPos, targetPos);
+        float duration = 2f;
+        float speed = distance / duration;
+
+        GameObject proj = GameObject.Instantiate(projectilePrefab, spawnPos, Quaternion.LookRotation(direction));
+        proj.GetComponent<Projectile>().Init(gameObject);
+
+        Rigidbody rb = proj.GetComponent<Rigidbody>();
+        rb.velocity = direction * speed;
+    }
+
 }
