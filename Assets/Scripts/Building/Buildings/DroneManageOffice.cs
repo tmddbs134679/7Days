@@ -8,6 +8,8 @@ public class DroneManagerOffice : BaseBuilding
         data = FormManager.Instance.GetForm<WorkerOfficeForm>().GetDataByID((int)buildingIndex);
         // 최대 레벨
         levelMax = data.dataByLevel.Length - 1;
+        // 건설 필요 시간 써주기
+        requireTime = data.dataByLevel[0].time;
         SetBuildingStatus();
     }
 
@@ -26,6 +28,11 @@ public class DroneManagerOffice : BaseBuilding
         {
             inventoryManager.DeductResource(resourceRequire.resourceSort, resourceRequire.amount);
         }
+
+        // 건설 필요 시간 써주기
+        requireTime = data.dataByLevel[nextLevel].time;
+        // 건설 상태
+        isConstructing = true;
     }
 }
 

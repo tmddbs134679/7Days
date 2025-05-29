@@ -3,6 +3,7 @@ using UnityEngine;
 // 에너지 공급이 필요한 건물 스크립트에 부착
 public interface IBuildingRequireEnegy
 {
+    public bool isSupplied {  get; set; }
     // 에너지 공급이 끊겼을 때
     public abstract void OnEnegyDown();
 

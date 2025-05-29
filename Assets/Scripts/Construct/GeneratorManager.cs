@@ -24,14 +24,14 @@ public class GeneratorManager : Singleton<GeneratorManager>
     {
         foreach (Generator generator in generators)
         {
-            generator.StartConstruct();
+            generator.EnableGeneratorZone();
         }
     }
     public void EndConstruct()
     {
         foreach (Generator generator in generators)
         {
-            generator.EndConstruct();
+            generator.DisableGeneratorZone();
         }
     }
 }

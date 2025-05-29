@@ -9,18 +9,23 @@ public interface IInteractactble
 public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
 {
     public ProductionBuildingData data { get; private set; }
+    public bool isSupplied { get; set; }
 
     // 제작 진행 시간, 제작에 필요한 시간
-    float progressTime, requireTime;
+    float progressProduction, requireProduction;
     // 생산된 양
     int productAmount;
 
     protected override void Init()
     {
+        // 설치 때는 전력 공급을 받는 영역에만 설치가 가능하기에
+        isSupplied = true;
         // 데이터 받아오기
         data = FormManager.Instance.GetForm<ProductionBuildingForm>().GetDataByID((int)buildingIndex);
         // 최대 레벨
         levelMax = data.dataByLevel.Length - 1;
+        // 건설 필요 시간 써주기
+        requireTime = data.dataByLevel[0].time;
         SetBuildingStatus();
     }
 
@@ -31,14 +36,18 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
         requireTime = data.dataByLevel[level].productionTime;
     }
 
-    private void Update()
+    protected override void FixedOverridePart()
     {
-        // 시간을 세어주다, 생산 필요 시간을 넘었다면 생산!
-        progressTime += Time.deltaTime;
-        if(progressTime > requireTime)
+        // 전력 공급이 될 때만 동작
+        if (isSupplied)
         {
-            progressTime = 0; // 시간 초기화
-            Production(); // 생산
+            // 시간을 세어주다, 생산 필요 시간을 넘었다면 생산!
+            progressProduction += Time.fixedDeltaTime;
+            if (progressProduction > requireProduction)
+            {
+                progressTime = 0; // 시간 초기화
+                Production(); // 생산
+            }
         }
     }
 
@@ -47,7 +56,7 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
         // 레벨업으로 인한 최대 HP 증가
         hpMax = data.dataByLevel[level].hpMax;
         // 레벨업으로 변한 생산 시간 반영
-        requireTime = data.dataByLevel[level].productionTime;
+        requireProduction = data.dataByLevel[level].productionTime;
     }
 
     // 생산량만큼 적재
@@ -66,17 +75,14 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
         {
             inventoryManager.DeductResource(resourceRequire.resourceSort, resourceRequire.amount);
         }
+        // 건설 필요 시간 써주기
+        requireTime = data.dataByLevel[nextLevel].time;
+        // 건설 상태
+        isConstructing = true;
     }
 
-    public void OnEnegyDown()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void OnEnegySupply()
-    {
-        throw new System.NotImplementedException();
-    }
+    public void OnEnegyDown() => isSupplied = false;
+    public void OnEnegySupply() => isSupplied = true;
 }
 
 public class ProductBuildingStatus : BuildingStatus

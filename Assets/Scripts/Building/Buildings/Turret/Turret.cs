@@ -1,0 +1,134 @@
+using UnityEngine;
+using DG.Tweening;
+public class Turret : BaseBuilding, IBuildingRequireEnegy
+{
+    // 포탑의 상부(상하 회전용)
+    [SerializeField] Transform top, firePos;
+    [SerializeField] LayerMask enemyLayer;
+    // 현재 참조중인 터렛 데이터
+    public TurretData data { get; private set; }
+    public bool isSupplied { get; set; }
+
+    // 자주 찾을 값들은 변수에 넣고 레벨업 때마다 경신
+    float count, atkDelay, range;
+    // 적 탐색 주기 >> 너무 짧으면 성능을 많이 먹기에 부자연스럽지 않으면서도 적당한 주기로 탐색
+    const float searchDelay = 0.2f;
+    
+    Transform target;
+
+    protected override void Init()
+    {
+        // 설치 때는 전력 공급을 받는 영역에만 설치가 가능하기에
+        isSupplied = true;
+        // 데이터 받아오기
+        data = FormManager.Instance.GetForm<TurretForm>().GetDataByID((int)buildingIndex);
+        // 최대 레벨
+        levelMax = data.dataByLevel.Length - 1;
+        // 초기 스테이터스 지정
+        SetBuildingStatus();
+        // 주기적으로 타겟 지정 및 공격 시행
+        InvokeRepeating("FindClosestTarget", 0, searchDelay);
+    }
+
+    protected override void SetBuildingStatus()
+    {
+        // 레벨업으로 인한 최대 HP 증가
+        hpMax = data.dataByLevel[level].hpMax;
+        // 공격 딜레이
+        atkDelay = data.dataByLevel[level].atkDelay;
+        // 사거리
+        range = data.dataByLevel[level].range;
+    }
+
+    protected override void FixedOverridePart()
+    {
+        if (isSupplied)
+        {
+            // 타겟을 바라보도록 추적
+            LookTarget();
+            // 공격 딜레이 세어주기
+            count += Time.fixedDeltaTime;
+            if (count >= atkDelay)
+            {
+                count = 0;
+            }
+        }
+    }
+
+    void Attack()
+    {
+        
+    }
+
+    // 포탑의 사거리 내 가장 가까운 적 탐지
+    Transform FindClosestTarget()
+    {
+        int closestIndex = 0;
+        float closestDist = range; 
+        Collider[] enemiesInRange = Physics.OverlapSphere(transform.position, range, enemyLayer);
+        if (!enemiesInRange.Length.Equals(0))
+        {
+            int i = 0;
+            for (; i < enemiesInRange.Length; i++)
+            {
+                float dist = Vector3.SqrMagnitude(enemiesInRange[i].transform.position - transform.position);
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    closestIndex = i;
+                }
+            }
+            target = enemiesInRange[closestIndex].transform;
+        }
+
+        return null;
+    }
+
+    void LookTarget()
+    {
+        if (!target)
+            return;
+
+        // 1. 좌우 회전
+        // 타겟 방향
+        Vector3 directionBase = target.position - transform.position;
+        // Y축 고정 (xz 평면 수평 방향만 사용)
+        directionBase.y = 0; 
+        // 목표 방향
+        Quaternion lookRotationBase = Quaternion.LookRotation(directionBase);
+        // 타겟 방향으로 포탑이 회전(조금만 움직여도 되는데 반대로 회전해버리는 상황을 방지하기 위해 Slerp 사용)
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotationBase, 0.1f);
+
+        // 2. 상하 회전
+        Vector3 directionTop = target.position - top.position;
+        // X축 고정 (yz 평면 수평 방향만 사용)
+        directionTop.x = 0;
+        // 목표 방향 : 상부 포탑이 기본 각도가 x축 -90도이므로 보는 각도에 해당 각도를 더해줘야 함
+        // >> 쿼터니언은 더할 수 없고 대신 곱하면 같은 효과(A*B = A를 먼저 회전하고 B, 순서 중요!)
+        Quaternion lookRotationTop = Quaternion.Euler(Vector3.left * 90) * Quaternion.LookRotation(directionTop);
+        // 타겟 방향으로 포탑이 회전
+        top.localRotation = Quaternion.Slerp(top.localRotation, lookRotationTop, 0.1f);
+    }
+
+    // 건물마다 고유로 가지는 값들 반환
+    public override BuildingStatus GetIndividualBuildingInfo() => new TurretStatus(level, levelMax, hpCurrent);
+
+    public override void ResourceConsumption(int nextLevel)
+    {
+        ResourceRequire[] resourcesRequire = data.dataByLevel[nextLevel].resources;
+        foreach (ResourceRequire resourceRequire in resourcesRequire)
+        {
+            inventoryManager.DeductResource(resourceRequire.resourceSort, resourceRequire.amount);
+        }
+    }
+
+    public void OnEnegyDown() => isSupplied = false;
+    public void OnEnegySupply() => isSupplied = true;
+}
+
+public class TurretStatus : BuildingStatus
+{
+    public TurretStatus(int level, int levelMax, float hpCurrent) : base(level, levelMax, hpCurrent)
+    {
+    }
+}
