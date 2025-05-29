@@ -1,20 +1,40 @@
 using UnityEngine;
-public class Turret : BaseBuilding<BuildingData<TurretData>>
+public class Turret : BaseBuilding
 {
+    // 현재 참조중인 터렛 데이터
+    public TurretData data { get; private set; }
+
     protected override void Init()
     {
         // 데이터 받아오기
         data = FormManager.Instance.GetForm<TurretForm>().GetDataByID((int)buildingIndex);
         // 최대 레벨
-        levelMax = data.buildingDatas.Length - 1;
+        levelMax = data.dataByLevel.Length - 1;
         SetBuildingStatus();
     }
 
     protected override void SetBuildingStatus()
     {
-        // 해당 레벨에 맞는 데이터
-        var levelData = data.buildingDatas[level];
         // 레벨업으로 인한 최대 HP 증가
-        hpMax = levelData.hpMax;
+        hpMax = data.dataByLevel[level].hpMax;
+    }
+
+    // 건물마다 고유로 가지는 값들 반환
+    public override BuildingStatus GetIndividualBuildingInfo() => new TurretStatus(level, levelMax, hpCurrent);
+
+    public override void ResourceConsumption(int nextLevel)
+    {
+        ResourceRequire[] resourcesRequire = data.dataByLevel[nextLevel].resources;
+        foreach (ResourceRequire resourceRequire in resourcesRequire)
+        {
+            inventoryManager.DeductResource(resourceRequire.resourceSort, resourceRequire.amount);
+        }
+    }
+}
+
+public class TurretStatus : BuildingStatus
+{
+    public TurretStatus(int level, int levelMax, float hpCurrent) : base(level, levelMax, hpCurrent)
+    {
     }
 }
