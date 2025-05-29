@@ -7,7 +7,7 @@ using UnityEngine;
 public class Resource : MonoBehaviour
 {
     public ItemData item;
-    public InventoryManager inventory;
+    private InventoryManager inventory;
     public GameObject parentObject; // 부모 오브젝트
     public SpawnManager spawn;
 
@@ -22,10 +22,11 @@ public class Resource : MonoBehaviour
     public int[] dedcuctCount;
     bool deduct;
 
-    void Awake()
+ 
+    private void Start()
     {
         parentObject = transform.parent.gameObject;
-        inventory = GameObject.Find("Inventory").GetComponent<InventoryManager>();
+        inventory = InventoryManager.instance;
         spawn = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
     }
 

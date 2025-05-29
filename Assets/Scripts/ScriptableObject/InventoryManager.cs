@@ -202,6 +202,14 @@ public class InventoryManager : MonoBehaviour
     {
         int leftAmount = amount;
 
+        // 해당 자원이 리소스면 바로 리소스에 더하고 종료
+        if (itemList.ContainsKey(item.name))
+        {
+            AddResource(item, amount);
+            return;
+        }
+
+
         // 기존 스택에 채우기 시도
         for (int i = 0; i < slotCount; i++)
         {
@@ -461,4 +469,11 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            OnInventory();
+        }
+    }
 }

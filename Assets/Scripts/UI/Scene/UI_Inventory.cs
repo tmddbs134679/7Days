@@ -67,7 +67,7 @@ public class UI_Inventory : UI_Popup
 
     private void Awake()
     {
-        inventoryManager = T_PC.instance.inventoryManager;
+        inventoryManager = InventoryManager.instance;
     }
     public override void Init()
     {
