@@ -27,12 +27,12 @@ public abstract class AI_Base : MonoBehaviour
         animator =  GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
-        if (TryGetComponent(out NavMeshAgent agent))
+        if (TryGetComponent(out agent))
         {
-            agent = GetComponent<NavMeshAgent>();
+           // agent = GetComponent<NavMeshAgent>();
             agent.speed = enemyData.moveSpeed;
         }
-
+        agent.enabled = false;
     }
 
     protected virtual void OnEnable()
@@ -51,11 +51,12 @@ public abstract class AI_Base : MonoBehaviour
     protected virtual void Start()
     {
         health.Init(enemyData.maxHealth);
+
     }
 
     public virtual void Init()
     {
-
+        agent.enabled = true;
     }
 
     protected virtual void Update()
@@ -69,7 +70,7 @@ public abstract class AI_Base : MonoBehaviour
 
     // 버프 적용 [speed만 있어서 일단 이렇게 적용]
     public void ApplyBuff(float multiplier)
-    {
+   {
         agent.speed *= multiplier;
     }
 
