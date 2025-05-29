@@ -177,6 +177,8 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Dead()
     {
+        if (IsDead) return;
+        
         StopAllCoroutines();
         IsDead = true;
         playerAnimation.SetDeath();
