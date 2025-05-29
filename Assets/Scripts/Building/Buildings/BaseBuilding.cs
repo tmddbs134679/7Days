@@ -53,7 +53,7 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     protected abstract void SetBuildingStatus();
 
     // 대미지를 받아 체력 감소 및 파괴
-    public void TakeDamage(float amount)
+    public virtual void TakeDamage(float amount)
     {
         hpCurrent = Mathf.Clamp(hpCurrent - amount, 0, hpMax);
         if (hpCurrent <= 0)
