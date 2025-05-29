@@ -57,7 +57,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.24106665
+      - time: 0.2596179
         functionName: ThrowGrenade
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: 00630720cc188cd4e9f856dc1f1145a9,

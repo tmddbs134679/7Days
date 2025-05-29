@@ -15,11 +15,15 @@ public class SurvivalConditionSO : ScriptableObject
 
     [Header("Stat Recover Per Interval")]
     [SerializeField] float healthRecoverPerInterval;
+    [SerializeField] float staminaRecoverPerInterval;
     public float HealthRecoverPerInterval { get => healthRecoverPerInterval; }
+    public float StaminaRecoverPerInterval { get => staminaDecayPerInterval; }
 
-    [Header("Health Recover Condition")]
-    [SerializeField] float minConditionToHeal;
-    public float MinConditionToHeal { get => minConditionToHeal; }
+    [Header("Stat Recover Condition")]
+    [SerializeField] float healthRecoveryThreshold;
+    [SerializeField] float staminaRecoveryThreshold;
+    public float HealthRecoveryThreshold { get => healthRecoveryThreshold; }
+    public float StaminaRecoveryThreshold { get => staminaRecoveryThreshold; }
 
     [Header("Health Decay Condition")]
     [SerializeField] float minStaminaToDecay;

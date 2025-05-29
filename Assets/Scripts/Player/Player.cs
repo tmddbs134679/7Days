@@ -144,9 +144,9 @@ public class Player : MonoBehaviour, IDamageable
         playerWeapon.CheckThrow();
     }
 
-    public void UnlockWeapon(int idx)
+    public void UnlockWeapon(WeaponType type)
     {
-        playerWeapon.UnlockWeapon(idx);
+        playerWeapon.UnlockWeapon(type);
     }
 
     public void SelectWeapon(int idx)
