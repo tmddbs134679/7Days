@@ -1,3 +1,5 @@
+using System.Collections;
+
 public class Wall : BaseBuilding
 {
     public BasicBuildingData data { get; private set; }
@@ -8,6 +10,8 @@ public class Wall : BaseBuilding
         data = FormManager.Instance.GetForm<WallForm>().GetDataByID((int)buildingIndex);
         // 최대 레벨
         levelMax = data.dataByLevel.Length - 1;
+        // 건설 필요 시간 써주기
+        requireTime = data.dataByLevel[0].time;
         SetBuildingStatus();
     }
 
@@ -24,6 +28,11 @@ public class Wall : BaseBuilding
         {
             inventoryManager.DeductResource(resourceRequire.resourceSort, resourceRequire.amount);
         }
+
+        // 건설 필요 시간 써주기
+        requireTime = data.dataByLevel[nextLevel].time;
+        // 건설 상태
+        isConstructing = true;
     }
 }
 

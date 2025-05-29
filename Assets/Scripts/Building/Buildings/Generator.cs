@@ -13,6 +13,8 @@ public class Generator : BaseBuilding
         data = FormManager.Instance.GetForm<GeneratorForm>().GetDataByID((int)buildingIndex);
         // 최대 레벨
         levelMax = data.dataByLevel.Length - 1;
+        // 건설 필요 시간 써주기
+        requireTime = data.dataByLevel[0].time;
         SetBuildingStatus();
     }
 
@@ -24,9 +26,9 @@ public class Generator : BaseBuilding
         interactArea.ChangeRange(data.dataByLevel[level].activeRange);
     }
 
-    // 건설 시작/종료 때 호출 >> 상호작용 영역 및 표시 활성화/비활성화
-    public void StartConstruct() => interactArea.gameObject.SetActive(true);
-    public void EndConstruct() => interactArea.gameObject.SetActive(false);
+    // 건설 기능 시작/종료 때 호출 >> 상호작용 영역 및 표시 활성화/비활성화
+    public void EnableGeneratorZone() => interactArea.gameObject.SetActive(true);
+    public void DisableGeneratorZone() => interactArea.gameObject.SetActive(false);
 
     // 건물마다 고유로 가지는 값들 반환
     public override BuildingStatus GetIndividualBuildingInfo() => new GeneratorStatus(level, levelMax, hpMax);
@@ -38,6 +40,11 @@ public class Generator : BaseBuilding
         {
             inventoryManager.DeductResource(resourceRequire.resourceSort, resourceRequire.amount);
         }
+
+        // 건설 필요 시간 써주기
+        requireTime = data.dataByLevel[nextLevel].time;
+        // 건설 상태
+        isConstructing = true;
     }
 
     // 대미지를 받아 체력 감소 및 파괴

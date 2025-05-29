@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public enum BuildingIndex
@@ -15,7 +16,6 @@ public enum BuildingIndex
 public abstract class BaseBuilding : MonoBehaviour, IDamageable
 {
     [SerializeField] protected BuildingIndex buildingIndex;
-    public BuildingIndex GetBuildingIndex() => buildingIndex;
 
     protected InventoryManager inventoryManager;
 
@@ -24,11 +24,27 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     protected float hpCurrent, // 현재 체력
                     hpMax; // 현재 레벨의 최대 체력
 
+    protected bool isConstructing = true; // 건설/업그레이드 중인지 여부 >> 처음 지을 때도 건설해야 하기에 true
+    protected float progressTime = 0, // 건설, 업그레이드 진행 시간
+                    requireTime = 0; // 건설/업그레이드 필요 시간
+    Coroutine construct; // 진행 중인 건설 코루틴
+
     protected virtual void Start()
     {
         inventoryManager = FindObjectOfType<InventoryManager>();
         Init();
     }
+
+    protected void FixedUpdate()
+    {
+        if (isConstructing)
+            return;
+
+        FixedOverridePart();
+    }
+    // 픽스드업데이트가 자식들도 건설 중에는 동작하지 않게 처리하기 위해,
+    // 해당 조건이 아닐 때 자식들이 오버라이드하여 쓸 부분을 여기에
+    protected virtual void FixedOverridePart() { }
 
     // 건물 처음 생성 때 초기화가 필요한 것 모음
     protected abstract void Init();
@@ -69,8 +85,39 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     // 건물마다 고유로 가지는 값들 반환
     public virtual BuildingStatus GetIndividualBuildingInfo() => new BuildingStatus(level, levelMax, hpCurrent);
 
-    // 자원 소모(건설, 업그레이드)
+    // 자원 소모(건설/업그레이드 가능한 상태로 전환 및 초기 설정)
     public abstract void ResourceConsumption(int nextLevel);
+
+    // 일꾼이 건설/업그레이드 시작할 때 호출하기
+    public void StartConstruct()
+    {
+        // 작업이 가능한 상태고, 기존의 작업이 없다면 >> 드론 작업 시작(이때 드론이 다른 곳으로 못 가도록 해야 함)
+        if (isConstructing && construct == null)
+            construct = StartCoroutine(DroneWorking());
+    }
+
+    // 건설/업그레이드 진행
+    IEnumerator DroneWorking()
+    {
+        // 필요 작업 시간까지 대기
+        while (progressTime < requireTime)
+        {
+            yield return new WaitForFixedUpdate();
+            progressTime += Time.fixedDeltaTime;
+        }
+        // 작업 완료
+        EndConstruct();
+    }
+
+    // 건설/업그레이드 종료
+    void EndConstruct()
+    {
+        // 작업 종료 상태로 전환
+        isConstructing = false;
+        progressTime = 0;
+        // 레벨업!
+        BuildingLvUp();
+    }
 }
 
 public class BuildingStatus
