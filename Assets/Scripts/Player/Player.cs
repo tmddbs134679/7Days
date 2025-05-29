@@ -42,7 +42,7 @@ public class Player : MonoBehaviour, IDamageable
     public bool IsDead { get; private set; }
     public bool OnBattle { get; private set; }
 
-    private void Awake()
+    private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();

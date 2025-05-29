@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAudioHandler : MonoBehaviour
 {
-    AudioManager audioManager;
+    [SerializeField] private AudioManager audioManager;
 
-    private const string FOOTSTEP_CLIP = "PlayerStep";
+    private const string FOOTSTEP_CLIP = "PlayerFootStep";
+
     public void Init()
     {
         audioManager = AudioManager.Instance;
@@ -14,7 +13,7 @@ public class PlayerAudioHandler : MonoBehaviour
 
     public void PlayStepSound()
     {
-        int num = Random.Range(1, 4);
+        int num = Random.Range(1, 3);
         string clipName = FOOTSTEP_CLIP + num.ToString();
         audioManager.PlaySFX(clipName);
     }
