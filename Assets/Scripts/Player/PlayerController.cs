@@ -136,7 +136,7 @@ public class PlayerController : MonoBehaviour
             int slotIdx = keyNum - 1;
 
             // 선택한 슬롯 인덱스 이벤트 호출
-            player.PlayerEvents.RaisedSeletSlot(slotIdx);
+            player.PlayerEvents.RaisedSelectSlot(slotIdx);
         }
     }
 

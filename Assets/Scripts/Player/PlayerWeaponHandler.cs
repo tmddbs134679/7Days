@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class PlayerWeaponHandler : MonoBehaviour
 {
-    Player player;
-    PlayerStatus playerStatus;
-    PlayerAnimationHandler playerAnim;
+    private Player player;
+    private PlayerStatus playerStatus;
+    private PlayerAnimationHandler playerAnim;
+    private TrajectoryController trajectoryController;
 
-    [SerializeField] WeaponController[] weapons; // 나중에 Resources 에서 가져오는 걸로
+    private Dictionary<WeaponType, WeaponController> weaponDict = new Dictionary<WeaponType, WeaponController>();
     [SerializeField] List<WeaponController> unlockWeapons = new List<WeaponController>();
     [SerializeField] WeaponController curWeapon;
     [SerializeField] Transform throwPoint;
 
     private bool isAiming = false;
-    private TrajectoryController trajectoryController;
 
     public void Init(Player player, PlayerStatus playerStatus, PlayerAnimationHandler playerAnim)
     {
@@ -21,18 +21,30 @@ public class PlayerWeaponHandler : MonoBehaviour
         this.playerStatus = playerStatus;
         this.playerAnim = playerAnim;
 
-        UnlockWeapon(0);
-        UnlockWeapon(1);
-
-        trajectoryController = transform.parent.GetComponentInChildren<TrajectoryController>();
+        trajectoryController = GetComponentInChildren<TrajectoryController>();
 
         if (trajectoryController)
             trajectoryController.Init(throwPoint);
+
+        LoadWeaponData();
+
+        UnlockWeapon(WeaponType.Buff);
+        UnlockWeapon(WeaponType.Debuff);
     }
 
-    public void UnlockWeapon(int idx)
+    void LoadWeaponData()
     {
-        GameObject obj = Instantiate(weapons[idx].gameObject, throwPoint);
+        WeaponController[] weapons = Resources.LoadAll<WeaponController>("Weapon");
+
+        foreach (var weapon in weapons)
+        {
+            weaponDict.Add(weapon.GetWeaponType(), weapon);
+        }
+    }
+
+    public void UnlockWeapon(WeaponType type)
+    {
+        GameObject obj = Instantiate(weaponDict[type].gameObject, throwPoint);
 
         WeaponController weapon = obj.GetComponent<WeaponController>();
         weapon.ShowModel(false);
@@ -76,7 +88,7 @@ public class PlayerWeaponHandler : MonoBehaviour
         if (player.CurState != PlayerState.Vehicle)
         {
             player.ChangeState(PlayerState.Throw);
-            playerAnim.PlayThrow();
+            playerAnim.SetThrow(true);
         }
         else
         {
@@ -92,7 +104,12 @@ public class PlayerWeaponHandler : MonoBehaviour
         Vector3 direction = trajectoryController.GetAimDirectionForce(out float force);
         curWeapon.ThrowWeapon(direction, force);
 
-        if(player.CurState != PlayerState.Vehicle)
+        if (player.CurState != PlayerState.Vehicle)
+        {
             player.ChangeState(PlayerState.Idle);
+            playerAnim.SetThrow(false);
+        }
+
+        player.PlayerEvents.RaisedWeaponUsed(curWeapon.GetWeaponType());
     }
 }
