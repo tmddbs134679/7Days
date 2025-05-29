@@ -372,11 +372,12 @@ public class InventoryManager : MonoBehaviour
     // 소모품 아이템 사용
     public void OnUseItem(int index,ItemData data, int amount = 1)
     {
+        UpdateQuickSlotDetail(data);
         DeductItemBySlot(index, amount);
         if (uiInventory != null)
             uiInventory.UpdateSlotData(index);
-
-        foreach(var value in data.consumables)
+ 
+        foreach (var value in data.consumables)
         {
             player.ConsumeItem(value);
         }
@@ -389,6 +390,7 @@ public class InventoryManager : MonoBehaviour
        // DeductItemBySlot(quickIndex, 1);
         if (uiInventory != null)
             uiInventory.UpdateSlotData(quickIndex);
+
         quickSlotManager.UpdateStack(slotindex, itemInfo);
         // 0개가 되었으면 퀵슬롯 해체.
         if (itemInfo.count == 0)
@@ -396,6 +398,32 @@ public class InventoryManager : MonoBehaviour
             quickSlots.Remove(itemInfo);
             quickSlotsIndex[slotindex] = null;
             quickSlotManager.ClearItemSlot(slotindex);
+        }
+    }
+    public void UpdateQuickSlotDetail(ItemData data)
+    {
+        int tempInt = -1;
+        for (int i = 0; i < quickSlotsIndex.Length; i++)
+        {
+            if (quickSlotsIndex[i] == null)
+                continue;
+
+            if (quickSlotsIndex[i].data == data)
+            {
+                tempInt = i;
+            }
+        }
+        if (tempInt == -1)
+            return;
+
+        ItemInfo tempInfo = new ItemInfo(quickSlotsIndex[tempInt].data, quickSlotsIndex[tempInt].count-1);
+        quickSlotManager.UpdateStack(tempInt, tempInfo);
+        // 0개가 되었으면 퀵슬롯 해체.
+        if (tempInfo.count == 0)
+        {
+            quickSlots.Remove(tempInfo);
+            quickSlotsIndex[tempInt] = null;
+            quickSlotManager.ClearItemSlot(tempInt);
         }
     }
 
