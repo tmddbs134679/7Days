@@ -60,6 +60,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Awake()
     {
+        player = GameObject.Find("Player").GetComponent<Player>();
         // 싱글톤
         if (null == instance)
         {
