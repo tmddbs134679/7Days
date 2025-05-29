@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 [Serializable]
 public class ItemInfo // 리스트에 추가할 아이템 정보
@@ -34,22 +35,35 @@ public enum FloatType
 public class InventoryManager : MonoBehaviour
 {
 
-    //기초 자원
+    // 기초 자원
     [SerializeField]
     private List<ItemDictionaryEntry> itemEntries = new List<ItemDictionaryEntry>();
     public Dictionary<string, ItemInfo> itemList = new Dictionary<string, ItemInfo>();
     public event Action<int> OnScrapChanged;
     public event Action<int> OnCircuitChanged;
     public event Action<int> OnFuelChanged;
+    [SerializeField] private float itemCoolTime = 2.0f;
 
-    //인벤토리 아이템
+    // 인벤토리 아이템
     public ItemInfo[] itemSlots;
     [SerializeField] private int slotCount = 20;
     private bool isOpenInventory = false;
+    private UI_Inventory uiInventory;
+
+    // 퀵슬롯
+    public Dictionary<ItemInfo, int> quickSlots; // 해당 아이템이 아이템슬롯 몇번과 연결되어있는가
+    public ItemInfo[] quickSlotsIndex; // 해당 아이템이 퀵슬롯 몇번과 연결되어 있는가.
+    public UI_QuickSlotManager quickSlotManager;
+    public event Action<int> OnHealthChanged;
+
+
     private void Awake()
     {
+        quickSlotsIndex = new ItemInfo[4];
+        quickSlots = new Dictionary<ItemInfo, int>();
         itemSlots = new ItemInfo[slotCount];
         itemList.Clear();
+
         foreach (var entry in itemEntries)
         {
             if (!itemList.ContainsKey(entry.ItemType.ToString()))
@@ -57,6 +71,77 @@ public class InventoryManager : MonoBehaviour
                 itemList.Add(entry.ItemType.ToString(), entry.ItemData);
             }
         }
+    }
+
+    // 퀵슬롯 설정
+    public void SetQuickSlot(int slotIndex,int itemIndex, ItemInfo info)
+    {
+        // 등록되어있지 않다면
+        if (!quickSlots.ContainsKey(info))
+        {
+            if (quickSlotsIndex[slotIndex] == null)
+            {
+                quickSlotsIndex[slotIndex] = info;
+                quickSlotManager.SetItemSlot(slotIndex, info, itemCoolTime);
+                quickSlots.Add(info, itemIndex);
+            }
+            else
+            {
+                var temp = quickSlotsIndex[slotIndex];
+                // 해당 자리를 일단 지우기
+                quickSlots.Remove(temp);
+
+
+                quickSlotsIndex[slotIndex] = info;
+                quickSlotManager.SetItemSlot(slotIndex, info, itemCoolTime);
+                quickSlots.Add(info, itemIndex);
+            }
+
+        }
+        else
+        {
+         
+            // 만일 해당 슬롯이 비어있다면
+            if (quickSlotsIndex[slotIndex] == null)
+            {
+                int tempInt = 0;
+                for(int i = 0; i < quickSlotsIndex.Length; i++)
+                {
+                    if (quickSlotsIndex[i] == info)
+                    {
+                        tempInt = i;
+                    }
+                }
+
+                quickSlotsIndex[tempInt] = null;
+                quickSlotManager.ClearItemSlot(tempInt);
+                quickSlots.Remove(info);
+
+                quickSlotsIndex[slotIndex] = info;
+                quickSlotManager.SetItemSlot(slotIndex, info, itemCoolTime);
+                quickSlots.Add(info, itemIndex);
+
+            }
+            else
+            {
+                int tempInt = 0;
+                for (int i = 0; i < quickSlotsIndex.Length; i++)
+                {
+                    if (quickSlotsIndex[i] == info)
+                    {
+                        tempInt = i;
+                    }
+                }
+                var temp = quickSlotsIndex[slotIndex];
+
+                quickSlotsIndex[tempInt] = temp;
+                quickSlotManager.SetItemSlot(tempInt, temp, itemCoolTime);
+
+                quickSlotsIndex[slotIndex] = info;
+                quickSlotManager.SetItemSlot(slotIndex, info, itemCoolTime);
+            }
+        }
+
     }
 
 
@@ -110,15 +195,20 @@ public class InventoryManager : MonoBehaviour
         // 기존 스택에 채우기 시도
         for (int i = 0; i < slotCount; i++)
         {
+            if(itemSlots[i] == null)
+                continue;
+            if (itemSlots[i].data == null)
+                continue;
             // 해당 슬롯이 null이 아니고, 같은 아이템이며, 스택에 여유가 있을 때
-            if (itemSlots[i] != null && itemSlots[i].data.name == item.name && itemSlots[i].count < item.maxStackAmount)
+            if ( itemSlots[i].data.name == item.name && itemSlots[i].count < item.maxStackAmount)
             {
                 int canFill = item.maxStackAmount - itemSlots[i].count; // 현재 슬롯에 채울 수 있는 최대량
                 int fillAmount = Math.Min(leftAmount, canFill);         
 
                 itemSlots[i].count += fillAmount;
                 leftAmount -= fillAmount;
-
+                if (uiInventory != null)
+                    uiInventory.UpdateSlotData(i);
                 if (leftAmount == 0) // 모든 아이템을 다 넣었으면 종료
                 {
                     return;
@@ -135,6 +225,8 @@ public class InventoryManager : MonoBehaviour
             {
                 itemSlots[emptySlotIndex] = new ItemInfo(item, amountToPlace);
                 leftAmount -= amountToPlace;
+                if (uiInventory != null)
+                    uiInventory.UpdateSlotData(emptySlotIndex);
             }
             else // 빈 슬롯이 없다면
             {
@@ -149,7 +241,7 @@ public class InventoryManager : MonoBehaviour
     {
         for (int i = 0; i < slotCount; i++)
         {
-            if (itemSlots[i] == null)
+            if (itemSlots[i] == null ||itemSlots[i].data == null)
             {
                 return i;
             }
@@ -157,7 +249,20 @@ public class InventoryManager : MonoBehaviour
         return -1; // 빈 슬롯이 없는 경우
     }
 
-
+    public bool DeductItemBySlot(int slotIndex, int amount)
+    {
+        // 아이템 차감
+        itemSlots[slotIndex].count -= amount;
+        if (uiInventory != null)
+            uiInventory.UpdateSlotData(slotIndex);
+        // 스택이 0이 되면 슬롯을 비움
+        if (itemSlots[slotIndex].count <= 0)
+        {
+            itemSlots[slotIndex].data = null;
+            itemSlots[slotIndex].count = 0;
+        }
+        return true;
+    }
 
     public bool DeductItem(ItemData itemData, int amount)
     {
@@ -184,9 +289,11 @@ public class InventoryManager : MonoBehaviour
                 // 스택이 0이 되면 슬롯을 비움 (완전 삭제)
                 if (itemSlots[i].count <= 0)
                 {
-                    itemSlots[i] = null;
+                    itemSlots[i].data = null;
+                    itemSlots[i].count = 0;
                 }
-
+                if (uiInventory != null)
+                    uiInventory.UpdateSlotData(i);
                 if (remainingAmount == 0)
                 {
                     return true;
@@ -240,34 +347,108 @@ public class InventoryManager : MonoBehaviour
         return totalFoundAmount >= requiredAmount;
     }
 
-
-    public void OnUseItem()
+    // 소모품 아이템 사용
+    public void OnUseItem(int index, int amount = 1)
     {
-
+        DeductItemBySlot(index, amount);
+        if (uiInventory != null)
+            uiInventory.UpdateSlotData(index);
     }
+    // 퀵슬롯으로 아이템 사용
+    public void OnQuickUseItem(int quickIndex, int slotindex)
+    {
+        ItemInfo itemInfo = itemSlots[quickIndex];
+        DeductItemBySlot(quickIndex, 1);
+        if (uiInventory != null)
+            uiInventory.UpdateSlotData(quickIndex);
+        quickSlotManager.UpdateStack(slotindex, itemInfo);
+        // 0개가 되었으면 퀵슬롯 해체.
+        if (itemInfo.count == 0)
+        {
+            quickSlots.Remove(itemInfo);
+            quickSlotsIndex[slotindex] = null;
+            quickSlotManager.ClearItemSlot(slotindex);
+        }
+    }
+
+
     public void OnInventory()
     {
         if (isOpenInventory)
         {
             isOpenInventory = false;
             UIManager.instance.ClosePopupUI();
+            uiInventory = null;
         }
         else
         {
             isOpenInventory = true;
             var go =  UIManager.instance.ShowPopupUI("UI_Inventory");
             var ui = go.GetComponent<UI_Inventory>();
+            uiInventory = go.GetComponent<UI_Inventory>();
             ui.inventoryManager = this;
         }
 
     }
-
-    // 테스트용 인풋
-    private void Update()
+    public void OnQuick1()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (quickSlotsIndex[0] != null&& uiInventory == null)
         {
-            OnInventory();
+            int index = quickSlots[quickSlotsIndex[0]];
+            bool isAble;
+            if (quickSlotsIndex[0].count != 1)
+                isAble = quickSlotManager.CheckQuick(0);
+            else
+                isAble = quickSlotManager.CheckQuick(0,true);
+
+            if (isAble == true)
+                OnQuickUseItem(index,0);
         }
     }
+    public void OnQuick2()
+    {
+        if (quickSlotsIndex[1] != null && uiInventory == null)
+        {
+            int index = quickSlots[quickSlotsIndex[1]];
+            bool isAble;
+            if (quickSlotsIndex[1].count != 1)
+                isAble = quickSlotManager.CheckQuick(1);
+            else
+                isAble = quickSlotManager.CheckQuick(1, true);
+
+            if (isAble == true)
+                OnQuickUseItem(index,1);
+        }
+    }
+    public void OnQuick3()
+    {
+        if (quickSlotsIndex[2] != null && uiInventory == null)
+        {
+            int index = quickSlots[quickSlotsIndex[2]];
+            bool isAble;
+            if (quickSlotsIndex[2].count != 1)
+                isAble = quickSlotManager.CheckQuick(2);
+            else
+                isAble = quickSlotManager.CheckQuick(2, true);
+
+            if (isAble == true)
+                OnQuickUseItem(index,2);
+        }
+    }
+    public void OnQuick4()
+    {
+        if (quickSlotsIndex[3] != null && uiInventory == null)
+        {
+            int index = quickSlots[quickSlotsIndex[3]];
+            bool isAble;
+            if (quickSlotsIndex[3].count != 1)
+                isAble = quickSlotManager.CheckQuick(3);
+            else
+                isAble = quickSlotManager.CheckQuick(3, true);
+
+            if (isAble == true)
+                OnQuickUseItem(index,3);
+        }
+    }
+
 }
