@@ -174,7 +174,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 59f93a03c16148e4f90f7365cc0e64eb, type: 2}
-  inventory: {fileID: 0}
   parentObject: {fileID: 0}
   spawn: {fileID: 0}
   minCount: 1
