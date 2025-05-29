@@ -1931,11 +1931,13 @@ GameObject:
   - component: {fileID: 9053158592156972129}
   - component: {fileID: 6405524551783380993}
   - component: {fileID: 3633727681650842498}
+  - component: {fileID: 1966453622321333399}
   - component: {fileID: 298235457003207780}
   - component: {fileID: 3776712752868448377}
   - component: {fileID: 4435518168140403343}
+  - component: {fileID: 228338296607648976}
   - component: {fileID: 9150300794316735265}
-  - component: {fileID: 1966453622321333399}
+  - component: {fileID: 1116126209046886868}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -2235,6 +2237,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDataSO: {fileID: 11400000, guid: 0faad31e185c13a49a9fd8089f22d1ab, type: 2}
   curState: 0
+--- !u!114 &1966453622321333399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6833490445572759189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27fe42a16274e854d919260a451e2d4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitDuration: 1
 --- !u!114 &298235457003207780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2277,6 +2292,21 @@ MonoBehaviour:
   curHealth: 0
   curStamina: 0
   curHydration: 0
+--- !u!114 &228338296607648976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6833490445572759189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33d43185a94b40b46955e2876713778b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unlockWeapons: []
+  curWeapon: {fileID: 0}
+  throwPoint: {fileID: 4117212306968886591}
 --- !u!114 &9150300794316735265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2290,19 +2320,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnOffset: {x: 1, y: -1, z: 1}
---- !u!114 &1966453622321333399
-MonoBehaviour:
+--- !u!95 &1116126209046886868
+Animator:
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6833490445572759189}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27fe42a16274e854d919260a451e2d4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitDuration: 1
+  m_Avatar: {fileID: 9000000, guid: 39193ee094ce2fa448f50906e81b9dc7, type: 3}
+  m_Controller: {fileID: 9100000, guid: b9dd612da28d7cb4688b17f9a8c3a2c1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6905735540440514812
 GameObject:
   m_ObjectHideFlags: 0
@@ -2750,7 +2788,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 864091165395788232}
-  - component: {fileID: 3631777027075968352}
   - component: {fileID: 7786083185131126760}
   m_Layer: 0
   m_Name: Character
@@ -2782,27 +2819,6 @@ Transform:
   - {fileID: 3997136424440150804}
   m_Father: {fileID: 3947668164823473271}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &3631777027075968352
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7601439510054196535}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b9dd612da28d7cb4688b17f9a8c3a2c1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &7786083185131126760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2815,9 +2831,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33d43185a94b40b46955e2876713778b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapons:
-  - {fileID: 857907295050315608, guid: 8b65eceb8f07eea45be3eca87f9c7968, type: 3}
-  - {fileID: 8145697788076273732, guid: ea3b4f3f349fb194281aa674f292871f, type: 3}
   unlockWeapons: []
   curWeapon: {fileID: 0}
   throwPoint: {fileID: 4117212306968886591}

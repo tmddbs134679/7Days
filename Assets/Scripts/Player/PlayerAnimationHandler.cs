@@ -29,9 +29,9 @@ public class PlayerAnimationHandler : MonoBehaviour
         anim.SetBool(IsDash, isDash);
     }
 
-    public void PlayThrow()
+    public void SetThrow(bool isThrow)
     {
-        anim.SetTrigger(IsThrow);
+        anim.SetBool(IsThrow, isThrow);
     }
 
     public void SetRide(bool isRide)

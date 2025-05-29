@@ -45,7 +45,7 @@ public class Player : MonoBehaviour, IDamageable
     {
         _rigidbody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
-        anim = GetComponentInChildren<Animator>();
+        anim = GetComponent<Animator>();
 
         PlayerEvents = new PlayerEventHandler();
 
@@ -54,7 +54,7 @@ public class Player : MonoBehaviour, IDamageable
         playerStatus = GetComponent<PlayerStatus>();
         playerMovement = GetComponent<PlayerMovement>();
         playerVehicle = GetComponent<PlayerVehicleHandler>();
-        playerWeapon = GetComponentInChildren<PlayerWeaponHandler>();
+        playerWeapon = GetComponent<PlayerWeaponHandler>();
 
         if (playerAnimation)
             playerAnimation.Init(anim);

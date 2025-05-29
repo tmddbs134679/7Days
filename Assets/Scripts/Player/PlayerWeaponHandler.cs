@@ -21,7 +21,7 @@ public class PlayerWeaponHandler : MonoBehaviour
         this.playerStatus = playerStatus;
         this.playerAnim = playerAnim;
 
-        trajectoryController = transform.parent.GetComponentInChildren<TrajectoryController>();
+        trajectoryController = GetComponentInChildren<TrajectoryController>();
 
         if (trajectoryController)
             trajectoryController.Init(throwPoint);
@@ -88,7 +88,7 @@ public class PlayerWeaponHandler : MonoBehaviour
         if (player.CurState != PlayerState.Vehicle)
         {
             player.ChangeState(PlayerState.Throw);
-            playerAnim.PlayThrow();
+            playerAnim.SetThrow(true);
         }
         else
         {
@@ -105,6 +105,9 @@ public class PlayerWeaponHandler : MonoBehaviour
         curWeapon.ThrowWeapon(direction, force);
 
         if (player.CurState != PlayerState.Vehicle)
+        {
             player.ChangeState(PlayerState.Idle);
+            playerAnim.SetThrow(false);
+        }
     }
 }

@@ -4577,6 +4577,7 @@ MonoBehaviour:
   slotCount: 20
   quickSlotsIndex: []
   quickSlotManager: {fileID: 0}
+  player: {fileID: 0}
 --- !u!4 &1773583303
 Transform:
   m_ObjectHideFlags: 0
