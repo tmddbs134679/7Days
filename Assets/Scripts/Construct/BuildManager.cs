@@ -6,7 +6,6 @@ public class BuildManager : MonoBehaviour
 {
     [SerializeField] Transform buildingPrefab; // 이번에 설치할 건물 프리팹을 넣어줄 곳
     [SerializeField] LayerMask groundMask; // 지면 오브젝트의 레이어
-    GeneratorManager generatorManager;
 
     BaseBuilding buildingScript;
     BuildingBluePrint buildingBluePrint; // 건물 청사진
@@ -16,7 +15,6 @@ public class BuildManager : MonoBehaviour
     private void Awake()
     {
         cam = Camera.main;
-        TryGetComponent(out generatorManager);
     }
 
     private void OnEnable()
@@ -24,7 +22,7 @@ public class BuildManager : MonoBehaviour
         // 건설 가능한 자원이 충분한지 확인할 필요가 있음 !!! >> 불충분하면 건설 취소 및 자원 부족 알림
 
         // 발전기들의 전력 공급 가능 범위 표시
-        generatorManager.StartConstruct();
+        GeneratorManager.Instance.StartConstruct();
         // 지을려는 건물의 청사진 생성
         CreateBluePrint();
     }
@@ -102,7 +100,7 @@ public class BuildManager : MonoBehaviour
         // 청사진 기능 해제 및 제거
         buildingBluePrint.WhenBuildComplete();
         // 발전기들의 전력 공급 가능 범위 표시 끄기
-        generatorManager.EndConstruct();
+        GeneratorManager.Instance.EndConstruct();
         // 설치에 관여하는 오브젝트 비활성화
         gameObject.SetActive(false);
     }
@@ -114,7 +112,7 @@ public class BuildManager : MonoBehaviour
         if(buildingBluePrint != null)
             Destroy(buildingBluePrint.gameObject);
         // 발전기들의 전력 공급 가능 범위 표시 끄기
-        generatorManager.EndConstruct();
+        GeneratorManager.Instance.EndConstruct();
         // 설치에 관여하는 오브젝트 비활성화
         gameObject.SetActive(false);
     }

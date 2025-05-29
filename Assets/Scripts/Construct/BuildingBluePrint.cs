@@ -21,8 +21,6 @@ public class BuildingBluePrint : MonoBehaviour
 
     // 해당 건물이 발전기를 요구하는지 여부
     bool isNeedGenerator;
-    // 발전기를 요구하는 건물들에 포함된 인터페이스
-    IBuildingRequireEnegy buildingRequireEnegy;
 
     // 건설 가능 여부
     public bool CanConstruct {  get; private set; }
@@ -49,11 +47,13 @@ public class BuildingBluePrint : MonoBehaviour
             col.isTrigger = true;
 
         // 해당 건물이 발전기를 필요로 하는 것이라면, 이를 기억
-        if (TryGetComponent(out buildingRequireEnegy))
+        if (TryGetComponent(out IBuildingRequireEnegy buildingRequireEnegy))
         {
             isNeedGenerator = true;
             ChangeNotConstructable(); // 발전기 존이 필요한 건물은 초기에 건설 불가로
         }
+        else
+            isNeedGenerator = false;
     }
 
     // 건물 설치 완료 때 호출하여 청사진 기능 해제 및 제거
@@ -78,6 +78,7 @@ public class BuildingBluePrint : MonoBehaviour
         {
             // 건설 불가 판정
             ChangeNotConstructable();
+            // 영역 내 콜라이더를 등록
             colliders.Add(other);
         }
     }
@@ -104,7 +105,7 @@ public class BuildingBluePrint : MonoBehaviour
             // 트리거에서 나간 콜라이더는 리스트에서 제거
             colliders.Remove(other);
             // 발전기가 필요한 건물이 아니고, 트리거 내 콜라이더가 0개라면 설치 가능한 상태로
-            if (colliders.Count.Equals(0))
+            if (!isNeedGenerator && colliders.Count.Equals(0))
             {
                 ChangeToConstructable();
             }
