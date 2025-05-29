@@ -6,11 +6,14 @@ public class PlayerVehicleHandler : MonoBehaviour
     Player player;
     VehicleController curVehicle;
     Transform motorCycle;
+    PlayerAnimationHandler playerAnim;
+
     [SerializeField] Vector3 spawnOffset;
 
-    public void Init(Player player)
+    public void Init(Player player, PlayerAnimationHandler playerAnim)
     {
         this.player = player;
+        this.playerAnim = playerAnim;
     }
 
     public void SetVehicle(VehicleController vehicle, PlayerInput playerInput)
@@ -25,6 +28,8 @@ public class PlayerVehicleHandler : MonoBehaviour
             }
 
             player.ChangeState(PlayerState.Vehicle);
+            playerAnim.SetRide(true);
+
             curVehicle = vehicle;
 
             transform.SetParent(vehicle.MountPos);
@@ -35,6 +40,7 @@ public class PlayerVehicleHandler : MonoBehaviour
         else
         {
             player.ChangeState(PlayerState.Idle);
+            playerAnim.SetRide(false);
 
             transform.SetParent(null);
             curVehicle.StopControl();
