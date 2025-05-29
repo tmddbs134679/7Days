@@ -18,6 +18,11 @@ public class AIAttackState : AIState
 
     public override void Enter()
     {
+        if(CurrentTarget != null)
+        {
+            owner.transform.LookAt(CurrentTarget.transform);
+        }
+       
         owner.GetComponent<Animator>().CrossFadeInFixedTime(AttackHas, CrossFadeDuration);
         // SetTarget(target);
         Debug.Log("Attack");
