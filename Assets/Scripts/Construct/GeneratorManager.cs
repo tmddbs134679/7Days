@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-public class GeneratorManager : MonoBehaviour
+public class GeneratorManager : Singleton<GeneratorManager>
 {
     // 필드에 설치된 발전기들
     List<Generator> generators = new List<Generator>();
@@ -8,7 +8,7 @@ public class GeneratorManager : MonoBehaviour
     private void Awake()
     {
         // 시작 시 필드에 이미 배치된 발전기들을 추가
-        Generator[] generatorsExisting = FindObjectsOfType<Generator>();
+        Generator[] generatorsExisting = FindObjectsOfType<Generator>(true);
         foreach (Generator generator in generatorsExisting)
         {
             generators.Add(generator);

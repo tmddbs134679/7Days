@@ -6,6 +6,7 @@ public class Generator : BaseBuilding
     InteractArea interactArea;
     public GeneratorData data { get; private set; }
 
+
     protected override void Init()
     {
         // 데이터 받아오기
@@ -36,6 +37,18 @@ public class Generator : BaseBuilding
         foreach (ResourceRequire resourceRequire in resourcesRequire)
         {
             inventoryManager.DeductResource(resourceRequire.resourceSort, resourceRequire.amount);
+        }
+    }
+
+    // 대미지를 받아 체력 감소 및 파괴
+    public override void TakeDamage(float amount)
+    {
+        hpCurrent = Mathf.Clamp(hpCurrent - amount, 0, hpMax);
+        if (hpCurrent <= 0)
+        {
+            // 매니저에 등록된 해당 발전기 제외
+            GeneratorManager.Instance.DestroyGenerator(this);
+            Destroy(gameObject);
         }
     }
 }
