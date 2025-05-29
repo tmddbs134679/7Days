@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour
         if (other.gameObject == attacker) return;
 
         
-        if (other.TryGetComponent(out BaseBuilding<MonoBehaviour> target))
+        if (other.TryGetComponent(out BaseBuilding target))
         {
             // 중복 DoT 방지 (선택)
             if (other.GetComponent<DamageDotTime>() == null)

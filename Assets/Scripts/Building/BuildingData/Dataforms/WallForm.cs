@@ -1,8 +1,9 @@
+using JetBrains.Annotations;
 using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WallOrSignalTower", menuName = "BuildingData/WallOrSignalTower")]
-public class WallForm : BaseBuildingForm<BuildingData<BasicBuildingData>>
+public class WallForm : BaseBuildingForm<BasicBuildingData>
 {
     public override void CreateForm()
     {
@@ -15,18 +16,23 @@ public class WallForm : BaseBuildingForm<BuildingData<BasicBuildingData>>
 }
 
 [Serializable]
-public class BuildingData<T>
+public class BasicBuildingData : CommonBuildingData
+{
+    public BasicBuildingDataByLevel[] dataByLevel;
+}
+
+[Serializable]
+public class CommonBuildingData
 {
     public BuildingIndex ID; // 건물 ID
     public string name; // 건물 이름
     public string description; // 건물 설명
     public Sprite sprite; // 건물 이미지
-    public T[] buildingDatas; // 레벨 별 건물 데이터
 }
 
 // 레벨 별로 달라질 수 있는 데이터들의 공통된 부분만 묶은 기본형
 [Serializable]
-public class BasicBuildingData
+public class BasicBuildingDataByLevel
 {
     public float time; // 건설 시간
     public int hpMax; // 체력

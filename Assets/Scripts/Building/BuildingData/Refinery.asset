@@ -17,7 +17,7 @@ MonoBehaviour:
     name: "\uC815\uC81C\uC18C"
     description: "\uC624\uC5FC\uB41C \uBB3C\uC744 \uC815\uC81C (30\uCD08 \uB2F9 1\uBCD1)"
     sprite: {fileID: 0}
-    buildingDatas:
+    dataByLevel:
     - time: 20
       hpMax: 150
       resources:
@@ -28,3 +28,4 @@ MonoBehaviour:
       product: {fileID: 11400000, guid: 4733040c154e1884e8ddc56c01d51a2b, type: 2}
       productionTime: 30
       amount: 1
+      capacity: 999

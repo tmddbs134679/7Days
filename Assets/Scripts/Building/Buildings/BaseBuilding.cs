@@ -12,11 +12,12 @@ public enum BuildingIndex
 }
 
 // 건물의 기본형
-public abstract class BaseBuilding<T> : MonoBehaviour
+public abstract class BaseBuilding : MonoBehaviour, IDamageable
 {
-    protected T data;
-
     [SerializeField] protected BuildingIndex buildingIndex;
+    public BuildingIndex GetBuildingIndex() => buildingIndex;
+
+    protected InventoryManager inventoryManager;
 
     protected int level = 0, // 건물 레벨
                   levelMax; // 해당 건물 종류의 최대 레벨
@@ -25,6 +26,7 @@ public abstract class BaseBuilding<T> : MonoBehaviour
 
     protected virtual void Start()
     {
+        inventoryManager = FindObjectOfType<InventoryManager>();
         Init();
     }
 
@@ -51,10 +53,9 @@ public abstract class BaseBuilding<T> : MonoBehaviour
     protected abstract void SetBuildingStatus();
 
     // 대미지를 받아 체력 감소 및 파괴
-
-    public void Damage(float damage)
+    public void TakeDamage(float amount)
     {
-        hpCurrent = Mathf.Clamp(hpCurrent - damage, 0, hpMax);
+        hpCurrent = Mathf.Clamp(hpCurrent - amount, 0, hpMax);
         if (hpCurrent <= 0)
             Destroy(gameObject);
     }
@@ -65,8 +66,23 @@ public abstract class BaseBuilding<T> : MonoBehaviour
     // 최대 레벨인지 여부 반환 (건물 업그레이드 가능 체크에 사용)
     public bool isMaxLevel() => level.Equals(levelMax);
 
-    // 건물을 클릭했을 때 해당 메서드 호출하기 >> 해당 건물의 데이터 반환
-    // commonData : 해당 건물 종류의 고정 데이터
-    // individualData : 건물 각각이 다르게 가질 수 있는 값
-    public abstract (BasicBuildingData commonData, BuildingStatus individualData) OnClick();
+    // 건물마다 고유로 가지는 값들 반환
+    public virtual BuildingStatus GetIndividualBuildingInfo() => new BuildingStatus(level, levelMax, hpCurrent);
+
+    // 자원 소모(건설, 업그레이드)
+    public abstract void ResourceConsumption(int nextLevel);
+}
+
+public class BuildingStatus
+{
+    public int level, // 건물 레벨
+               levelMax; // 해당 건물 종류의 최대 레벨
+    public float hpCurrent; // 현재 체력
+
+    public BuildingStatus(int level, int levelMax, float hpCurrent)
+    {
+        this.level = level;
+        this.levelMax = levelMax;
+        this.hpCurrent = hpCurrent;
+    }
 }

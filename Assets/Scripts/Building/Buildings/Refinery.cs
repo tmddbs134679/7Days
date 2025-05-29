@@ -6,21 +6,29 @@ public interface IInteractactble
     public abstract void OnInteract();
 }
 
-public class Refinery : BaseBuilding<BuildingData<ProductionBuildingData>>, IInteractactble
+public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
 {
-    [SerializeField] InventoryManager inventoryManager;
+    public ProductionBuildingData data { get; private set; }
 
-    public ProductionBuildingData productBuildingData { get; private set; }
     // 제작 진행 시간, 제작에 필요한 시간
     float progressTime, requireTime;
     // 생산된 양
     int productAmount;
 
+    protected override void Init()
+    {
+        // 데이터 받아오기
+        data = FormManager.Instance.GetForm<ProductionBuildingForm>().GetDataByID((int)buildingIndex);
+        // 최대 레벨
+        levelMax = data.dataByLevel.Length - 1;
+        SetBuildingStatus();
+    }
+
     protected override void Start()
     {
         base.Start();
         // 업데이트에서 매번 찾기보다 변수에 담아두는 게 좋지 않을까
-        requireTime = data.buildingDatas[level].productionTime;
+        requireTime = data.dataByLevel[level].productionTime;
     }
 
     private void Update()
@@ -34,32 +42,41 @@ public class Refinery : BaseBuilding<BuildingData<ProductionBuildingData>>, IInt
         }
     }
 
-    protected override void Init()
-    {
-        // 데이터 받아오기
-        data = FormManager.Instance.GetForm<ProductionBuildingForm>().GetDataByID((int)buildingIndex);
-        // 최대 레벨
-        levelMax = data.buildingDatas.Length - 1;
-        SetBuildingStatus();
-    }
-
     protected override void SetBuildingStatus()
     {
-        // 해당 레벨에 맞는 데이터
-        var levelData = data.buildingDatas[level];
         // 레벨업으로 인한 최대 HP 증가
-        hpMax = levelData.hpMax;
+        hpMax = data.dataByLevel[level].hpMax;
         // 레벨업으로 변한 생산 시간 반영
-        requireTime = data.buildingDatas[level].productionTime;
+        requireTime = data.dataByLevel[level].productionTime;
     }
 
     // 생산량만큼 적재
-    void Production() => productAmount = Mathf.Clamp(productAmount + data.buildingDatas[level].amount, 0, data.buildingDatas[level].capacity);
+    void Production() => productAmount = Mathf.Clamp(productAmount + data.dataByLevel[level].amount, 0, data.dataByLevel[level].capacity);
     
     // 생산한 아이템을 인벤토리에 넣게끔
-    public void OnInteract() => inventoryManager.AddResource(data.buildingDatas[level].product, productAmount);
+    public void OnInteract() => inventoryManager.AddResource(data.dataByLevel[level].product, productAmount);
 
-    public override (BasicBuildingData, BuildingStatus) OnClick() => (productBuildingData, new ProductBuildingStatus(level, levelMax, hpCurrent, progressTime, productAmount));
+    // 건물마다 고유로 가지는 값들 반환
+    public override BuildingStatus GetIndividualBuildingInfo() => new ProductBuildingStatus(level, levelMax, hpCurrent, progressTime, productAmount);
+
+    public override void ResourceConsumption(int nextLevel)
+    {
+        ResourceRequire[] resourcesRequire = data.dataByLevel[nextLevel].resources;
+        foreach (ResourceRequire resourceRequire in resourcesRequire)
+        {
+            inventoryManager.DeductResource(resourceRequire.resourceSort, resourceRequire.amount);
+        }
+    }
+
+    public void OnEnegyDown()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnEnegySupply()
+    {
+        throw new System.NotImplementedException();
+    }
 }
 
 public class ProductBuildingStatus : BuildingStatus
