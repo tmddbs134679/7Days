@@ -170,7 +170,6 @@ public class PlayerStatus : MonoBehaviour
             case ConsumableType.Health:
                 CurHealth += value;
                 break;
-
             case ConsumableType.Stamina:
                 CurStamina += value;
                 break;

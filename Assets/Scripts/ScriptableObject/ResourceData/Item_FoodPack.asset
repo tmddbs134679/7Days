@@ -21,6 +21,6 @@ MonoBehaviour:
   consumables:
   - type: 0
     value: 20
-  - type: 1
+  - type: 3
     value: 20
   equipPrefab: {fileID: 0}
