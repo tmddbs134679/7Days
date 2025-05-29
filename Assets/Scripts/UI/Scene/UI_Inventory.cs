@@ -171,7 +171,7 @@ public class UI_Inventory : UI_Popup
         setSlots.gameObject.SetActive(false);
         if (curItemData != null)
         {
-            inventoryManager.OnUseItem(curSlotIndex);
+            inventoryManager.OnUseItem(curSlotIndex, slots[curSlotIndex].Item);
             UpdateSlotData(curSlotIndex);
         }
     }
