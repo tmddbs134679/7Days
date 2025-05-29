@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7334551213911694547}
   - component: {fileID: 1505814100337494995}
   - component: {fileID: 2161710679921675328}
+  - component: {fileID: 773732537397784930}
   m_Layer: 0
   m_Name: Collapser
   m_TagString: Untagged
@@ -209,3 +210,15 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &773732537397784930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909819970742039487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b74d0e836e565974d9fc4b68b2468d48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

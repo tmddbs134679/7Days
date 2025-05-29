@@ -38,6 +38,12 @@ public class CollapserPhaseController : MonoBehaviour
     {
         Debug.Log("페이즈 2");
         //플레이어 시야 혼선, 드론 혼란상태
+        var shaker = Camera.main.GetComponentInChildren<CameraShaker>();
+        if (shaker != null)
+            shaker.Shake(10f, 0.2f, 20f);
+
+        var Splatter = Camera.main.GetComponent<SplatterEffect>();
+        Splatter.ShowSplatter();
     }
 
     private void Phase3()

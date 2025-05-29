@@ -19,6 +19,8 @@ public abstract class AI_Base : MonoBehaviour
     private float shakeDuration = 0.5f;
     private float magnitude = 0.05f;
 
+
+
     protected virtual void Awake()
     {
         health = GetComponent<Health>();

@@ -5,7 +5,7 @@ using UnityEngine;
 public class AI_Collapser : AI_Base
 {
     private CollapserPhaseController phaseController;
-
+    private float AreaAttackRange = 10f;
     protected override void Awake()
     {
         base.Awake();
@@ -73,7 +73,7 @@ public class AI_Collapser : AI_Base
     void AreaAttack()
     {
         Debug.Log("Area Attack");
-        Collider[] hits = Physics.OverlapSphere(transform.position, enemyData.attackRange);
+        Collider[] hits = Physics.OverlapSphere(transform.position, AreaAttackRange);
         foreach (var hit in hits)
         {
             if (hit.TryGetComponent<IDamageable>(out var target))
@@ -82,6 +82,10 @@ public class AI_Collapser : AI_Base
             }
         }
     }
-
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, AreaAttackRange);
+    }
 
 }

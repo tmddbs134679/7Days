@@ -4,49 +4,41 @@ using UnityEngine.UI;
 
 public class SplatterEffect : MonoBehaviour
 {
-    [SerializeField] private Image splatterImage;     // 화면에 표시할 UI 이미지
-    [SerializeField] private Sprite splatterSprite;   // 사용할 오염물 sprite
+    [SerializeField] private Image splatterImage;
+    [SerializeField] private float totalDuration = 10f;
+    [SerializeField] private float flickerInterval = 1f; 
+    [SerializeField] private Color baseColor = Color.white;
 
-    [SerializeField] private float amplitude = 0.1f;  // 진폭
-    [SerializeField] private float frequency = 2f;    // 주기
-    private Vector3 initPos;
 
-    private void Start()
-    {
-        initPos = transform.position;
-    }
-
-    private void Update()
-    {
-        float offsetX = Mathf.Sin(Time.time * frequency) * amplitude;
-        float offsetY = Mathf.Cos(Time.time * frequency * 0.5f) * amplitude;
-        transform.localPosition = initPos + new Vector3(offsetX, offsetY, 0f);
-    }
-
+ 
     public void ShowSplatter()
     {
-        splatterImage.sprite = splatterSprite;
-        StartCoroutine(FadeInOut());
+        splatterImage.color = new Color(baseColor.r, baseColor.g, baseColor.b, 0f);
+        StartCoroutine(FlickerAlpha());
     }
 
-    private IEnumerator FadeInOut()
+    private IEnumerator FlickerAlpha()
     {
-        // Fade in
-        for (float t = 0; t < 1f; t += Time.deltaTime)
+        float elapsed = 0f;
+        bool visible = false;
+
+        while (elapsed < totalDuration)
         {
-            splatterImage.color = new Color(1f, 1f, 1f, t);
-            yield return null;
+            visible = !visible;
+            float targetAlpha = visible ? 1f : 0.5f;
+
+         
+            for (float t = 0f; t < flickerInterval; t += Time.deltaTime)
+            {
+                float lerpedAlpha = Mathf.Lerp(splatterImage.color.a, targetAlpha, t / flickerInterval);
+                splatterImage.color = new Color(baseColor.r, baseColor.g, baseColor.b, lerpedAlpha);
+                yield return null;
+            }
+
+            splatterImage.color = new Color(baseColor.r, baseColor.g, baseColor.b, targetAlpha);
+            elapsed += flickerInterval;
         }
+        splatterImage.color = new Color(baseColor.r, baseColor.g, baseColor.b, 0f);
 
-        yield return new WaitForSeconds(1.5f);
-
-        // Fade out
-        for (float t = 1f; t > 0; t -= Time.deltaTime)
-        {
-            splatterImage.color = new Color(1f, 1f, 1f, t);
-            yield return null;
-        }
-
-        splatterImage.sprite = null;
     }
 }
