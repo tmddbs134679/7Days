@@ -44,8 +44,6 @@ public class BuildManager : MonoBehaviour
 
     private void OnDisable()
     {
-        // 발전기들의 전력 공급 가능 범위 표시 끄기
-        generatorManager.EndConstruct();
         // 데이터 초기화
         buildingPrefab = null;
         buildingBluePrint = null;
@@ -103,6 +101,8 @@ public class BuildManager : MonoBehaviour
         buildingScript.ResourceConsumption(0);
         // 청사진 기능 해제 및 제거
         buildingBluePrint.WhenBuildComplete();
+        // 발전기들의 전력 공급 가능 범위 표시 끄기
+        generatorManager.EndConstruct();
         // 설치에 관여하는 오브젝트 비활성화
         gameObject.SetActive(false);
     }
@@ -113,6 +113,8 @@ public class BuildManager : MonoBehaviour
         // 건물 청사진 오브젝트를 파괴하고
         if(buildingBluePrint != null)
             Destroy(buildingBluePrint.gameObject);
+        // 발전기들의 전력 공급 가능 범위 표시 끄기
+        generatorManager.EndConstruct();
         // 설치에 관여하는 오브젝트 비활성화
         gameObject.SetActive(false);
     }
