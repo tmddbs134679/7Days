@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WeaponController : MonoBehaviour
 {
-    [SerializeField] WeaponDataSO weaponDataSO;
+    [SerializeField] public WeaponDataSO weaponDataSO;
     public WeaponDataSO WeaponDataSO { get => weaponDataSO; }
     [SerializeField] GameObject grenadePrefab;
     [SerializeField] GameObject modelObject;
@@ -44,5 +44,10 @@ public class WeaponController : MonoBehaviour
         yield return new WaitForSeconds(weaponDataSO.cooldown);
 
         isCoolDown = false;
+    }
+
+    public WeaponType GetWeaponType()
+    {
+        return weaponDataSO.weaponType;
     }
 }

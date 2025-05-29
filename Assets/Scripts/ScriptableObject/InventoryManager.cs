@@ -56,10 +56,11 @@ public class InventoryManager : MonoBehaviour
     public UI_QuickSlotManager quickSlotManager;
     public Player player;
     public event Action<int> OnHealthChanged;
-
+    [SerializeField] public WeaponDataSO[] weaponDataSO;
 
     private void Awake()
     {
+        player = GameObject.Find("Player").GetComponent<Player>();
         // 싱글톤
         if (null == instance)
         {
@@ -68,7 +69,6 @@ public class InventoryManager : MonoBehaviour
         }
         else
             Destroy(this.gameObject);
-
         quickSlotsIndex = new ItemInfo[4];
         quickSlots = new Dictionary<ItemInfo, int>();
         itemSlots = new ItemInfo[slotCount];
@@ -81,6 +81,11 @@ public class InventoryManager : MonoBehaviour
                 itemList.Add(entry.ItemType.ToString(), entry.ItemData);
             }
         }
+    }
+
+    private void Start()
+    {
+        player.PlayerEvents.onSelectSlot += OnQuick;
     }
 
     // 퀵슬롯 설정
@@ -202,6 +207,13 @@ public class InventoryManager : MonoBehaviour
     {
         int leftAmount = amount;
 
+        // 해당 자원이 리소스면 바로 리소스에 더하고 종료
+        if (itemList.ContainsKey(item.name))
+        {
+            AddResource(item, amount);
+            return;
+        }
+
         // 기존 스택에 채우기 시도
         for (int i = 0; i < slotCount; i++)
         {
@@ -219,8 +231,10 @@ public class InventoryManager : MonoBehaviour
                 leftAmount -= fillAmount;
                 if (uiInventory != null)
                     uiInventory.UpdateSlotData(i);
+                AddUpdater(item);
                 if (leftAmount == 0) // 모든 아이템을 다 넣었으면 종료
                 {
+               
                     return;
                 }
             }
@@ -358,19 +372,27 @@ public class InventoryManager : MonoBehaviour
     }
 
     // 소모품 아이템 사용
-    public void OnUseItem(int index, int amount = 1)
+    public void OnUseItem(int index,ItemData data, int amount = 1)
     {
+        UpdateQuickSlotDetail(data);
         DeductItemBySlot(index, amount);
         if (uiInventory != null)
             uiInventory.UpdateSlotData(index);
+ 
+        foreach (var value in data.consumables)
+        {
+            player.ConsumeItem(value);
+        }
     }
     // 퀵슬롯으로 아이템 사용
     public void OnQuickUseItem(int quickIndex, int slotindex)
     {
         ItemInfo itemInfo = itemSlots[quickIndex];
-        DeductItemBySlot(quickIndex, 1);
+        OnUseItem(quickIndex, itemInfo.data, 1);
+       // DeductItemBySlot(quickIndex, 1);
         if (uiInventory != null)
             uiInventory.UpdateSlotData(quickIndex);
+
         quickSlotManager.UpdateStack(slotindex, itemInfo);
         // 0개가 되었으면 퀵슬롯 해체.
         if (itemInfo.count == 0)
@@ -378,6 +400,52 @@ public class InventoryManager : MonoBehaviour
             quickSlots.Remove(itemInfo);
             quickSlotsIndex[slotindex] = null;
             quickSlotManager.ClearItemSlot(slotindex);
+        }
+    }
+    public void AddUpdater(ItemData data)
+    {
+        int tempInt = -1;
+        for (int i = 0; i < quickSlotsIndex.Length; i++)
+        {
+            if (quickSlotsIndex[i] == null)
+                continue;
+
+            if (quickSlotsIndex[i].data == data)
+            {
+                tempInt = i;
+            }
+        }
+        if (tempInt == -1)
+            return;
+
+        ItemInfo tempInfo = new ItemInfo(quickSlotsIndex[tempInt].data, quickSlotsIndex[tempInt].count);
+        quickSlotManager.UpdateStack(tempInt, tempInfo);
+
+    }
+    public void UpdateQuickSlotDetail(ItemData data)
+    {
+        int tempInt = -1;
+        for (int i = 0; i < quickSlotsIndex.Length; i++)
+        {
+            if (quickSlotsIndex[i] == null)
+                continue;
+
+            if (quickSlotsIndex[i].data == data)
+            {
+                tempInt = i;
+            }
+        }
+        if (tempInt == -1)
+            return;
+
+        ItemInfo tempInfo = new ItemInfo(quickSlotsIndex[tempInt].data, quickSlotsIndex[tempInt].count-1);
+        quickSlotManager.UpdateStack(tempInt, tempInfo);
+        // 0개가 되었으면 퀵슬롯 해체.
+        if (tempInfo.count == 0)
+        {
+            quickSlots.Remove(tempInfo);
+            quickSlotsIndex[tempInt] = null;
+            quickSlotManager.ClearItemSlot(tempInt);
         }
     }
 
@@ -400,65 +468,27 @@ public class InventoryManager : MonoBehaviour
         }
 
     }
-    public void OnQuick1()
+    public void OnQuick(int index)
     {
-        if (quickSlotsIndex[0] != null&& uiInventory == null)
+        if (quickSlotsIndex[index] != null && uiInventory == null)
         {
-            int index = quickSlots[quickSlotsIndex[0]];
+            int num = quickSlots[quickSlotsIndex[index]];
             bool isAble;
-            if (quickSlotsIndex[0].count != 1)
-                isAble = quickSlotManager.CheckQuick(0);
+            if (quickSlotsIndex[index].count != 1)
+                isAble = quickSlotManager.CheckQuick(index);
             else
-                isAble = quickSlotManager.CheckQuick(0,true);
+                isAble = quickSlotManager.CheckQuick(index, true);
 
             if (isAble == true)
-                OnQuickUseItem(index,0);
-        }
-    }
-    public void OnQuick2()
-    {
-        if (quickSlotsIndex[1] != null && uiInventory == null)
-        {
-            int index = quickSlots[quickSlotsIndex[1]];
-            bool isAble;
-            if (quickSlotsIndex[1].count != 1)
-                isAble = quickSlotManager.CheckQuick(1);
-            else
-                isAble = quickSlotManager.CheckQuick(1, true);
-
-            if (isAble == true)
-                OnQuickUseItem(index,1);
-        }
-    }
-    public void OnQuick3()
-    {
-        if (quickSlotsIndex[2] != null && uiInventory == null)
-        {
-            int index = quickSlots[quickSlotsIndex[2]];
-            bool isAble;
-            if (quickSlotsIndex[2].count != 1)
-                isAble = quickSlotManager.CheckQuick(2);
-            else
-                isAble = quickSlotManager.CheckQuick(2, true);
-
-            if (isAble == true)
-                OnQuickUseItem(index,2);
-        }
-    }
-    public void OnQuick4()
-    {
-        if (quickSlotsIndex[3] != null && uiInventory == null)
-        {
-            int index = quickSlots[quickSlotsIndex[3]];
-            bool isAble;
-            if (quickSlotsIndex[3].count != 1)
-                isAble = quickSlotManager.CheckQuick(3);
-            else
-                isAble = quickSlotManager.CheckQuick(3, true);
-
-            if (isAble == true)
-                OnQuickUseItem(index,3);
+                OnQuickUseItem(num, index);
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            OnInventory();
+        }
+    }
 }

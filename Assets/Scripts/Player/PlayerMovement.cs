@@ -5,16 +5,17 @@ public class PlayerMovement : MonoBehaviour
 {
     private Player player;
     private Rigidbody _rigidbody;
-
-    public void Init(Player player, Rigidbody rigidbody)
+    private PlayerAnimationHandler playerAnim;
+    public void Init(Player player, Rigidbody rigidbody, PlayerAnimationHandler playerAnim)
     {
         this.player = player;
         _rigidbody = rigidbody;
+        this.playerAnim = playerAnim;
     }
 
     public void Move(Vector3 moveDirection, float moveSpeed)
     {
-        if (player.CurState == PlayerState.Dash) return;
+        if (player.CurState == PlayerState.Dash || player.CurState == PlayerState.Throw) return;
 
         if (moveDirection == Vector3.zero)
             player.ChangeState(PlayerState.Idle);
@@ -27,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
         velocity.z = moveDirection.z * moveSpeed;
 
         _rigidbody.velocity = velocity;
+
+        playerAnim.SetMoveSpeed(velocity.magnitude);
     }
 
     public void Rotate(Vector3 lookDirection)
@@ -39,6 +42,8 @@ public class PlayerMovement : MonoBehaviour
     {
         player.CanDash = false;
         player.ChangeState(PlayerState.Dash);
+        playerAnim.SetDash(true);
+
         _rigidbody.useGravity = false;
 
         float startTime = Time.time;
@@ -51,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
 
         _rigidbody.useGravity = true;
         player.ChangeState(PlayerState.Idle);
+        playerAnim.SetDash(false);
 
         // 대시 쿨타임 적용
         yield return new WaitForSeconds(cooldown);

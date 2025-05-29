@@ -37,4 +37,9 @@ public class Health : MonoBehaviour, IDamageable
 
         }
     }
+
+    public float GetHealth()
+    {
+        return health;
+    }
 }
