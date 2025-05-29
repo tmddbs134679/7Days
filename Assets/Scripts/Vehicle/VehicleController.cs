@@ -5,6 +5,7 @@ public class VehicleController : MonoBehaviour
 {
     [SerializeField] VehicleDataSO vehicleDataSO;
     [SerializeField] private Transform mountPos;
+    VehicleAudioHandler vehicleAudio;
     public Transform MountPos { get => mountPos; }
 
     // Vehicle Stats
@@ -16,12 +17,20 @@ public class VehicleController : MonoBehaviour
     private Vector2 moveInput = Vector2.zero;
     private bool isControlled = false;
 
+    void Start()
+    {
+        vehicleAudio = GetComponent<VehicleAudioHandler>();
+
+        if (vehicleAudio)
+            vehicleAudio.Init();
+    }
+
     public void Init(PlayerInput playerInput)
     {
         // 데이터 세팅
         speed = vehicleDataSO.Speed;
         turnSpeed = vehicleDataSO.TurnSpeed;
-        
+
         // InputAction 세팅
         moveAction = playerInput.actions["VehicleMove"];
 
@@ -31,7 +40,9 @@ public class VehicleController : MonoBehaviour
         moveAction.Enable();
 
         StartControl();
+        vehicleAudio.PlayVehicleStart();
     }
+    
     private void StartControl() => isControlled = true;
     public void StopControl()
     {
@@ -41,6 +52,7 @@ public class VehicleController : MonoBehaviour
         moveAction.canceled -= OnMove;
 
         moveAction?.Disable();
+        vehicleAudio.PlayVehicleStop();
     }
 
     void Update()
@@ -50,16 +62,18 @@ public class VehicleController : MonoBehaviour
     }
 
     private void OnMove(InputAction.CallbackContext context)
-    {
+    {            
         if (context.phase == InputActionPhase.Performed)
         {
             moveInput = context.ReadValue<Vector2>();
             moveInput = moveInput.normalized;
+            vehicleAudio.SetPitch(true);
         }
 
         if (context.phase == InputActionPhase.Canceled)
         {
             moveInput = Vector2.zero;
+            vehicleAudio.SetPitch(false);
         }
     }
     void Move()

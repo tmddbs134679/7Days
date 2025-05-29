@@ -29,6 +29,7 @@ public class Player : MonoBehaviour, IDamageable
     private PlayerVehicleHandler playerVehicle; // 탈 것 관리
     private PlayerWeaponHandler playerWeapon; // 무기 관리
     private PlayerAnimationHandler playerAnimation; // 애니메이션 관리
+    private PlayerAudioHandler playerAudio; // 사운드 관리
 
     [SerializeField] PlayerState curState;
     public PlayerState CurState { get => curState; } // 플레이어 상태
@@ -40,21 +41,23 @@ public class Player : MonoBehaviour, IDamageable
     public bool CanDash { get; set; }
     public bool IsDead { get; private set; }
     public bool OnBattle { get; private set; }
-
     private void Awake()
+    {
+        PlayerEvents = new PlayerEventHandler();
+    }
+    private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
-        anim = GetComponentInChildren<Animator>();
-
-        PlayerEvents = new PlayerEventHandler();
+        anim = GetComponent<Animator>();
 
         playerAnimation = GetComponent<PlayerAnimationHandler>();
         playerController = GetComponent<PlayerController>();
         playerStatus = GetComponent<PlayerStatus>();
         playerMovement = GetComponent<PlayerMovement>();
         playerVehicle = GetComponent<PlayerVehicleHandler>();
-        playerWeapon = GetComponentInChildren<PlayerWeaponHandler>();
+        playerWeapon = GetComponent<PlayerWeaponHandler>();
+        playerAudio = GetComponent<PlayerAudioHandler>();
 
         if (playerAnimation)
             playerAnimation.Init(anim);
@@ -68,7 +71,8 @@ public class Player : MonoBehaviour, IDamageable
             playerVehicle.Init(this, playerAnimation);
         if (playerWeapon)
             playerWeapon.Init(this, playerStatus, playerAnimation);
-
+        if (playerAudio)
+            playerAudio.Init();
 
         curState = PlayerState.Idle;
 
@@ -121,7 +125,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void GatheringResource(Resource resource)
     {
-        if (playerStatus.UseStamina(playerDataSO.GatherStamina))
+        if (curState != PlayerState.Gathering && playerStatus.UseStamina(playerDataSO.GatherStamina))
         {
             ChangeState(PlayerState.Gathering);
             playerAnimation.SetGathering(true);
@@ -141,12 +145,13 @@ public class Player : MonoBehaviour, IDamageable
 
     public void ThrowGrenade()
     {
-        playerWeapon.CheckThrow();
+        if(curState != PlayerState.Throw)
+            playerWeapon.CheckThrow();
     }
 
-    public void UnlockWeapon(int idx)
+    public void UnlockWeapon(WeaponType type)
     {
-        playerWeapon.UnlockWeapon(idx);
+        playerWeapon.UnlockWeapon(type);
     }
 
     public void SelectWeapon(int idx)
