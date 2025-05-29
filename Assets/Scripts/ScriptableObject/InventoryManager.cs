@@ -56,7 +56,7 @@ public class InventoryManager : MonoBehaviour
     public UI_QuickSlotManager quickSlotManager;
     public Player player;
     public event Action<int> OnHealthChanged;
-
+    [SerializeField] public WeaponDataSO[] weaponDataSO;
 
     private void Awake()
     {

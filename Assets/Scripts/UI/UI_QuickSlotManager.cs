@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,9 +8,11 @@ using static UnityEditor.Progress;
 
 public class UI_QuickSlotManager : MonoBehaviour
 {
+    private WeaponDataSO[] weaponDataSO;
     private PlayerEventHandler eventHandler;
     private PlayerDataSO playerData;
     private PlayerWeaponHandler weaponHandler;
+    private InventoryManager inventoryManager;
     // 대쉬 이미지는 고정
     [SerializeField] private Sprite dashSprite;
     [SerializeField] private Sprite skillASprite;
@@ -17,22 +20,24 @@ public class UI_QuickSlotManager : MonoBehaviour
     [SerializeField] private UI_QuickSlot[] itemSlots;
 
     private int dashIndex = 4;
-    private int SkillAIndex = 5;
-    private int SkillBIndex = 6;
+    private int buffWeaponIndex = 5;
+    private int debuffWeaponIndex = 6;
 
     private void Start()
     {
-        playerData = InventoryManager.instance.player.PlayerDataSO;
-        eventHandler= InventoryManager.instance.player.PlayerEvents;
-        weaponHandler = InventoryManager.instance.player.playerWeapon;
         InventoryManager.instance.quickSlotManager = this;
+        inventoryManager = InventoryManager.instance;
+        playerData = inventoryManager.player.PlayerDataSO;
+        eventHandler= inventoryManager.player.PlayerEvents;
+        weaponDataSO = inventoryManager.weaponDataSO;
+
         SetSkillSlot(dashIndex, dashSprite, playerData.DashCoolDown);
-        SetSkillSlot(SkillAIndex, skillASprite, weaponHandler.weapons[0].weaponDataSO.cooldown);
-        SetSkillSlot(SkillBIndex, skillBSprite, weaponHandler.weapons[1].weaponDataSO.cooldown);
+        SetSkillSlot(buffWeaponIndex, skillASprite, weaponDataSO[0].cooldown);
+        SetSkillSlot(debuffWeaponIndex, skillBSprite, weaponDataSO[1].cooldown);
 
         eventHandler.onDash += OnDash;
-        eventHandler.onSkillA += OnSkillA;
-        eventHandler.onSkillB += OnSkillB;
+        eventHandler.onWeaponUsed += OnSkill;
+
     }
 
     public void SetItemSlot(int index, ItemInfo info, float cooldown = 0)
@@ -59,14 +64,19 @@ public class UI_QuickSlotManager : MonoBehaviour
     {
         itemSlots[dashIndex].TriggerCooldown();
     }
-    public void OnSkillA()
+    public void OnSkill(WeaponType type)
     {
-        itemSlots[SkillAIndex].TriggerCooldown();
+        switch (type)
+        {
+            case WeaponType.Buff:
+                itemSlots[buffWeaponIndex].TriggerCooldown();
+                break;
+            case WeaponType.Debuff:
+                itemSlots[debuffWeaponIndex].TriggerCooldown();
+                break;
+        }
     }
-    public void OnSkillB()
-    {
-        itemSlots[SkillBIndex].TriggerCooldown();
-    }
+
     public bool CheckQuick(int index, bool isEnd = false)
     {
          return itemSlots[index].TriggerCooldown(isEnd);
