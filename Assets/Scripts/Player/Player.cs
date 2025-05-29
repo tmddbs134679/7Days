@@ -164,12 +164,6 @@ public class Player : MonoBehaviour, IDamageable
         playerWeapon.StopAiming();
     }
 
-    [ContextMenu("TestHit")]
-    public void TestHit()
-    {
-        TakeDamage(30);
-    }
-
     public void TakeDamage(float amount)
     {
         playerStatus.TakeDamage(amount);
