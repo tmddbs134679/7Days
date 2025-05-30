@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,10 +17,11 @@ public class VehicleController : MonoBehaviour
     private InputAction moveAction;
     private Vector2 moveInput = Vector2.zero;
     private bool isControlled = false;
-
+    private Rigidbody _rigidbody;
     void Start()
     {
         vehicleAudio = GetComponent<VehicleAudioHandler>();
+        _rigidbody = GetComponent<Rigidbody>();
 
         if (vehicleAudio)
             vehicleAudio.Init();
@@ -42,29 +44,33 @@ public class VehicleController : MonoBehaviour
         StartControl();
         vehicleAudio.PlayVehicleStart();
     }
-    
+
     private void StartControl() => isControlled = true;
     public void StopControl()
     {
         isControlled = false;
-
+        _rigidbody.velocity = Vector3.zero;
+        
         moveAction.performed -= OnMove;
         moveAction.canceled -= OnMove;
 
         moveAction?.Disable();
         vehicleAudio.PlayVehicleStop();
+        
     }
 
     void Update()
     {
         if (!isControlled || moveAction == null) return;
-            Move();
+        Move();
     }
 
     private void OnMove(InputAction.CallbackContext context)
-    {            
+    {
         if (context.phase == InputActionPhase.Performed)
         {
+            _rigidbody.velocity = Vector3.zero;
+
             moveInput = context.ReadValue<Vector2>();
             moveInput = moveInput.normalized;
             vehicleAudio.SetPitch(true);
@@ -72,6 +78,8 @@ public class VehicleController : MonoBehaviour
 
         if (context.phase == InputActionPhase.Canceled)
         {
+            _rigidbody.velocity = Vector3.zero;
+
             moveInput = Vector2.zero;
             vehicleAudio.SetPitch(false);
         }
