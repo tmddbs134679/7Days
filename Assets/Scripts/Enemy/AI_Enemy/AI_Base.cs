@@ -35,6 +35,7 @@ public abstract class AI_Base : MonoBehaviour
 
     protected virtual void OnEnable()
     {
+        health.Init(enemyData.maxHealth);
         health.OnTakeDamage += DamageEffect;
     }
 

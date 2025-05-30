@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AI_Collapser : AI_Base
 {
-    private CollapserPhaseController phaseController;
+    public CollapserPhaseController phaseController;
     private float AreaAttackRange = 10f;
     protected override void Awake()
     {
@@ -43,7 +43,8 @@ public class AI_Collapser : AI_Base
             return dist < enemyData.attackRange;
         });
 
-        fsm.AddAnyTransition(dead, () => GetComponent<Health>().IsDead);
+        fsm.AddAnyTransition(dead, () =>
+        GetComponent<Health>().IsDead && fsm.CurrentState != dead);
 
         fsm.SetInitialState(idle);
     }

@@ -6,6 +6,8 @@ public class AI_Spine : AI_Base
 {
     [SerializeField] private GameObject projectilePrefab;
     private float startY = 9f;
+    private GameObject targetObj;
+
     protected override void Start()
     {
         base.Start();
@@ -47,6 +49,15 @@ public class AI_Spine : AI_Base
             return dist < enemyData.attackRange;
         });
 
+        fsm.AddTransition(attack, chase, () =>
+        {
+            var t = attack.CurrentTarget;
+            return t == null
+                || !t.activeInHierarchy
+                || Vector3.Distance(transform.position, t.transform.position) > enemyData.attackRange;
+        });
+
+
         fsm.AddTransition(attack, idle, () =>
         {
             var t = attack.CurrentTarget;
@@ -61,11 +72,22 @@ public class AI_Spine : AI_Base
 
     public override void Attack(GameObject target)
     {
-        if (projectilePrefab == null || target == null)
+        if (targetObj == null || targetObj != target)
+        {
+            targetObj = target;
+        }
+            
+    }
+
+
+
+    public void AnimAttack()
+    {
+        if (projectilePrefab == null || targetObj == null)
             return;
 
-        Vector3 spawnPos = transform.position + Vector3.back * 4f;
-        Vector3 targetPos = target.transform.position;
+        Vector3 spawnPos = transform.position + transform.forward * 2;
+        Vector3 targetPos = targetObj.transform.position;
 
         Vector3 direction = (targetPos - spawnPos).normalized;
         float distance = Vector3.Distance(spawnPos, targetPos);
@@ -78,5 +100,4 @@ public class AI_Spine : AI_Base
         Rigidbody rb = proj.GetComponent<Rigidbody>();
         rb.velocity = direction * speed;
     }
-
 }

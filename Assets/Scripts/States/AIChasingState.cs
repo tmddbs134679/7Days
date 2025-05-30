@@ -35,6 +35,11 @@ public class AIChasingState : AIState
 
     public override void Enter()
     {
+        if (CurrentTarget != null)
+        {
+            owner.transform.LookAt(CurrentTarget.transform);
+        }
+        
         owner.GetComponent<Animator>().CrossFadeInFixedTime(RunHas, CrossFadeDuration);
         hasAssignedWallOffset = false;
  
@@ -45,6 +50,9 @@ public class AIChasingState : AIState
     }
     public override void Tick()
     {
+
+      
+
         if ((type == EENEMYTYPE.RUNNER || type == EENEMYTYPE.SPINE) && IsWallInFront(out Transform wall))
         {
             if (CurrentTarget != wall || !hasAssignedWallOffset)

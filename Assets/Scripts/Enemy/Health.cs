@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Health : MonoBehaviour, IDamageable
@@ -16,6 +17,9 @@ public class Health : MonoBehaviour, IDamageable
     public event Action OnTakeDamage;
     public event Action OnDie;
     public bool IsDead => health == 0;
+
+ 
+
     public void Init(float maxHP)
     {
         maxHealth = Mathf.Max(maxHP, health);
