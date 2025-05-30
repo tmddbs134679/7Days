@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 23509126836271822}
   - component: {fileID: 64405866471057210}
   - component: {fileID: 5801546196765888377}
+  - component: {fileID: 4704708392979361475}
   m_Layer: 18
   m_Name: Refinery
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,3 +126,19 @@ MonoBehaviour:
   requireProduction: 0
   productAmount: 0
   inputAmount: 0
+--- !u!208 &4704708392979361475
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874550062254430}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.181, y: 1.008, z: 0.95400006}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.34500003, y: 1.005, z: -0.058000002}
+  m_TimeToStationary: 0.5

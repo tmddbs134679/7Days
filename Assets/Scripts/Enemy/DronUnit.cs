@@ -57,7 +57,7 @@ public class DroneUnit : MonoBehaviour
 
         while (IsGathering)
         {
-            target = transform.position + new Vector3(UnityEngine.Random.Range(50, 100), 0f, UnityEngine.Random.Range(50, 100));
+            target = transform.position + new Vector3(UnityEngine.Random.Range(-150, 150), 0f, UnityEngine.Random.Range(-150, 150));
 
             while (gatherResources.Count == 0)
             {

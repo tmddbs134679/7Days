@@ -15,7 +15,10 @@ public class AIDeadState : AIState
     {
         owner.GetComponent<Animator>().CrossFadeInFixedTime(DeadHas, CrossFadeDuration);
         owner.GetComponent<Collider>().enabled = false;
-        owner.GetComponent<NavMeshAgent>().isStopped = true;
+        if (owner.TryGetComponent(out NavMeshAgent navMeshAgent))
+        {
+            navMeshAgent.isStopped = true;
+        }
     }
     public override void Tick()
     {
@@ -32,7 +35,10 @@ public class AIDeadState : AIState
     public override void Exit()
     {
         // 풀로 돌아가게
-        owner.GetComponent<NavMeshAgent>().isStopped = false;
+        if (owner.TryGetComponent(out NavMeshAgent navMeshAgent))
+        {
+            navMeshAgent.isStopped = false;
+        }
         owner.GetComponent<Collider>().enabled = true;
 
         EENEMYTYPE type = owner.GetComponent<AI_Base>().enemyData.type;

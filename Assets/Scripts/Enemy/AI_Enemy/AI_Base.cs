@@ -85,7 +85,7 @@ public abstract class AI_Base : MonoBehaviour
 
     private void DamageEffect()
     {
-        StartCoroutine(Shake(0.2f, 0.1f));  // 지속시간, 진폭
+        //StartCoroutine(Shake(0.2f, 0.1f));  // 지속시간, 진폭
     }
 
     private IEnumerator Shake(float v1, float v2)
