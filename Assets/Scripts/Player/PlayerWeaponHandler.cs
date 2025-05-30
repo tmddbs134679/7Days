@@ -87,6 +87,7 @@ public class PlayerWeaponHandler : MonoBehaviour
 
         if (player.CurState != PlayerState.Vehicle)
         {
+            player.StopVelocity();
             player.ChangeState(PlayerState.Throw);
             playerAnim.SetThrow(true);
         }
