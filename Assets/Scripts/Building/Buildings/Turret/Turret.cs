@@ -10,7 +10,7 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
     public bool isSupplied { get; set; }
 
     // 자주 찾을 값들은 변수에 넣고 레벨업 때마다 경신
-    float atk, atkDelay, range;
+    float count, atk, atkDelay, range;
     // 적 탐색 주기 >> 너무 짧으면 성능을 많이 먹기에 부자연스럽지 않으면서도 적당한 주기로 탐색
     const float searchDelay = 0.2f;
     
@@ -40,27 +40,28 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
         atkDelay = data.dataByLevel[level].atkDelay;
         // 사거리
         range = data.dataByLevel[level].range;
-
-        // 바뀐 스텟에 맞게 공격 시작
-        CancelInvoke("Attack");
-        InvokeRepeating("Attack", 0, atkDelay);
     }
 
     protected override void FixedOverridePart()
     {
-        if (isSupplied)
+        // 전력이 공급 중이고, 타겟이 있다면
+        if (isSupplied && target)
         {
             // 타겟을 바라보도록 추적
             LookTarget();
+            // 공격 딜레이 세어주다가 공격
+            count += Time.fixedDeltaTime;
+            if (count > atkDelay)
+            {
+                Attack();
+                count = 0;
+            }
         }
     }
 
     // 공격
     void Attack()
     {
-        if (!target)
-            return;
-
         // 총알 생성
         Bullet bullet = Instantiate(bulletPrefab);
         // 초기 스텟 부여
@@ -96,9 +97,6 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
     // 터렛이 타겟을 바라보도록 회전
     void LookTarget()
     {
-        if (!target)
-            return;
-
         // 1. 좌우 회전
         // 타겟 방향
         Vector3 directionBase = target.position - transform.position;
