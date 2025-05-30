@@ -24,7 +24,7 @@ MonoBehaviour:
     - time: 0
       hpMax: 200
       resources: []
-      workerCount: 1
+      workerCount: 3
     - time: 40
       hpMax: 200
       resources:
