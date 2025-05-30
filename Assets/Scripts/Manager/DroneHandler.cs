@@ -27,7 +27,8 @@ public class DroneHandler : MonoBehaviour
 
     public void GenerateDrone(GameObject dronePrefab)
     {
-        GameObject drone = Instantiate(dronePrefab, spawnTransform.position, Quaternion.identity);
+        Vector3 spawnPostion = spawnTransform.position + new Vector3(Random.Range(-5, 5), 0f, Random.Range(-5, 5));
+        GameObject drone = Instantiate(dronePrefab, spawnPostion, Quaternion.identity);
 
         if (drone.TryGetComponent(out DroneUnit droneUnit))
         {

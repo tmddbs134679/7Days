@@ -54,7 +54,7 @@ public class DroneUnit : MonoBehaviour
         if (IsIdle && Vector3.Distance(transform.position, initPosition) > 0.95f)
         {
             transform.position = Vector3.MoveTowards(transform.position, initPosition, Time.deltaTime * moveSpeed);
-        }    
+        }
     }
 
     IEnumerator GatherRoutine()
@@ -63,12 +63,11 @@ public class DroneUnit : MonoBehaviour
 
         gatherResources.Clear();
 
-        target = transform.position + new Vector3(UnityEngine.Random.Range(50, 100), 0f, UnityEngine.Random.Range(50, 100));
-        isWorking = true;
-
         while (IsGathering)
         {
-            if (gatherResources.Count == 0)
+            target = transform.position + new Vector3(UnityEngine.Random.Range(50, 100), 0f, UnityEngine.Random.Range(50, 100));
+
+            while (gatherResources.Count == 0)
             {
                 transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
 
@@ -76,8 +75,11 @@ public class DroneUnit : MonoBehaviour
                 {
                     gatherResources = ResourceManager.Instance.GetRandomResource();
                 }
+
+                yield return null;
             }
-            else
+
+            while (gatherResources.Count > 0)
             {
                 transform.position = Vector3.MoveTowards(transform.position, initPosition, Time.deltaTime * moveSpeed);
 
@@ -86,8 +88,7 @@ public class DroneUnit : MonoBehaviour
                     droneHandler.SaveResouceToStorage(gatherResources);
                     gatherResources.Clear();
 
-                    droneMode = DroneMode.Idle;
-                    isWorking = false;
+                    yield return new WaitForSeconds(5f);
                 }
             }
 
@@ -99,11 +100,16 @@ public class DroneUnit : MonoBehaviour
     {
         if (droneMode != DroneMode.Repair) yield break;
 
-        isWorking = true;
-        BaseBuilding building = buildingsManager.GetNeedRepairBuilding();
-
-        while (IsRepairing && building != null)
+        while (IsRepairing)
         {
+            BaseBuilding building = buildingsManager.GetNeedRepairBuilding();
+
+            if (building == null)
+            {
+                yield return new WaitForSeconds(5f);
+                continue;
+            }
+
             target = building.transform.position + Vector3.up * transform.position.y;
 
             while (Vector3.Distance(transform.position, target) > 0.95f)
@@ -120,25 +126,24 @@ public class DroneUnit : MonoBehaviour
             }));
 
             yield return new WaitUntil(() => isDone);
-
-            building = buildingsManager.GetNeedRepairBuilding();
         }
-
-        droneMode = DroneMode.Idle;
-        isWorking = false;
     }
 
     IEnumerator ConstructRoutine()
     {
         if (droneMode != DroneMode.Construct) yield break;
 
-        isWorking = true;
-        BaseBuilding building = buildingsManager.GetNeedConstructBuilding();
-
-        while (IsConstructing && building != null)
+        while (IsConstructing)
         {
-            target = building.transform.position + Vector3.up * transform.position.y;
+            BaseBuilding building = buildingsManager.GetNeedConstructBuilding();
 
+            if (building == null)
+            {
+                yield return new WaitForSeconds(5f);
+                continue;
+            }
+
+            target = building.transform.position + Vector3.up * transform.position.y;
 
             while (Vector3.Distance(transform.position, target) > 0.95f)
             {
@@ -150,13 +155,7 @@ public class DroneUnit : MonoBehaviour
             building.StartConstruct(() => { isDone = true; });
 
             yield return new WaitUntil(() => isDone);
-
-            building = buildingsManager.GetNeedConstructBuilding();
-
         }
-
-        droneMode = DroneMode.Idle;
-        isWorking = false;
     }
 
     IEnumerator StunRoutine()
@@ -166,7 +165,7 @@ public class DroneUnit : MonoBehaviour
 
     public void ChangeMode(DroneMode mode)
     {
-        if (isWorking) return;
+        StopAllCoroutines();
 
         droneMode = mode;
 
