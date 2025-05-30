@@ -25,6 +25,8 @@ MonoBehaviour:
         amount: 15
       - resourceSort: {fileID: 11400000, guid: 1c983398b7c76c04e99fe4c351025bda, type: 2}
         amount: 5
+      resourceForProduct: {fileID: 11400000, guid: 0774419f80bde2f4682359c12bd37f19,
+        type: 2}
       product: {fileID: 11400000, guid: 4733040c154e1884e8ddc56c01d51a2b, type: 2}
       productionTime: 30
       amount: 1

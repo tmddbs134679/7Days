@@ -26,6 +26,8 @@ public class ProductionBuildingData : CommonBuildingData
 public class ProductionBuildingDataByLevel : BasicBuildingDataByLevel
 {
     [Header("생산 기능 정보")]
+    [Tooltip("생산에 필요한 아이템")]
+    public ItemData resourceForProduct;
     [Tooltip("생산품")]
     public ItemData product;
     [Tooltip("생산 시간")]
