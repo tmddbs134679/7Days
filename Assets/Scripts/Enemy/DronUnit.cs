@@ -47,15 +47,7 @@ public class DroneUnit : MonoBehaviour
 
     IEnumerator GatherRoutine()
     {
-        isWorking = true;
-        ResourceSpot spot = target.GetComponent<ResourceSpot>();
-        if (spot != null)
-        {
-            int amount = spot.Collect(gatherAmount);
-            ResourceManager.Instance.AddResource(spot.resourceType, amount);
-        }
-        yield return new WaitForSeconds(gatherCooldown);
-        isWorking = false;
+        yield return null;
     }
 
     IEnumerator RepairRoutine()
@@ -64,9 +56,9 @@ public class DroneUnit : MonoBehaviour
         RepairableBuilding building = target.GetComponent<RepairableBuilding>();
         if (building != null && building.NeedsRepair)
         {
-            building.Repair(repairAmount);
+            building.TryRepair();
         }
-        yield return new WaitForSeconds(gatherCooldown);
+        yield return new WaitForSeconds(actionCooldown);
         isWorking = false;
     }
 
