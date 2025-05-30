@@ -1,6 +1,21 @@
+using System;
+using UnityEngine;
+
 public class DroneManagerOffice : BaseBuilding
 {
     public WorkerOfficeData data { get; private set; }
+
+    [SerializeField] private DroneHandler droneHandler;
+
+    protected override void Start()
+    {
+        base.Start();
+
+        if (TryGetComponent(out droneHandler))
+        {
+            droneHandler.Init(this);
+        }
+    }
 
     protected override void Init()
     {
@@ -11,6 +26,8 @@ public class DroneManagerOffice : BaseBuilding
         // 건설 필요 시간 써주기
         requireTime = data.dataByLevel[0].time;
         SetBuildingStatus();
+
+        DroneManager.DroneBuildings.Add(transform);
     }
 
     protected override void SetBuildingStatus()
@@ -18,6 +35,7 @@ public class DroneManagerOffice : BaseBuilding
         // 레벨업으로 인한 최대 HP 증가
         hpMax = data.dataByLevel[level].hpMax;
     }
+
     // 건물마다 고유로 가지는 값들 반환
     public override BuildingStatus GetIndividualBuildingInfo() => new WorkerOfficeStatus(level, levelMax, hpMax);
 
@@ -33,6 +51,19 @@ public class DroneManagerOffice : BaseBuilding
         requireTime = data.dataByLevel[nextLevel].time;
         // 건설 상태
         isConstructing = true;
+    }
+
+    /// <summary>
+    /// 드론 생성
+    /// </summary>
+    public void GenerateWorker()
+    {
+        droneHandler.GenerateDrone(data.WorkerPrefab);
+    }
+
+    public void SelectDrone(int idx)
+    {
+        droneHandler.SelectDrone(idx);
     }
 }
 
