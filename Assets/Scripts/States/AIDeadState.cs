@@ -17,7 +17,8 @@ public class AIDeadState : AIState
         owner.GetComponent<Collider>().enabled = false;
         if (owner.TryGetComponent(out NavMeshAgent navMeshAgent))
         {
-            navMeshAgent.isStopped = true;
+            if(navMeshAgent.isOnNavMesh)
+                navMeshAgent.isStopped = true;
         }
     }
     public override void Tick()

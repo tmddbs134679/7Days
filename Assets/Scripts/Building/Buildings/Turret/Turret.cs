@@ -55,6 +55,10 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
                 count = 0;
             }
         }
+        else
+        {
+            target = null;
+        }
     }
 
     // 공격

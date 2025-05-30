@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using static DialogueManager;
 
 public class DroneUnit : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class DroneUnit : MonoBehaviour
     public float moveSpeed = 3f;
     public float actionCooldown = 2f;
     public int gatherAmount = 1;
-
+    private GameObject billborad;
     [Header("Repair Settings")]
     [SerializeField] ItemData repairResource; // 수리에 필요한 자원
     [SerializeField] int costPerRepair = 1;             // 1회 수리당 소모 자원 개수
@@ -83,6 +84,8 @@ public class DroneUnit : MonoBehaviour
                     gatherResources.Clear();
 
                     yield return new WaitForSeconds(5f);
+                    DestoryDialogue();
+                   billborad = DialogueManager.instance.ShowBillBoardDialogue(BillboradName.Dron_Get, this.transform);
                 }
 
                 yield return null;
@@ -106,6 +109,11 @@ public class DroneUnit : MonoBehaviour
                 yield return new WaitForSeconds(5f);
                 continue;
             }
+            else
+            {
+                DestoryDialogue();
+                billborad = DialogueManager.instance.ShowBillBoardDialogue(BillboradName.Dron_Repair, this.transform);
+            }
 
             target = building.transform.position + Vector3.up * transform.position.y;
 
@@ -123,6 +131,7 @@ public class DroneUnit : MonoBehaviour
             }));
 
             yield return new WaitUntil(() => isDone);
+
         }
     }
 
@@ -133,11 +142,15 @@ public class DroneUnit : MonoBehaviour
         while (IsConstructing)
         {
             BaseBuilding building = buildingsManager.GetNeedConstructBuilding();
-
             if (building == null)
             {
                 yield return new WaitForSeconds(5f);
                 continue;
+            }
+            else
+            {
+                DestoryDialogue();
+                billborad = DialogueManager.instance.ShowBillBoardDialogue(BillboradName.Dron_Build, this.transform);
             }
 
             target = building.transform.position + Vector3.up * transform.position.y;
@@ -165,7 +178,8 @@ public class DroneUnit : MonoBehaviour
         StopAllCoroutines();
 
         droneMode = mode;
-
+        DestoryDialogue();
+        DialogueManager.instance.ShowBillBoardDialogue(BillboradName.Dron_SetWalking, this.transform);
         switch (mode)
         {
             case DroneMode.Repair:
@@ -206,6 +220,13 @@ public class DroneUnit : MonoBehaviour
         }
 
         onRepaired?.Invoke();
+    }
+    void DestoryDialogue()
+    {
+        if (billborad != null)
+        {
+            Destroy(billborad);
+        }
     }
 
     void MoveToTarget(Vector3 target)

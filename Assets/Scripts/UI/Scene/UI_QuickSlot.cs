@@ -52,8 +52,11 @@ public class UI_QuickSlot : UI_Scene
     }
     public void ClearSlot()
     {
-        iconImage.sprite = baseIcon;
-        cooldownOverlay.sprite = baseIcon;
+        if (baseIcon != null)
+        {
+            iconImage.sprite = baseIcon;
+            cooldownOverlay.sprite = baseIcon;
+        }
         iconImage.fillAmount = 0;
         cooldownOverlay.fillAmount = 0f;
         if(stackTxt != null)

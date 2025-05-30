@@ -33,7 +33,7 @@ public class UI_BillBoardDialogue : UI_Popup
         if (currentLineIndex >= lines.Length)
         {
             dialogueTmp.text = "";
-            UIManager.instance.ClosePopupUI(this);
+            Destroy(this.gameObject);
             return; // 끝남
         }
 

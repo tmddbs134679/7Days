@@ -86,6 +86,13 @@ public class InventoryManager : MonoBehaviour
     private void Start()
     {
         player.PlayerEvents.onSelectSlot += OnQuick;
+
+
+        foreach(var value in itemList)
+        {
+            AddResource(value.Value.data, 1000);
+        }
+   
     }
 
     // 퀵슬롯 설정

@@ -33,7 +33,10 @@ public class DialogueManager : MonoBehaviour
     {
         Intro_Monologue,
         Dron_Monologue,
-        Dron_SetWalking
+        Dron_SetWalking,
+        Dron_Build,
+        Dron_Get,
+        Dron_Repair,
     }
 
     public static DialogueManager instance;
@@ -85,9 +88,10 @@ public class DialogueManager : MonoBehaviour
         dialogueObj.SetLineAndStartDialogue(dialogueLines[dialogueName]);
     }
 
-    public void ShowBillBoardDialogue(BillboradName dialogueName, Transform root)
+    public GameObject ShowBillBoardDialogue(BillboradName dialogueName, Transform root)
     {
        var billboardObj = UIManager.instance.ShowPopupUI("UI_BillBoardDialogue", null, root).GetComponent<UI_BillBoardDialogue>();
         billboardObj.SetLineAndStartDialogue(billboardLines[dialogueName]);
+        return billboardObj.gameObject;
     }
 }

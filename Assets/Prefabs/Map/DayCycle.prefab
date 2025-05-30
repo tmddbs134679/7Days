@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 0
-  dayForSecond: 100
+  dayForSecond: 20
   startTime: 0.4
   timeRate: 0
   noon: {x: 90, y: 0, z: 0}
@@ -197,6 +197,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  skyboxMaterial: {fileID: 0}
   lightingIntensityMultiplier:
     serializedVersion: 2
     m_Curve:

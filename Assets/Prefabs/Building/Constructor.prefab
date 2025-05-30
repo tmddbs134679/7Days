@@ -97,6 +97,7 @@ MonoBehaviour:
   - {fileID: 4446686660741974, guid: 9bf7b666d573b5d468078f9d40d508b0, type: 3}
   - {fileID: 6418447468350878830, guid: 97820038c45640a47b7d269308d5463b, type: 3}
   buildManager: {fileID: 207381861441167142}
+  ResourcesForCheat: []
 --- !u!114 &5335091183826269617
 MonoBehaviour:
   m_ObjectHideFlags: 0
