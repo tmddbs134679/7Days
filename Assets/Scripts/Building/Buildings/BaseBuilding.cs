@@ -24,7 +24,7 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     protected float hpCurrent, // 현재 체력
                     hpMax; // 현재 레벨의 최대 체력
 
-    protected bool isConstructing = true; // 건설/업그레이드 중인지 여부 >> 처음 지을 때도 건설해야 하기에 true
+    protected bool isConstructing = false; // 건설/업그레이드 중인지 여부 >> 처음 지을 때도 건설해야 하기에 true
     protected float progressTime = 0, // 건설, 업그레이드 진행 시간
                     requireTime = 0; // 건설/업그레이드 필요 시간
     Coroutine construct; // 진행 중인 건설 코루틴
