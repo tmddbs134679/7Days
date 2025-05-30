@@ -70,9 +70,13 @@ public class DialogueManager : MonoBehaviour
         {
             if(dialogueObj == null)
             {
-              //  ShowBillBoardDialogue(BillboradName.Intro_Monologue, InventoryManager.instance.player.transform);
-              //  ShowDialogue(DialogueName.DronFirst);
+                ShowBillBoardDialogue(BillboradName.Intro_Monologue, InventoryManager.instance.player.transform);
+
             }
+        }
+        if (Input.GetKeyDown(KeyCode.F6))
+        {
+                ShowDialogue(DialogueName.DronFirst);
         }
     }
     public void ShowDialogue(DialogueName dialogueName)
@@ -84,7 +88,6 @@ public class DialogueManager : MonoBehaviour
     public void ShowBillBoardDialogue(BillboradName dialogueName, Transform root)
     {
        var billboardObj = UIManager.instance.ShowPopupUI("UI_BillBoardDialogue", null, root).GetComponent<UI_BillBoardDialogue>();
-        //billboardObj.transform.parent = root;
         billboardObj.SetLineAndStartDialogue(billboardLines[dialogueName]);
     }
 }

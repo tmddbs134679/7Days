@@ -54,12 +54,12 @@ public class UI_BillBoardDialogue : UI_Popup
         foreach (char c in line)
         {
             dialogueTmp.text += c;
-            yield return new WaitForSecondsRealtime(charInterval);
+            yield return new WaitForSeconds(charInterval);
         }
 
         typingCoroutine = null;
 
-        yield return new WaitForSecondsRealtime(delayAfterLine);
+        yield return new WaitForSeconds(delayAfterLine);
         DisplayNextLine();
     }
 
