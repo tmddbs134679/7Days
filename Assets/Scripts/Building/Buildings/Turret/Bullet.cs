@@ -32,13 +32,14 @@ public class Bullet : MonoBehaviour
     {
         if (target != null)
         {
+            Vector3 moveVec = Vector3.zero;
             // 적이 활성화 상태라면 추적
             if (target.gameObject.activeSelf)
             {
-                Vector3 moveVec = (target.position - transform.position).normalized;
+                moveVec = (target.position - transform.position).normalized;
                 transform.forward = moveVec;
-                transform.position += moveVec * speed;
             }
+            transform.position += moveVec * speed;
         }
     }
 
