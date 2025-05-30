@@ -110,7 +110,7 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     }
 
     // 건설/업그레이드 종료
-    void EndConstruct()
+    protected virtual void EndConstruct()
     {
         // 작업 종료 상태로 전환
         isConstructing = false;
