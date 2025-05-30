@@ -26,8 +26,8 @@ public class DroneUnit : MonoBehaviour
 
     void Update()
     {
-
         if (target == null || isWorking || droneMode == DroneMode.Stun) return;
+
 
         transform.position = Vector3.MoveTowards(
             transform.position,
@@ -40,28 +40,35 @@ public class DroneUnit : MonoBehaviour
         {
             if (droneMode == DroneMode.Gather)
                 StartCoroutine(GatherRoutine());
-            else if (droneMode == DroneMode.Repair) { }
-                //StartCoroutine(RepairRoutine());
+            else if (droneMode == DroneMode.Repair)
+                StartCoroutine(RepairRoutine());
         }
     }
 
     IEnumerator GatherRoutine()
     {
-        yield return null;
+        isWorking = true;
+        ResourceSpot spot = target.GetComponent<ResourceSpot>();
+        if (spot != null)
+        {
+            int amount = spot.Collect(gatherAmount);
+            ResourceManager.Instance.AddResource(spot.resourceType, amount);
+        }
+        yield return new WaitForSeconds(gatherCooldown);
+        isWorking = false;
     }
 
-    // IEnumerator RepairRoutine()
-    // {
-    //     isWorking = true;
-    //     RepairableBuilding building = target.GetComponent<RepairableBuilding>();
-    //     if (building != null && building.NeedsRepair)
-    //     {
-    //         building.Repair(repairAmount);
-    //     }
-
-    //     yield return new WaitForSeconds(gatherCooldown);
-    //     isWorking = false;
-    // }
+    IEnumerator RepairRoutine()
+    {
+        isWorking = true;
+        RepairableBuilding building = target.GetComponent<RepairableBuilding>();
+        if (building != null && building.NeedsRepair)
+        {
+            building.Repair(repairAmount);
+        }
+        yield return new WaitForSeconds(gatherCooldown);
+        isWorking = false;
+    }
 
     public void ChangeMode(DroneMode mode)
     {
@@ -74,3 +81,4 @@ public class DroneUnit : MonoBehaviour
         this.target = target;
     }
 }
+
