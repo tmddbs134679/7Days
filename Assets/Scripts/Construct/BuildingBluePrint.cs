@@ -59,7 +59,7 @@ public class BuildingBluePrint : MonoBehaviour
     }
 
     // 건물 설치 완료 때 호출하여 청사진 기능 해제 및 제거
-    public void WhenBuildComplete()
+    public void BuildComplete()
     {
         // 반투명 해제
         MatColorChange(1);
