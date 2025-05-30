@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 public class BuildingBluePrint : MonoBehaviour
 {
+    // 건물 배치 여부
+    bool isPlaceOver = false;
+    public bool SetPlaceOver { set {  isPlaceOver = value; } }
+
     // 건물 청사진의 충돌 판정을 위해 리지드바디 필요
     Rigidbody rb;
     Collider col;
@@ -75,6 +79,9 @@ public class BuildingBluePrint : MonoBehaviour
     // 겹치는지 여부 판정 및 색상 변화
     private void OnTriggerEnter(Collider other)
     {
+        if (isPlaceOver)
+            return;
+
         // 발전기 존과 땅이 아닌 것에 들어갔다면
         if (other.gameObject.layer != generatorZoneLayer && other.gameObject.layer != groundLayer)
         {
@@ -87,6 +94,9 @@ public class BuildingBluePrint : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (isPlaceOver)
+            return;
+
         // 발전기를 필요로 하는 건물이고
         if (isNeedGenerator)
         {
@@ -101,6 +111,9 @@ public class BuildingBluePrint : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (isPlaceOver)
+            return;
+
         // 발전기 존과 땅이 아닌 것이 나갔다면
         if (other.gameObject.layer != generatorZoneLayer && other.gameObject.layer != groundLayer)
         {
