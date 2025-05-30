@@ -40,7 +40,7 @@ public class DroneManagerOffice : BaseBuilding
     protected override void SetBuildingStatus()
     {
         // 레벨업으로 인한 최대 HP 증가
-        hpMax = data.dataByLevel[level].hpMax;
+        hpMax = hpCurrent = data.dataByLevel[level].hpMax;
 
         for (int i = 0; i < data.dataByLevel[level].workerCount; i++)
         {

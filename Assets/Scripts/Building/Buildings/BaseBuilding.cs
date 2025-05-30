@@ -54,14 +54,10 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     {
         if (level < levelMax)
         {
-            // 이전 레벨의 최대 HP
-            float hpMaxBefore = hpMax;
             // 레벨업
             level++;
             // 레벨업 스테이터스 반영
             SetBuildingStatus();
-            // 최대 체력 증가 비율에 맞춰 현재 HP 변화
-            hpCurrent *= (hpMax / hpMaxBefore);
         }
     }
 
@@ -127,6 +123,12 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     // 건설/업그레이드 종료
     protected virtual void EndConstruct()
     {
+        // 건물 청사진 오브젝트가 있다면 건설 완료!
+        if(TryGetComponent(out BuildingBluePrint bluePrint))
+        {
+            bluePrint.BuildComplete();
+        }
+
         // 처음 지어질 때 건물 리스트에 추가
         if (!BuildingsManager.Instance.buildings.Contains(this))
             BuildingsManager.Instance.buildings.Add(this);

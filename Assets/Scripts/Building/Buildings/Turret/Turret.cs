@@ -31,7 +31,7 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
     protected override void SetBuildingStatus()
     {
         // 레벨업으로 인한 최대 HP 증가
-        hpMax = data.dataByLevel[level].hpMax;
+        hpMax = hpCurrent = data.dataByLevel[level].hpMax;
         // 공격력
         atk = data.dataByLevel[level].atk;
         // 공격 딜레이
@@ -148,6 +148,10 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
         }
         return true;
     }
+
+    // 공격 딜레이 변화/복원
+    public void DecreaseDelay(float ratio)=> atkDelay *= ratio;
+    public void RestoreDelay() => atkDelay = data.dataByLevel[level].atkDelay;
 }
 
 public class TurretStatus : BuildingStatus

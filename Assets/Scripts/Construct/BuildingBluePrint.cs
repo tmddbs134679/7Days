@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 public class BuildingBluePrint : MonoBehaviour
 {
+    // 건물 배치 여부
+    bool isPlaceOver = false;
+    public bool SetPlaceOver { set {  isPlaceOver = value; } }
+
     // 건물 청사진의 충돌 판정을 위해 리지드바디 필요
     Rigidbody rb;
     Collider col;
@@ -11,7 +15,7 @@ public class BuildingBluePrint : MonoBehaviour
     Color[,] originColors;
     readonly float tranparency = 0.5f; // 건물 청사진의 투명도
 
-    List<Collider> colliders = new List<Collider>();
+    public List<Collider> colliders = new List<Collider>();
 
     // 레이어 명칭
     readonly string groundLayerName = "Ground", // 땅 
@@ -75,6 +79,9 @@ public class BuildingBluePrint : MonoBehaviour
     // 겹치는지 여부 판정 및 색상 변화
     private void OnTriggerEnter(Collider other)
     {
+        if (isPlaceOver)
+            return;
+
         // 발전기 존과 땅이 아닌 것에 들어갔다면
         if (other.gameObject.layer != generatorZoneLayer && other.gameObject.layer != groundLayer)
         {
@@ -87,6 +94,9 @@ public class BuildingBluePrint : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (isPlaceOver)
+            return;
+
         // 발전기를 필요로 하는 건물이고
         if (isNeedGenerator)
         {
@@ -101,6 +111,9 @@ public class BuildingBluePrint : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (isPlaceOver)
+            return;
+
         // 발전기 존과 땅이 아닌 것이 나갔다면
         if (other.gameObject.layer != generatorZoneLayer && other.gameObject.layer != groundLayer)
         {
@@ -156,7 +169,7 @@ public class BuildingBluePrint : MonoBehaviour
                 for (int j = 0; j < meshRenderers[i].materials.Length; j++)
                 {
                     // 건설 불가 색상으로
-                    meshRenderers[i].materials[j].color = originColors[i, j] * Color.red;
+                    meshRenderers[i].materials[j].color *= Color.red;
                 }
             }
         }
@@ -172,6 +185,10 @@ public class BuildingBluePrint : MonoBehaviour
             {
                 for (int j = 0; j < meshRenderers[i].materials.Length; j++)
                 {
+                    // 투명도를 바꾸고
+                    Color colorTransparent = meshRenderers[i].materials[j].color;
+                    colorTransparent.a = tranparency;
+                    meshRenderers[i].materials[j].color = colorTransparent;
                     // 건설 가능 색상으로 원복
                     meshRenderers[i].materials[j].color = originColors[i, j];
                 }

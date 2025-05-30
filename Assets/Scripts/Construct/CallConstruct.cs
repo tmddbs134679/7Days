@@ -4,11 +4,22 @@ public class CallConstruct : MonoBehaviour
 {
     [SerializeField] Transform[] buildings;
     [SerializeField] BuildManager buildManager;
+
+    [SerializeField] ItemData[] ResourcesForCheat;
     int buildingLength;
 
     private void Start()
     {
         buildingLength = buildings.Length;
+    }
+
+    public void Cheat()
+    {
+        foreach (var resource in ResourcesForCheat)
+        {
+            InventoryManager.instance.AddResource(resource, 100);
+        }
+        Debug.Log("치트 사용");
     }
 
     void Update()
@@ -27,6 +38,10 @@ public class CallConstruct : MonoBehaviour
                 }
             }
         }
+
+        // !!! 자원 치트
+        if (Input.GetKeyDown(KeyCode.P))
+            Cheat();
     }
 
     public void StartConstruct(int index)

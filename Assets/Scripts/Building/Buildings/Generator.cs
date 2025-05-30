@@ -20,7 +20,7 @@ public class Generator : BaseBuilding
     protected override void SetBuildingStatus()
     {
         // 레벨업으로 인한 최대 HP 증가
-        hpMax = data.dataByLevel[level].hpMax;
+        hpMax = hpCurrent = data.dataByLevel[level].hpMax;
         // 발전기 적용 범위 변경
         interactArea.ChangeRange(data.dataByLevel[level].activeRange);
     }
