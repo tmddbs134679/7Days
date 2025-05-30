@@ -91,7 +91,7 @@ public class BuildManager : MonoBehaviour
             }
             // 건물 청사진으로써 활동할 수 있게 스크립트 추가
             buildingBluePrint = buildingScript.gameObject.AddComponent<BuildingBluePrint>();
-            // 건물이 제 역할을 하지 않도록 스크립트 비활성화 >> 이제 isConstruct가 생겨서 해당 구문은 필요없지 않을까?
+            // 건물이 제 역할을 하지 않도록 스크립트 비활성화 >> 이제 isConstruct가 생겨서 해당 구문은 필요없지 않을까? >> 병합 테스트 후 문제가 없으면 삭제
             // buildingScript.enabled = false;
         }
     }
@@ -108,8 +108,10 @@ public class BuildManager : MonoBehaviour
         buildingScript.ResourceConsumption(0);
         // 건설이 필요한 리스트에 추가
         BuildingsManager.Instance.buildingsNeedConstruct.Enqueue(buildingScript);
+        
         // 청사진 기능 해제 및 제거
         buildingBluePrint.WhenBuildComplete();
+
         // 발전기들의 전력 공급 가능 범위 표시 끄기
         GeneratorManager.Instance.EndConstruct();
         buildingPrefab = null;
@@ -126,7 +128,6 @@ public class BuildManager : MonoBehaviour
         // 발전기들의 전력 공급 가능 범위 표시 끄기
         GeneratorManager.Instance.EndConstruct();
         // 설치에 관여하는 오브젝트 비활성화
-
         buildingPrefab = null;
         gameObject.SetActive(false);
     }
