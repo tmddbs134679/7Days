@@ -41,29 +41,19 @@ public class DroneHandler : MonoBehaviour
     {
         if (idx <= -1 || idx >= activeDrones.Count) return;
 
-        if (selectedDrone.droneMode == DroneMode.Idle)
-            selectedDrone = activeDrones[idx];
-        else
-            Debug.Log("해당 드론은 바빠요!");
+        selectedDrone = activeDrones[idx];
     }
 
     public void ChangeDroneMode(DroneMode mode)
     {
         if (selectedDrone == null) return;
 
-        if (mode == DroneMode.Gather)
-        {
-            selectedDrone.ChangeMode(mode, gatherTransform);
-        }
-        else
-        {
-            selectedDrone.ChangeMode(mode);
-        }
+        selectedDrone.ChangeMode(mode);
     }
 
     public void SaveResouceToStorage(Dictionary<ItemData, int> gatherResource)
     {
-        if(gatherResource != null)
-            droneManagerOffice.SaveResouce(gatherResource);        
+        if (gatherResource != null)
+            droneManagerOffice.SaveResouce(gatherResource);
     }
 }
