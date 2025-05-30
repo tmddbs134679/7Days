@@ -130,8 +130,6 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
         // 처음 지어질 때 건물 리스트에 추가
         if (!BuildingsManager.Instance.buildings.Contains(this))
             BuildingsManager.Instance.buildings.Add(this);
-        // 건설이 필요한 리스트에서 제거
-        //BuildingsManager.Instance.buildingsNeedConstruct.Dequeue(this);
 
         // 작업 종료 상태로 전환
         isConstructing = false;
