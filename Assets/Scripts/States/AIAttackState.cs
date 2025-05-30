@@ -11,6 +11,9 @@ public class AIAttackState : AIState
     private float lastAttackTime = Mathf.NegativeInfinity; // 마지막 공격 시간
     public GameObject CurrentTarget => target;
     private readonly int AttackHas = Animator.StringToHash("Attack");
+    private readonly int Attack2Has = Animator.StringToHash("Attack2");
+    EBOSSPHASE lastPhase = EBOSSPHASE.PHASE1;
+
     private const float CrossFadeDuration = 0.1f;
     public AIAttackState(GameObject owner) : base(owner)
     {
@@ -22,9 +25,12 @@ public class AIAttackState : AIState
         {
             owner.transform.LookAt(CurrentTarget.transform);
         }
+
+    
+         owner.GetComponent<Animator>().CrossFadeInFixedTime(AttackHas, CrossFadeDuration);
        
-        owner.GetComponent<Animator>().CrossFadeInFixedTime(AttackHas, CrossFadeDuration);
-        // SetTarget(target);
+
+
         Debug.Log("Attack");
 
         if (owner.TryGetComponent(out NavMeshAgent agent))
@@ -43,7 +49,19 @@ public class AIAttackState : AIState
     }
     public override void Tick()
     {
-        if (target == null || !target.activeInHierarchy)  return; 
+        if (target == null || !target.activeInHierarchy)  return;
+
+        AI_Collapser collapser = owner.GetComponent<AI_Base>() as AI_Collapser;
+        if (collapser != null)
+        {
+            var currentPhase = collapser.phaseController.CurrentPhase;
+            if (currentPhase != lastPhase)
+            {
+                lastPhase = currentPhase;
+                PlayAttackAnimation(currentPhase);
+            }
+        }
+
 
         if (Time.time - lastAttackTime >= attackCooldown)
         {
@@ -63,7 +81,15 @@ public class AIAttackState : AIState
     {
         target = t;
     }
-
+    private void PlayAttackAnimation(EBOSSPHASE phase)
+    {
+        int hash = (phase == EBOSSPHASE.PHASE2) ? Attack2Has : AttackHas;
+        Animator animator = owner.GetComponent<Animator>();
+        if (animator.GetCurrentAnimatorStateInfo(0).shortNameHash != hash)
+        {
+            animator.CrossFadeInFixedTime(hash, CrossFadeDuration);
+        }
+    }
 
 
 }

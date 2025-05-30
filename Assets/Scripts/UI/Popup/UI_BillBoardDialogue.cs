@@ -23,7 +23,10 @@ public class UI_BillBoardDialogue : UI_Popup
     {
 
     }
-
+    private void Update()
+    {
+        transform.forward = Camera.main.transform.forward;
+    }
     // 다음줄 출력
     private void DisplayNextLine()
     {
@@ -51,19 +54,17 @@ public class UI_BillBoardDialogue : UI_Popup
         foreach (char c in line)
         {
             dialogueTmp.text += c;
-            yield return new WaitForSecondsRealtime(charInterval);
+            yield return new WaitForSeconds(charInterval);
         }
 
         typingCoroutine = null;
 
-        yield return new WaitForSecondsRealtime(delayAfterLine);
+        yield return new WaitForSeconds(delayAfterLine);
         DisplayNextLine();
     }
 
     public void SetLineAndStartDialogue(DialogueSequence lines)
     {
-        transform.forward = Camera.main.transform.forward;
-
         Bind<TextMeshProUGUI>(typeof(TMP));
         dialogueTmp = Get<TextMeshProUGUI>((int)TMP.DialogueTxt);
 

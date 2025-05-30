@@ -45,8 +45,12 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
             progressProduction += Time.fixedDeltaTime;
             if (progressProduction > requireProduction)
             {
-                progressTime = 0; // 시간 초기화
-                Production(); // 생산
+                // 생산에 필요한 자원의 소모에 성공했다면
+                if (TryConsumeForProduct())
+                {
+                    progressTime = 0; // 시간 초기화
+                    Production(); // 생산
+                }
             }
         }
     }
@@ -59,7 +63,10 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
         requireProduction = data.dataByLevel[level].productionTime;
     }
 
-    // 생산량만큼 적재
+    // 생산에 필요한 자원이 있다면 소모하고 true, 없으면 false 반환
+    bool TryConsumeForProduct() => inventoryManager.DeductItem(data.dataByLevel[level].resourceForProduct, data.dataByLevel[level].capacity);
+
+    // 생산량만큼 건물에 적재
     void Production() => productAmount = Mathf.Clamp(productAmount + data.dataByLevel[level].amount, 0, data.dataByLevel[level].capacity);
     
     // 생산한 아이템을 인벤토리에 넣게끔
@@ -80,9 +87,6 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
         // 건설 상태
         isConstructing = true;
     }
-
-    public void OnEnegyDown() => isSupplied = false;
-    public void OnEnegySupply() => isSupplied = true;
 }
 
 public class ProductBuildingStatus : BuildingStatus

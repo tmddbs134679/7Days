@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class DayCycle : MonoBehaviour
 {
@@ -21,16 +22,20 @@ public class DayCycle : MonoBehaviour
     public Gradient moonColor;
     public AnimationCurve moonIntensity;
 
+    [Header("Sky")]
+    public Material skyboxMaterial;
+
     [Header("Other Light")]
     public AnimationCurve lightingIntensityMultiplier;
     public AnimationCurve reflectionIntensityMultiplier;
+    bool isNightFlag = false;
+
 
     void Start()
     {
         timeRate = 1.0f / dayForSecond;
         time = startTime;
     }
-
 
     void Update()
     {
@@ -39,6 +44,18 @@ public class DayCycle : MonoBehaviour
         UpdateLighting(sun, sunColor, sunIntensity);
         UpdateLighting(moon, moonColor, moonIntensity);
 
+        if (IsNight() && !isNightFlag)
+        {
+            Debug.Log("밤시작");
+            isNightFlag = true;
+            TestGameManager.Inst.StartWave();
+        }
+        else if (!IsNight() && isNightFlag)
+        {
+            Debug.Log("낮시작");
+            isNightFlag = false;
+
+        }
         RenderSettings.ambientIntensity = lightingIntensityMultiplier.Evaluate(time);
         RenderSettings.reflectionIntensity = reflectionIntensityMultiplier.Evaluate(time);
     }
@@ -51,6 +68,20 @@ public class DayCycle : MonoBehaviour
         lightSource.color = gradient.Evaluate(time);
         lightSource.intensity = intensity;
 
+        float exposure = 1.0f / dayForSecond;
+        if (time >= 0.5f)
+        {
+            float t = (time - 0.5f) * 2f;
+            exposure = Mathf.Lerp(0.3f, 0.1f, t);
+        }
+        else
+        {
+            float t = time * 2f;
+            exposure = Mathf.Lerp(0.1f, 0.3f, t);
+        }
+
+        RenderSettings.skybox.SetFloat("_Exposure", exposure);
+
         GameObject go = lightSource.gameObject;
         if (lightSource.intensity == 0 && go.activeInHierarchy)
         {
@@ -60,5 +91,10 @@ public class DayCycle : MonoBehaviour
         {
             go.SetActive(true);
         }
+    }
+
+    bool IsNight()
+    {
+        return time >= 0.75f || time < 0.25f;
     }
 }

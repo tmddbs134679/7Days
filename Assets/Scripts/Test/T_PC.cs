@@ -58,7 +58,7 @@ public class T_PC : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Alpha8))
         {
-            DialogueManager.instance.ShowBillBoardDialogue("UI_BillBoardDialogue", transform);
+          //  
         }
         if (Input.GetKeyDown(KeyCode.Alpha7))
         {

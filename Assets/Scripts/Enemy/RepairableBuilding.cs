@@ -6,7 +6,7 @@ using UnityEngine;
 public class RepairableBuilding : MonoBehaviour
 {
     [Header("Health Settings")]
-    public float maxHealth = 100f; // 최대 체력 (건물별로 다르게 설정 가능)
+    public float maxHealth = 150f; // 최대 체력 (건물별로 다르게 설정 가능)
     public float currentHealth;    // 현재 체력
 
     [Header("Repair Settings")]

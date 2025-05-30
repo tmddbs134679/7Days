@@ -18,6 +18,8 @@ public class AIFlyingChaseState : AIState
 
     public override void Enter()
     {
+      
+
         owner.GetComponent<Animator>().CrossFadeInFixedTime(RunHas, CrossFadeDuration);
         Debug.Log("FlyChasing");
         AI_Base ai = owner.GetComponent<AI_Base>();
@@ -27,8 +29,14 @@ public class AIFlyingChaseState : AIState
 
     public override void Tick()
     {
-        if (CurrentTarget == null)
-            return;
+        //if (CurrentTarget == null)
+        //    return;
+        if (CurrentTarget != null)
+        {
+            owner.transform.LookAt(CurrentTarget.transform);
+        }
+
+        CurrentTarget = SelectTarget();
 
         Vector3 targetPos = CurrentTarget.position;
         targetPos.y = owner.transform.position.y; // Y축 고정
@@ -36,14 +44,14 @@ public class AIFlyingChaseState : AIState
         Vector3 dir = (targetPos - owner.transform.position).normalized;
 
 
-        CurrentTarget = SelectTarget();
+     
 
         owner.transform.position += dir * speed * Time.deltaTime;
     }
 
     public override void Exit()
     {
-       
+        CurrentTarget = null;
     }
     Transform SelectTarget()
     {

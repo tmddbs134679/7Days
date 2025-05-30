@@ -19,8 +19,6 @@ public class BuildManager : MonoBehaviour
 
     private void OnEnable()
     {
-        // 건설 가능한 자원이 충분한지 확인할 필요가 있음 !!! >> 불충분하면 건설 취소 및 자원 부족 알림
-
         // 발전기들의 전력 공급 가능 범위 표시
         GeneratorManager.Instance.StartConstruct();
         // 지을려는 건물의 청사진 생성
@@ -91,7 +89,7 @@ public class BuildManager : MonoBehaviour
     // 설치 완료
     IEnumerator CompleteBuild()
     {
-        // 설치 완료되면 건물 역할 스크립트 혹은 오브젝트 활성화 >> 그때부터 건물로써의 기능 시작 !!!
+        // 설치 완료되면 건물 역할 스크립트 혹은 오브젝트 활성화 >> 그때부터 건물로써의 기능 시작
         buildingScript.enabled = true;
         // enabled를 true로 만들고 바로 자원을 차감하려면 먹히지 않기에 1프레임 대기
         yield return null;
