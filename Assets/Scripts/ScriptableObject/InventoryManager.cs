@@ -369,7 +369,8 @@ public class InventoryManager : MonoBehaviour
         int totalFoundAmount = 0;
         foreach (var slot in itemSlots)
         {
-            if (slot != null && slot.data.name == itemData.name)
+            
+            if (slot != null && slot.data!=null&&slot.data.name == itemData.name)
             {
                 totalFoundAmount += slot.count;
             }
@@ -472,7 +473,6 @@ public class InventoryManager : MonoBehaviour
             uiInventory = go.GetComponent<UI_Inventory>();
             ui.inventoryManager = this;
         }
-
     }
     public void OnQuick(int index)
     {

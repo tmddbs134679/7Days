@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 // 상호작용 가능한 건물들에 부여
@@ -10,12 +11,14 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
 {
     public ProductionBuildingData data { get; private set; }
     public bool isSupplied { get; set; }
-
+    public ItemData water;
     // 제작 진행 시간, 제작에 필요한 시간
-    float progressProduction, requireProduction;
+    [SerializeField] float progressProduction, requireProduction;
     // 생산된 양
     public int productAmount = 0;
     public int inputAmount = 0;
+
+    public event Action<int, int> onChangeStack;
 
     protected override void Init()
     {
@@ -27,13 +30,6 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
         levelMax = data.dataByLevel.Length - 1;
         // 건설 필요 시간 써주기
         requireTime = data.dataByLevel[0].time;
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-        // 업데이트에서 매번 찾기보다 변수에 담아두는 게 좋지 않을까
-        requireTime = data.dataByLevel[level].productionTime;
     }
 
     protected override void FixedOverridePart()
@@ -51,6 +47,7 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
                     progressTime = 0; // 시간 초기화
                     productAmount++;
                     inputAmount -= 1;
+                    onChangeStack.Invoke(inputAmount, productAmount);
                 }
             }
         }
@@ -65,13 +62,26 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
     }
 
     // 생산에 필요한 자원이 있다면 소모하고 true, 없으면 false 반환
-    public bool TryConsumeForProduct() => InventoryManager.instance.DeductItem(data.dataByLevel[level].resourceForProduct, data.dataByLevel[level].capacity);
-
+    public bool TryConsumeForProduct()
+    {
+        var isActive = InventoryManager.instance.DeductItem(water, 1);
+        if (isActive == false)
+            return false;
+        inputAmount += 1;
+        onChangeStack.Invoke(inputAmount, productAmount);
+        return true;
+    }
+       
     // 생산량만큼 건물에 적재
    public void Production() => productAmount = Mathf.Clamp(productAmount + data.dataByLevel[level].amount, 0, data.dataByLevel[level].capacity);
     
     // 생산한 아이템을 인벤토리에 넣게끔
-    public void OnInteract() => InventoryManager.instance.AddResource(data.dataByLevel[level].product, productAmount);
+    public void OnInteract()
+    {
+        InventoryManager.instance.AddResource(data.dataByLevel[level].product, productAmount);
+        productAmount = 0;
+        onChangeStack.Invoke(inputAmount, productAmount);
+    }
 
     // 건물마다 고유로 가지는 값들 반환
     public override BuildingStatus GetIndividualBuildingInfo() => new ProductBuildingStatus(level, levelMax, hpCurrent, progressTime, productAmount);
@@ -105,6 +115,38 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
         }
         return true;
     }
+
+    private bool isOpenUI = false;
+    private UI_Refinery refinery;
+    public void ShowUI()
+    {
+        if (isOpenUI)
+        {
+            isOpenUI = false;
+            if(refinery != null)
+            {
+                UIManager.instance.ClosePopupUI(refinery);
+                refinery = null;
+            }
+        }
+        else
+        {
+            isOpenUI = true;
+            var go = UIManager.instance.ShowPopupUI("UI_Refinery");
+            var ui = go.GetComponent<UI_Refinery>();
+            refinery = ui;
+            ui.refinery = this;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            ShowUI();
+        }
+    }
+
 }
 
 public class ProductBuildingStatus : BuildingStatus
