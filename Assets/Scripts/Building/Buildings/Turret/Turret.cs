@@ -1,16 +1,16 @@
 using UnityEngine;
-using DG.Tweening;
 public class Turret : BaseBuilding, IBuildingRequireEnegy
 {
-    // 포탑의 상부(상하 회전용)
+    // 포탑의 상부(상하 회전용), 총알 발사 위치
     [SerializeField] Transform top, firePos;
+    [SerializeField] Bullet bulletPrefab; // 총알 프리팹
     [SerializeField] LayerMask enemyLayer;
     // 현재 참조중인 터렛 데이터
     public TurretData data { get; private set; }
     public bool isSupplied { get; set; }
 
     // 자주 찾을 값들은 변수에 넣고 레벨업 때마다 경신
-    float count, atkDelay, range;
+    float atk, atkDelay, range;
     // 적 탐색 주기 >> 너무 짧으면 성능을 많이 먹기에 부자연스럽지 않으면서도 적당한 주기로 탐색
     const float searchDelay = 0.2f;
     
@@ -26,7 +26,7 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
         levelMax = data.dataByLevel.Length - 1;
         // 초기 스테이터스 지정
         SetBuildingStatus();
-        // 주기적으로 타겟 지정 및 공격 시행
+        // 주기적으로 타겟 지정
         InvokeRepeating("FindClosestTarget", 0, searchDelay);
     }
 
@@ -34,10 +34,16 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
     {
         // 레벨업으로 인한 최대 HP 증가
         hpMax = data.dataByLevel[level].hpMax;
+        // 공격력
+        atk = data.dataByLevel[level].atk;
         // 공격 딜레이
         atkDelay = data.dataByLevel[level].atkDelay;
         // 사거리
         range = data.dataByLevel[level].range;
+
+        // 바뀐 스텟에 맞게 공격 시작
+        CancelInvoke("Attack");
+        InvokeRepeating("Attack", 0, atkDelay);
     }
 
     protected override void FixedOverridePart()
@@ -46,18 +52,21 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
         {
             // 타겟을 바라보도록 추적
             LookTarget();
-            // 공격 딜레이 세어주기
-            count += Time.fixedDeltaTime;
-            if (count >= atkDelay)
-            {
-                count = 0;
-            }
         }
     }
 
+    // 공격
     void Attack()
     {
-        
+        if (!target)
+            return;
+
+        // 총알 생성
+        Bullet bullet = Instantiate(bulletPrefab);
+        // 초기 스텟 부여
+        bullet.InitBullet(atk, target);
+        // 초기 위치로 이동
+        bullet.transform.position = firePos.position;
     }
 
     // 포탑의 사거리 내 가장 가까운 적 탐지
@@ -84,6 +93,7 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
         return null;
     }
 
+    // 터렛이 타겟을 바라보도록 회전
     void LookTarget()
     {
         if (!target)
