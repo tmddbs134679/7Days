@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public enum DroneMode
@@ -66,19 +65,5 @@ public class DroneHandler : MonoBehaviour
     {
         if(gatherResource != null)
             droneManagerOffice.SaveResouce(gatherResource);        
-    }
-
-
-    [ContextMenu("TestSelectDrone")]
-    public void TestSelectDrone()
-    {
-        selectedDrone = activeDrones[0];
-        Debug.Log($"선택된 드론: {selectedDrone.name}");
-    }
-
-    [ContextMenu("TestGather")]
-    public void TestGather()
-    {
-        selectedDrone.ChangeMode(DroneMode.Gather, gatherTransform);
     }
 }
