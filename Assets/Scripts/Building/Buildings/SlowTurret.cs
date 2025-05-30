@@ -14,7 +14,7 @@ public class SlowTurret : BaseBuilding
     protected override void SetBuildingStatus()
     {
         // 레벨업으로 인한 최대 HP 증가
-        hpMax = data.dataByLevel[level].hpMax;
+        hpMax = hpCurrent = data.dataByLevel[level].hpMax;
     }
     // 건물마다 고유로 가지는 값들 반환
     public override BuildingStatus GetIndividualBuildingInfo() => new DebuffTurretStatus(level, levelMax, hpCurrent);
