@@ -26,10 +26,14 @@ public class DialogueManager : MonoBehaviour
     public enum DialogueName
     {
         Intro,
+        DronFirst,
+        FirstUpdateTower,
     }
     public enum BillboradName
     {
         Intro_Monologue,
+        Dron_Monologue,
+        Dron_SetWalking
     }
 
     public static DialogueManager instance;
@@ -66,10 +70,9 @@ public class DialogueManager : MonoBehaviour
         {
             if(dialogueObj == null)
             {
-                ShowBillBoardDialogue(BillboradName.Intro_Monologue, InventoryManager.instance.player.transform);
-              //  ShowDialogue(DialogueName.Intro);
+              //  ShowBillBoardDialogue(BillboradName.Intro_Monologue, InventoryManager.instance.player.transform);
+              //  ShowDialogue(DialogueName.DronFirst);
             }
-
         }
     }
     public void ShowDialogue(DialogueName dialogueName)

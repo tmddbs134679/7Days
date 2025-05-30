@@ -5858,14 +5858,63 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6834975379248286840, guid: 1093a80335a4aad4c9d3937fef4d6932,
         type: 3}
+      propertyPath: dialogueEntries.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834975379248286840, guid: 1093a80335a4aad4c9d3937fef4d6932,
+        type: 3}
       propertyPath: billboardEntries.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834975379248286840, guid: 1093a80335a4aad4c9d3937fef4d6932,
+        type: 3}
+      propertyPath: dialogueEntries.Array.data[1].dialogueName
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6834975379248286840, guid: 1093a80335a4aad4c9d3937fef4d6932,
+        type: 3}
+      propertyPath: dialogueEntries.Array.data[2].dialogueName
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834975379248286840, guid: 1093a80335a4aad4c9d3937fef4d6932,
+        type: 3}
+      propertyPath: billboardEntries.Array.data[1].billboardName
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834975379248286840, guid: 1093a80335a4aad4c9d3937fef4d6932,
+        type: 3}
+      propertyPath: billboardEntries.Array.data[2].billboardName
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6834975379248286840, guid: 1093a80335a4aad4c9d3937fef4d6932,
+        type: 3}
+      propertyPath: dialogueEntries.Array.data[1].dialogueSequence
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b89489e20c5f864aa3aa290df4d1c08,
+        type: 2}
+    - target: {fileID: 6834975379248286840, guid: 1093a80335a4aad4c9d3937fef4d6932,
+        type: 3}
+      propertyPath: dialogueEntries.Array.data[2].dialogueSequence
+      value: 
+      objectReference: {fileID: 11400000, guid: 598d41e0d4205174ca5a92aefa951263,
+        type: 2}
     - target: {fileID: 6834975379248286840, guid: 1093a80335a4aad4c9d3937fef4d6932,
         type: 3}
       propertyPath: billboardEntries.Array.data[0].dialogueSequence
       value: 
       objectReference: {fileID: 11400000, guid: fea98480c4147214cad158c3cf5e5226,
+        type: 2}
+    - target: {fileID: 6834975379248286840, guid: 1093a80335a4aad4c9d3937fef4d6932,
+        type: 3}
+      propertyPath: billboardEntries.Array.data[1].dialogueSequence
+      value: 
+      objectReference: {fileID: 11400000, guid: ab9a00d4a028ecf47a292d6c72b21925,
+        type: 2}
+    - target: {fileID: 6834975379248286840, guid: 1093a80335a4aad4c9d3937fef4d6932,
+        type: 3}
+      propertyPath: billboardEntries.Array.data[2].dialogueSequence
+      value: 
+      objectReference: {fileID: 11400000, guid: c376210e5860cdf4293db82656fbc3bc,
         type: 2}
     - target: {fileID: 6930014422860899602, guid: 1093a80335a4aad4c9d3937fef4d6932,
         type: 3}
