@@ -745,6 +745,7 @@ MonoBehaviour:
   - {fileID: 8869802065881200996, guid: 5b1f4db489470af40bd2cf4916fccd59, type: 3}
   - {fileID: 770835256738475053, guid: 844a79feed45d4f4397c52b4712a7418, type: 3}
   - {fileID: 4446686660741974, guid: 9bf7b666d573b5d468078f9d40d508b0, type: 3}
+  - {fileID: 6418447468350878830, guid: 97820038c45640a47b7d269308d5463b, type: 3}
   buildManager: {fileID: 134488010}
 --- !u!1 &1944993786
 GameObject:
@@ -1112,6 +1113,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Turret
       objectReference: {fileID: 0}
+    - target: {fileID: 2952905543671595059, guid: 97820038c45640a47b7d269308d5463b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c177b3fbee6a7e94facba9468fcbcfbc, type: 2}
+    - target: {fileID: 2952905543671595059, guid: 97820038c45640a47b7d269308d5463b,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: 602881ab30d57e641a444874e42859a0, type: 2}
     - target: {fileID: 6418447468350878830, guid: 97820038c45640a47b7d269308d5463b,
         type: 3}
       propertyPath: m_LocalPosition.x

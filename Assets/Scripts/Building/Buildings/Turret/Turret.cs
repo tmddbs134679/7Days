@@ -129,9 +129,6 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
             inventoryManager.DeductResource(resourceRequire.resourceSort, resourceRequire.amount);
         }
     }
-
-    public void OnEnegyDown() => isSupplied = false;
-    public void OnEnegySupply() => isSupplied = true;
 }
 
 public class TurretStatus : BuildingStatus

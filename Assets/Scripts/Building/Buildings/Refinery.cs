@@ -87,9 +87,6 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
         // 건설 상태
         isConstructing = true;
     }
-
-    public void OnEnegyDown() => isSupplied = false;
-    public void OnEnegySupply() => isSupplied = true;
 }
 
 public class ProductBuildingStatus : BuildingStatus
