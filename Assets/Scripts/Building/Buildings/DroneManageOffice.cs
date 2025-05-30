@@ -109,6 +109,24 @@ public class DroneManagerOffice : BaseBuilding
         droneHandler.GenerateDrone(data.WorkerPrefab);
     }
 
+    [ContextMenu("SlectDroneTest")]
+    public void TestSelect()
+    {
+        SelectDrone(0);
+    }
+    
+    [ContextMenu("ChangeModeRepair")]
+    public void ChangeModeRepair()
+    {
+        droneHandler.ChangeDroneMode(DroneMode.Repair);
+    }
+
+    [ContextMenu("ChangeModeConstruct")]
+    public void ChangeModeConstruct()
+    {
+        droneHandler.ChangeDroneMode(DroneMode.Construct);
+    }
+
     public void SelectDrone(int idx)
     {
         droneHandler.SelectDrone(idx);

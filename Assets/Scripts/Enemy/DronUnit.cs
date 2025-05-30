@@ -163,11 +163,6 @@ public class DroneUnit : MonoBehaviour
     public void ChangeMode(DroneMode mode)
     {
         droneMode = mode;
-    }
-
-    public void ChangeMode(DroneMode mode, Transform target)
-    {
-        droneMode = mode;
 
         switch (mode)
         {
@@ -187,7 +182,9 @@ public class DroneUnit : MonoBehaviour
                 StartCoroutine(StunRoutine());
                 break;
 
-            default: break;
+            default:
+                droneMode = DroneMode.Idle;
+                break;
         }
     }
 
