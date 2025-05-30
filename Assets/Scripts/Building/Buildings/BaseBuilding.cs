@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -88,15 +89,15 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     public abstract bool ResourceCheck(int nextLevel);
 
     // 일꾼이 건설/업그레이드 시작할 때 호출하기
-    public void StartConstruct()
+    public void StartConstruct(Action onCompleted)
     {
         // 작업이 가능한 상태고, 기존의 작업이 없다면 >> 드론 작업 시작(이때 드론이 다른 곳으로 못 가도록 해야 함)
         if (isConstructing && construct == null)
-            construct = StartCoroutine(DroneWorking());
+            construct = StartCoroutine(DroneWorking(onCompleted));
     }
 
     // 건설/업그레이드 진행
-    IEnumerator DroneWorking()
+    IEnumerator DroneWorking(Action onCompleted)
     {
         // 필요 작업 시간까지 대기
         while (progressTime < requireTime)
@@ -106,6 +107,7 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
         }
         // 작업 완료
         EndConstruct();
+        onCompleted?.Invoke();
     }
 
     // 건설/업그레이드 종료

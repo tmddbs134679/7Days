@@ -32,9 +32,14 @@ public class Projectile : MonoBehaviour
             {
                 var dot = other.gameObject.AddComponent<DamageDotTime>();
                 dot.Apply();
-               
+
             }
 
+            else
+            {
+                target.TakeDamage(attacker.GetComponent<AI_Base>().enemyData.attackPower);
+            }
+            
             Destroy(gameObject); // 투사체 제거
         }
 

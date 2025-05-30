@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class DroneUnit : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class DroneUnit : MonoBehaviour
     private bool isWorking = false;
     public bool IsWorking { get => isWorking; }
     private bool IsGathering => droneMode == DroneMode.Gather;
+    private bool IsConstructing => droneMode == DroneMode.Construct;
+    private bool IsRepairing => droneMode == DroneMode.Repair;
+    private bool IsStunned => droneMode == DroneMode.Stun;
 
     public void Init(DroneHandler droneHandler)
     {
@@ -94,14 +98,53 @@ public class DroneUnit : MonoBehaviour
 
     IEnumerator RepairRoutine()
     {
+        if (droneMode != DroneMode.Repair) yield break;
+
         isWorking = true;
-        RepairableBuilding building = target.GetComponent<RepairableBuilding>();
-        if (building != null && building.NeedsRepair)
+
+        while (IsRepairing)
         {
-            building.TryRepair();
+            RepairableBuilding building = target.GetComponent<RepairableBuilding>();
+            if (building != null && building.NeedsRepair)
+            {
+                building.TryRepair();
+            }
+
+            yield return new WaitForSeconds(actionCooldown);
         }
-        yield return new WaitForSeconds(actionCooldown);
+        
         isWorking = false;
+    }
+
+    IEnumerator ConstructRoutine()
+    {
+        if (droneMode != DroneMode.Construct) yield break;
+
+        isWorking = true;
+
+        while (IsConstructing)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime * moveSpeed);
+
+            if (Vector3.Distance(transform.position, target.position) <= 0.95f)
+            {
+                // 건물 짓기 시작!
+                if (target.TryGetComponent(out BaseBuilding building))
+                {
+                    building.StartConstruct(() =>
+                    {
+                        
+                    });
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    IEnumerator StunRoutine()
+    {
+        if (droneMode != DroneMode.Stun) yield break;
     }
 
     public void ChangeMode(DroneMode mode)
@@ -116,19 +159,23 @@ public class DroneUnit : MonoBehaviour
 
         switch (mode)
         {
-            case DroneMode.Idle:
-                break;
-
             case DroneMode.Repair:
-
+                StartCoroutine(RepairRoutine());
                 break;
 
             case DroneMode.Gather:
                 StartCoroutine(GatherRoutine());
                 break;
 
-            case DroneMode.Stun:
+            case DroneMode.Construct:
+                StartCoroutine(ConstructRoutine());
                 break;
+
+            case DroneMode.Stun:
+                StartCoroutine(StunRoutine());
+                break;
+
+            default: break;
         }
     }
 }

@@ -26,6 +26,7 @@ public class SlowTurret : BaseBuilding
         if (!ResourceCheck(nextLevel))
             return;
 
+        
         // 건설 필요 시간 써주기
         requireTime = data.dataByLevel[nextLevel].time;
         // 건설 상태

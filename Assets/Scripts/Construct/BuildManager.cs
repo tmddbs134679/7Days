@@ -109,6 +109,7 @@ public class BuildManager : MonoBehaviour
         buildingBluePrint.WhenBuildComplete();
         // 발전기들의 전력 공급 가능 범위 표시 끄기
         GeneratorManager.Instance.EndConstruct();
+        buildingPrefab = null;
         // 설치에 관여하는 오브젝트 비활성화
         gameObject.SetActive(false);
     }
@@ -122,6 +123,8 @@ public class BuildManager : MonoBehaviour
         // 발전기들의 전력 공급 가능 범위 표시 끄기
         GeneratorManager.Instance.EndConstruct();
         // 설치에 관여하는 오브젝트 비활성화
+
+        buildingPrefab = null;
         gameObject.SetActive(false);
     }
 

@@ -26,7 +26,13 @@ public class Wall : BaseBuilding
         // 건설/업그레이드에 필요한 자원이 충분치 않다면 종료
         if (!ResourceCheck(nextLevel))
             return;
-
+        
+        ResourceRequire[] resourcesRequire = data.dataByLevel[nextLevel].resources;
+        foreach (ResourceRequire resourceRequire in resourcesRequire)
+        {
+            InventoryManager.instance.DeductResource(resourceRequire.resourceSort, resourceRequire.amount);
+        }
+        
         // 건설 필요 시간 써주기
         requireTime = data.dataByLevel[nextLevel].time;
         // 건설 상태
