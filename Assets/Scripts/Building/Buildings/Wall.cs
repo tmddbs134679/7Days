@@ -12,7 +12,6 @@ public class Wall : BaseBuilding
         levelMax = data.dataByLevel.Length - 1;
         // 건설 필요 시간 써주기
         requireTime = data.dataByLevel[0].time;
-        SetBuildingStatus();
     }
 
     protected override void SetBuildingStatus()

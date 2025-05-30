@@ -24,8 +24,6 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
         data = FormManager.Instance.GetForm<TurretForm>().GetDataByID((int)buildingIndex);
         // 최대 레벨
         levelMax = data.dataByLevel.Length - 1;
-        // 초기 스테이터스 지정
-        SetBuildingStatus();
         // 주기적으로 타겟 지정
         InvokeRepeating("FindClosestTarget", 0, searchDelay);
     }
