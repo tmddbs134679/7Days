@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class DayCycle : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class DayCycle : MonoBehaviour
     public Gradient moonColor;
     public AnimationCurve moonIntensity;
 
+    [Header("Sky")]
+    public Material skyboxMaterial;
+
     [Header("Other Light")]
     public AnimationCurve lightingIntensityMultiplier;
     public AnimationCurve reflectionIntensityMultiplier;
@@ -30,7 +34,6 @@ public class DayCycle : MonoBehaviour
         timeRate = 1.0f / dayForSecond;
         time = startTime;
     }
-
 
     void Update()
     {
@@ -50,6 +53,20 @@ public class DayCycle : MonoBehaviour
         lightSource.transform.eulerAngles = (time - (lightSource == sun ? 0.25f : 0.75f)) * noon * 4f;
         lightSource.color = gradient.Evaluate(time);
         lightSource.intensity = intensity;
+
+        float exposure = 1.0f / dayForSecond;
+        if (time >= 0.5f)
+        {
+            float t = (time - 0.5f) * 2f;
+            exposure = Mathf.Lerp(0.3f, 0.1f, t);
+        }
+        else
+        {
+            float t = time * 2f;
+            exposure = Mathf.Lerp(0.1f, 0.3f, t);
+        }
+
+        RenderSettings.skybox.SetFloat("_Exposure", exposure);
 
         GameObject go = lightSource.gameObject;
         if (lightSource.intensity == 0 && go.activeInHierarchy)
