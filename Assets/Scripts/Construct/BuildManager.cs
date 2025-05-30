@@ -19,6 +19,9 @@ public class BuildManager : MonoBehaviour
 
     private void OnEnable()
     {
+        buildingScript = null;
+        buildingBluePrint = null;
+
         // 발전기들의 전력 공급 가능 범위 표시
         GeneratorManager.Instance.StartConstruct();
         // 지을려는 건물의 청사진 생성
@@ -36,13 +39,6 @@ public class BuildManager : MonoBehaviour
                 buildingBluePrint.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
             }
         }
-    }
-
-    private void OnDisable()
-    {
-        // 데이터 초기화
-        buildingPrefab = null;
-        buildingBluePrint = null;
     }
 
     // 건설할 건물 프리팹 할당
@@ -115,6 +111,7 @@ public class BuildManager : MonoBehaviour
         // 발전기들의 전력 공급 가능 범위 표시 끄기
         GeneratorManager.Instance.EndConstruct();
         buildingPrefab = null;
+        buildingBluePrint = null;
         // 설치에 관여하는 오브젝트 비활성화
         gameObject.SetActive(false);
     }
@@ -129,6 +126,7 @@ public class BuildManager : MonoBehaviour
         GeneratorManager.Instance.EndConstruct();
         // 설치에 관여하는 오브젝트 비활성화
         buildingPrefab = null;
+        buildingBluePrint = null;
         gameObject.SetActive(false);
     }
 

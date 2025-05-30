@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.024081105, g: 0.030090893, b: 0.041511886, a: 1}
+  m_IndirectSpecularColor: {r: 0.03511001, g: 0.04387063, b: 0.06051848, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2627,6 +2627,29 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1432185388947399925, guid: 78b7bc1af1c7bfa438dbbf831debe3eb,
+        type: 3}
+      propertyPath: ResourcesForCheat.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1432185388947399925, guid: 78b7bc1af1c7bfa438dbbf831debe3eb,
+        type: 3}
+      propertyPath: ResourcesForCheat.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae,
+        type: 2}
+    - target: {fileID: 1432185388947399925, guid: 78b7bc1af1c7bfa438dbbf831debe3eb,
+        type: 3}
+      propertyPath: ResourcesForCheat.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c983398b7c76c04e99fe4c351025bda,
+        type: 2}
+    - target: {fileID: 1432185388947399925, guid: 78b7bc1af1c7bfa438dbbf831debe3eb,
+        type: 3}
+      propertyPath: ResourcesForCheat.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 59f93a03c16148e4f90f7365cc0e64eb,
+        type: 2}
     - target: {fileID: 5109161082363491946, guid: 78b7bc1af1c7bfa438dbbf831debe3eb,
         type: 3}
       propertyPath: m_Name

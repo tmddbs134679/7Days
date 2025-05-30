@@ -156,7 +156,7 @@ public class BuildingBluePrint : MonoBehaviour
                 for (int j = 0; j < meshRenderers[i].materials.Length; j++)
                 {
                     // 건설 불가 색상으로
-                    meshRenderers[i].materials[j].color = originColors[i, j] * Color.red;
+                    meshRenderers[i].materials[j].color *= Color.red;
                 }
             }
         }
@@ -172,6 +172,10 @@ public class BuildingBluePrint : MonoBehaviour
             {
                 for (int j = 0; j < meshRenderers[i].materials.Length; j++)
                 {
+                    // 투명도를 바꾸고
+                    Color colorTransparent = meshRenderers[i].materials[j].color;
+                    colorTransparent.a = tranparency;
+                    meshRenderers[i].materials[j].color = colorTransparent;
                     // 건설 가능 색상으로 원복
                     meshRenderers[i].materials[j].color = originColors[i, j];
                 }
