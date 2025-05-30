@@ -17,6 +17,7 @@ public class DroneUnit : MonoBehaviour
     public float repairAmount = 10f;
 
     private bool isWorking = false;
+    public bool IsWorking { get => isWorking; }
     private bool IsGathering => droneMode == DroneMode.Gather;
 
     public void Init(DroneHandler droneHandler)
