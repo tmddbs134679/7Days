@@ -123,6 +123,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingIndex: 2
   top: {fileID: 8153199815032477890}
+  firePos: {fileID: 8232462394821948730}
+  bulletPrefab: {fileID: 7045262857795129170, guid: 408226234af6e80438b2846b745014ef,
+    type: 3}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 32768
