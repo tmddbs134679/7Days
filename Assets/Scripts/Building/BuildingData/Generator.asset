@@ -26,7 +26,7 @@ MonoBehaviour:
         amount: 15
       - resourceSort: {fileID: 11400000, guid: 59f93a03c16148e4f90f7365cc0e64eb, type: 2}
         amount: 2
-      activeRange: 3
+      activeRange: 20
     - time: 30
       hpMax: 200
       resources:
@@ -34,7 +34,7 @@ MonoBehaviour:
         amount: 25
       - resourceSort: {fileID: 11400000, guid: 59f93a03c16148e4f90f7365cc0e64eb, type: 2}
         amount: 3
-      activeRange: 5
+      activeRange: 25
     - time: 45
       hpMax: 200
       resources:
@@ -42,4 +42,4 @@ MonoBehaviour:
         amount: 35
       - resourceSort: {fileID: 11400000, guid: 59f93a03c16148e4f90f7365cc0e64eb, type: 2}
         amount: 5
-      activeRange: 7
+      activeRange: 30
