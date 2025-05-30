@@ -176,13 +176,19 @@ public class InventoryManager : MonoBehaviour
         // 수량 부족
         if (itemList[itemData.name].count < amount)
         {
-            return false; 
+            return false;
         }
 
         // 수량 차감
         itemList[itemData.name].count -= amount;
         UpdateResourceInovoke(itemData.name);
         return true; // 차감 성공
+    }
+
+    // 해당 자원의 갯수가 충분한지 체크
+    public bool HasResource(ItemData itemData, int amount)
+    {
+        return itemList[itemData.name].count >= amount;
     }
 
    private void UpdateResourceInovoke(string name)

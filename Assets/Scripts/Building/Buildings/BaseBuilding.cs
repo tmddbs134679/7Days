@@ -17,21 +17,18 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
 {
     [SerializeField] protected BuildingIndex buildingIndex;
 
-    protected InventoryManager inventoryManager;
-
     protected int level = 0, // 건물 레벨
                   levelMax; // 해당 건물 종류의 최대 레벨
     protected float hpCurrent, // 현재 체력
                     hpMax; // 현재 레벨의 최대 체력
 
-    protected bool isConstructing = false; // 건설/업그레이드 중인지 여부 >> 처음 지을 때도 건설해야 하기에 true
+    protected bool isConstructing = true; // 건설/업그레이드 중인지 여부 >> 처음 지을 때도 건설해야 하기에 true >> 신호탑, 드론 사무소는 초기부터 false여야 함 !!!
     protected float progressTime = 0, // 건설, 업그레이드 진행 시간
                     requireTime = 0; // 건설/업그레이드 필요 시간
     Coroutine construct; // 진행 중인 건설 코루틴
 
     protected virtual void Start()
     {
-        inventoryManager = FindObjectOfType<InventoryManager>();
         Init();
     }
 
@@ -87,6 +84,8 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
 
     // 자원 소모(건설/업그레이드 가능한 상태로 전환 및 초기 설정)
     public abstract void ResourceConsumption(int nextLevel);
+    // 건설 가능한지 체크
+    public abstract bool ResourceCheck(int nextLevel);
 
     // 일꾼이 건설/업그레이드 시작할 때 호출하기
     public void StartConstruct()

@@ -22,7 +22,7 @@ public class BuildManager : MonoBehaviour
         // 발전기들의 전력 공급 가능 범위 표시
         GeneratorManager.Instance.StartConstruct();
         // 지을려는 건물의 청사진 생성
-        CreateBluePrint();
+        StartCoroutine(CreateBluePrint());
     }
 
     private void Update()
@@ -71,7 +71,7 @@ public class BuildManager : MonoBehaviour
     }
 
     // 건물의 청사진 오브젝트 생성
-    void CreateBluePrint()
+    IEnumerator CreateBluePrint()
     {
         // 프리팹이 null이 아니라면,
         if (buildingPrefab)
@@ -79,6 +79,16 @@ public class BuildManager : MonoBehaviour
             // 프리팹을 복제하여 마우스를 따라다닐 건물 생성 + 건물의 데이터에 접근하기 위한 길 터두기
             // 에러 발생: 제네릭은 상속되지 않아 BasicBuildingData는 이를 상속하는 클래스들의 공통분모로 인식되지 않음 >> 다중 제네릭은 서비스 종료다..
             buildingScript = Instantiate(buildingPrefab).GetComponent<BaseBuilding>();
+
+            // 생성 후 Init()을 위한 1프레임 대기
+            yield return null;
+
+            // 설치 가능한지 자원 체크.. 사실 여기서 하고 싶진 않았는데 시간이 부족해요 ㅠ
+            if (!buildingScript.ResourceCheck(0))
+            {
+                Debug.Log("자원 부족으로 건설 취소");
+                CancelBuild();
+            }
             // 건물 청사진으로써 활동할 수 있게 스크립트 추가
             buildingBluePrint = buildingScript.gameObject.AddComponent<BuildingBluePrint>();
             // 건물이 제 역할을 하지 않도록 스크립트 비활성화
@@ -94,7 +104,7 @@ public class BuildManager : MonoBehaviour
         // enabled를 true로 만들고 바로 자원을 차감하려면 먹히지 않기에 1프레임 대기
         yield return null;
         // 건설 자원 차감 !!! 병합 후 주석 풀고 테스트
-        // buildingScript.ResourceConsumption(0);
+        buildingScript.ResourceConsumption(0);
         // 청사진 기능 해제 및 제거
         buildingBluePrint.WhenBuildComplete();
         // 발전기들의 전력 공급 가능 범위 표시 끄기

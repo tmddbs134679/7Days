@@ -31,8 +31,7 @@ public class CallConstruct : MonoBehaviour
 
     public void StartConstruct(int index)
     {
-        // 건설에 필요한 자원이 충분해야 시작하게끔 !!!
-
+        // 건설하려는 건물 데이터 등록
         buildManager.SetBuilding(buildings[index]);
         // 건설 도중에 다른 키를 눌러도 이미 빌드매니저가 활성화된 상태라 추가로 프리팹을 생성하지 않음 >> 중복 입력 방지 테스트 완
         buildManager.gameObject.SetActive(true); 

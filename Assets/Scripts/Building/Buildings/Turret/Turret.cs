@@ -123,11 +123,26 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
 
     public override void ResourceConsumption(int nextLevel)
     {
+        // 건설/업그레이드에 필요한 자원이 충분치 않다면 종료
+        if (!ResourceCheck(nextLevel))
+            return;
+
+        // 건설 필요 시간 써주기
+        requireTime = data.dataByLevel[nextLevel].time;
+        // 건설 상태
+        isConstructing = true;
+    }
+
+    // 해당 레벨로의 건설/업그레이드에 필요한 자원이 충분한지 여부
+    public override bool ResourceCheck(int nextLevel)
+    {
         ResourceRequire[] resourcesRequire = data.dataByLevel[nextLevel].resources;
         foreach (ResourceRequire resourceRequire in resourcesRequire)
         {
-            inventoryManager.DeductResource(resourceRequire.resourceSort, resourceRequire.amount);
+            if (!InventoryManager.instance.HasResource(resourceRequire.resourceSort, resourceRequire.amount))
+                return false;
         }
+        return true;
     }
 }
 
