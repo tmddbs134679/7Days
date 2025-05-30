@@ -22,6 +22,22 @@ MonoBehaviour:
       type: 3}
     dataByLevel:
     - time: 0
-      hpMax: 100
+      hpMax: 200
       resources: []
       workerCount: 1
+    - time: 40
+      hpMax: 200
+      resources:
+      - resourceSort: {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae, type: 2}
+        amount: 30
+      - resourceSort: {fileID: 11400000, guid: 1c983398b7c76c04e99fe4c351025bda, type: 2}
+        amount: 10
+      workerCount: 2
+    - time: 60
+      hpMax: 200
+      resources:
+      - resourceSort: {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae, type: 2}
+        amount: 40
+      - resourceSort: {fileID: 11400000, guid: 1c983398b7c76c04e99fe4c351025bda, type: 2}
+        amount: 15
+      workerCount: 3

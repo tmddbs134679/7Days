@@ -115,9 +115,8 @@ public class AIChasingState : AIState
         Vector3 origin = owner.transform.position + Vector3.up * 0.5f;
         Vector3 dir = owner.transform.forward;
 
-        int wallLayerMask = LayerMask.GetMask("Wall");
       
-        Collider[] hits = Physics.OverlapSphere(origin, wallDetectDistance, wallLayerMask);
+        Collider[] hits = Physics.OverlapSphere(origin, wallDetectDistance);
         foreach (var hit in hits)
         {
             if (hit.CompareTag("Wall"))
