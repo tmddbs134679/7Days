@@ -14,7 +14,8 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
     // 제작 진행 시간, 제작에 필요한 시간
     float progressProduction, requireProduction;
     // 생산된 양
-    int productAmount;
+    public int productAmount = 0;
+    public int inputAmount = 0;
 
     protected override void Init()
     {
@@ -45,10 +46,11 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
             if (progressProduction > requireProduction)
             {
                 // 생산에 필요한 자원의 소모에 성공했다면
-                if (TryConsumeForProduct())
+                if (inputAmount > 0)
                 {
                     progressTime = 0; // 시간 초기화
-                    Production(); // 생산
+                    productAmount++;
+                    inputAmount -= 1;
                 }
             }
         }
@@ -63,10 +65,10 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
     }
 
     // 생산에 필요한 자원이 있다면 소모하고 true, 없으면 false 반환
-    bool TryConsumeForProduct() => InventoryManager.instance.DeductItem(data.dataByLevel[level].resourceForProduct, data.dataByLevel[level].capacity);
+    public bool TryConsumeForProduct() => InventoryManager.instance.DeductItem(data.dataByLevel[level].resourceForProduct, data.dataByLevel[level].capacity);
 
     // 생산량만큼 건물에 적재
-    void Production() => productAmount = Mathf.Clamp(productAmount + data.dataByLevel[level].amount, 0, data.dataByLevel[level].capacity);
+   public void Production() => productAmount = Mathf.Clamp(productAmount + data.dataByLevel[level].amount, 0, data.dataByLevel[level].capacity);
     
     // 생산한 아이템을 인벤토리에 넣게끔
     public void OnInteract() => InventoryManager.instance.AddResource(data.dataByLevel[level].product, productAmount);
