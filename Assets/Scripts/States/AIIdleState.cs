@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AIIdleState : AIState
 {
@@ -15,6 +16,12 @@ public class AIIdleState : AIState
     public override void Enter()
     {
         Debug.Log("Idle");
+
+
+        if (owner.TryGetComponent<NavMeshAgent>(out var agent))
+        {
+            agent.enabled = true;
+        }
     }
 
     public override void Exit()
