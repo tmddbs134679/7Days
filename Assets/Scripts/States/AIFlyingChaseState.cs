@@ -8,7 +8,8 @@ public class AIFlyingChaseState : AIState
     public Transform CurrentTarget { get; set; }
     private float wallDetectDistance;
     private float speed;
-
+    private readonly int RunHas = Animator.StringToHash("Run");
+    private const float CrossFadeDuration = 0.1f;
 
     public AIFlyingChaseState(GameObject owner, Transform target) : base(owner)
     {
@@ -17,6 +18,7 @@ public class AIFlyingChaseState : AIState
 
     public override void Enter()
     {
+        owner.GetComponent<Animator>().CrossFadeInFixedTime(RunHas, CrossFadeDuration);
         Debug.Log("FlyChasing");
         AI_Base ai = owner.GetComponent<AI_Base>();
         speed = ai.enemyData.moveSpeed;
