@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5712255432559204024}
   - component: {fileID: 8558169476533433075}
   - component: {fileID: 5184937982146809487}
-  m_Layer: 16
+  m_Layer: 18
   m_Name: InteractableRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 8195231667224120025}
   - component: {fileID: 5709184598210942304}
   - component: {fileID: 1625852787612670902}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Generator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 6149595165927211755}
   - component: {fileID: 5294976854247953258}
   - component: {fileID: 8133507769612621972}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: RangeView
   m_TagString: Untagged
   m_Icon: {fileID: 0}

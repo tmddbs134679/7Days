@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8232462394821948730}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: FirePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 9118539323036919553}
   - component: {fileID: 750004543637288015}
   - component: {fileID: 125261888401820127}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 2717537597065082536}
   - component: {fileID: 8642166317296420874}
   - component: {fileID: 2952905543671595059}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 8153199815032477890}
   - component: {fileID: 4694914397533227166}
   - component: {fileID: 5570586948987469491}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +310,7 @@ GameObject:
   - component: {fileID: 5609811052796026558}
   - component: {fileID: 5954569785797001949}
   - component: {fileID: 8437656459874197931}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: radar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

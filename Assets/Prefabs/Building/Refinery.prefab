@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 23509126836271822}
   - component: {fileID: 64405866471057210}
   - component: {fileID: 5801546196765888377}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: Refinery
   m_TagString: Untagged
   m_Icon: {fileID: 0}

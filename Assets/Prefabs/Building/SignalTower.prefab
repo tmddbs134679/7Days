@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3345120}
   - component: {fileID: 2327678}
   - component: {fileID: 6485538}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: LightHouse_A_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 438278}
   - component: {fileID: 20528588}
   - component: {fileID: 6278750023708239271}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: SignalTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 3370544}
   - component: {fileID: 2372270}
   - component: {fileID: 6452846}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: LightHouse_A_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 3358786}
   - component: {fileID: 2351092}
   - component: {fileID: 6426330}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: LightHouse_A_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

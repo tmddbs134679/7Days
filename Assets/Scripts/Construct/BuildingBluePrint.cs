@@ -6,9 +6,9 @@ public class BuildingBluePrint : MonoBehaviour
     // 건물 청사진의 충돌 판정을 위해 리지드바디 필요
     Rigidbody rb;
     Collider col;
-    MeshRenderer meshRenderer;
-
-    Color originColor;
+    // 건물 오브젝트의 매시랜더러들과 머티리얼 색상 (여럿이 조합되어 있는 경우가 있어 변경)
+    MeshRenderer[] meshRenderers;
+    Color[,] originColors;
     readonly float tranparency = 0.5f; // 건물 청사진의 투명도
 
     List<Collider> colliders = new List<Collider>();
@@ -37,10 +37,9 @@ public class BuildingBluePrint : MonoBehaviour
         rb.isKinematic = true; // 중력 영향을 받지 않도록
 
         // 반투명하게 표시
-        meshRenderer = GetComponent<MeshRenderer>();
+        meshRenderers = GetComponentsInChildren<MeshRenderer>();
         MatColorChange(tranparency);
-        // 반투명한 색 기억
-        originColor = meshRenderer.material.color;
+
         // 콜라이더를 트리거로 설정 >> 트리거 이벤트로 겹친 물체 판정
         col = GetComponent<Collider>();
         if (col)
@@ -53,7 +52,10 @@ public class BuildingBluePrint : MonoBehaviour
             ChangeNotConstructable(); // 발전기 존이 필요한 건물은 초기에 건설 불가로
         }
         else
+        {
             isNeedGenerator = false;
+            ChangeToConstructable(); // 발전기 존이 필요하지 않은 건물은 초기에 건설 가능하게
+        }
     }
 
     // 건물 설치 완료 때 호출하여 청사진 기능 해제 및 제거
@@ -118,14 +120,27 @@ public class BuildingBluePrint : MonoBehaviour
         }
     }
 
-    // 머티리얼 투명도 변화
+    // 머티리얼 색상, 투명도 변화
     void MatColorChange(float transparency)
     {
-        if (meshRenderer)
+        if (meshRenderers != null)
         {
-            Color colorTransparent = meshRenderer.material.color;
-            colorTransparent.a = transparency;
-            meshRenderer.material.color = colorTransparent;
+            // 모든 매시랜더러들의 머티리얼에 대해
+            for (int i = 0; i < meshRenderers.Length; i++)
+            {
+                for(int j=0; j< meshRenderers[i].materials.Length; j++)
+                {
+                    // 투명도를 바꾸고
+                    Color colorTransparent = meshRenderers[i].materials[j].color;
+                    colorTransparent.a = transparency;
+                    meshRenderers[i].materials[j].color = colorTransparent;
+
+                    // 색상 기억
+                    if (originColors == null)
+                        originColors = new Color[meshRenderers.Length, meshRenderers[i].materials.Length];
+                    originColors[i, j] = colorTransparent;
+                }
+            }
         }
     }
 
@@ -133,12 +148,34 @@ public class BuildingBluePrint : MonoBehaviour
     void ChangeNotConstructable()
     {
         CanConstruct = false;
-        meshRenderer.material.color *= Color.red;
+        if (meshRenderers != null)
+        {
+            // 모든 매시랜더러들의 머티리얼에 대해
+            for (int i = 0; i < meshRenderers.Length; i++)
+            {
+                for (int j = 0; j < meshRenderers[i].materials.Length; j++)
+                {
+                    // 건설 불가 색상으로
+                    meshRenderers[i].materials[j].color = originColors[i, j] * Color.red;
+                }
+            }
+        }
     }
-    // 건설 불가 판정 및 표시
+    // 건설 가능 판정 및 표시
     void ChangeToConstructable()
     {
         CanConstruct = true;
-        meshRenderer.material.color = originColor;
+        if (meshRenderers != null)
+        {
+            // 모든 매시랜더러들의 머티리얼에 대해
+            for (int i = 0; i < meshRenderers.Length; i++)
+            {
+                for (int j = 0; j < meshRenderers[i].materials.Length; j++)
+                {
+                    // 건설 가능 색상으로 원복
+                    meshRenderers[i].materials[j].color = originColors[i, j];
+                }
+            }
+        }
     }
 }

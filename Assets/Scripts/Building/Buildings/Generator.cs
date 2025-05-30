@@ -53,10 +53,21 @@ public class Generator : BaseBuilding
         hpCurrent = Mathf.Clamp(hpCurrent - amount, 0, hpMax);
         if (hpCurrent <= 0)
         {
+            // 전력 공급 끊기
+            interactArea.SetEnegyForBuildingsInRange(false);
             // 매니저에 등록된 해당 발전기 제외
             GeneratorManager.Instance.DestroyGenerator(this);
             Destroy(gameObject);
         }
+    }
+
+    protected override void EndConstruct()
+    {
+        base.EndConstruct();
+        // 영역 내 전력 공급 시작
+        interactArea.SetEnegyForBuildingsInRange(true);
+        // 발전기 추가
+        GeneratorManager.Instance.BuildGenerator(this);
     }
 }
 

@@ -12,8 +12,6 @@ public class TurretForm : BaseBuildingForm<TurretData>
             DataDic[(int)data.ID] = data;
         }
     }
-
-    // !!! 적 작업 내용 머지 이후 진행하기
 }
 [Serializable]
 public class TurretData : CommonBuildingData
