@@ -28,7 +28,6 @@ public class WaveController : MonoBehaviour
     {
         if (currentWave >= waves.Count)
         {
-            Debug.Log("All waves complete");
             return;
         }
 
@@ -43,29 +42,16 @@ public class WaveController : MonoBehaviour
         foreach (var info in wave.spawnList)
         {
             for (int i = 0; i < info.count; i++)
-            {
-                var type = info.prefab.GetComponent<AI_Base>().enemyData.type;
+            {  var type = info.prefab.GetComponent<AI_Base>().enemyData.type;
                 GameObject monster = ObjectPoolManager.Inst.Get(type);
-                var spawnPos = spawnPoints[Random.Range(0, spawnPoints.Length)].position;
 
-                NavMeshHit hit;
-                if(NavMesh.SamplePosition(spawnPos, out hit, 2f,NavMesh.AllAreas))
-                {
-                    monster.transform.position = hit.position;
+                Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+                monster.transform.position = spawnPoint.position;
 
-                    monster.GetComponent<AI_Base>().Init();
-                }
-                else
-                {
-                    monster.GetComponent<AI_Base>()?.Init();
-                }
 
-                monster.transform.position = spawnPos;
-
-                // 몬스터 초기화 필요시 호출
                 monster.GetComponent<AI_Base>()?.Init();
 
-                yield return new WaitForSeconds(2f); // 간격 배치
+                yield return new WaitForSeconds(2f);
             }
         }
     }

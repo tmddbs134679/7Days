@@ -75,7 +75,8 @@ public class AIAttackState : AIState
         if(agent != null)
             agent.isStopped = false;
 
-        target = null;   
+        target = null;
+        lastPhase = EBOSSPHASE.PHASE1;
     }
     public void SetTarget(GameObject t)
     {

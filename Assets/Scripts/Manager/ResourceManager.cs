@@ -4,6 +4,7 @@ using UnityEngine;
 public class ResourceManager : MonoBehaviour
 {
     public static ResourceManager Instance;
+    private ItemData[] itemDataList;
     public Dictionary<ResourceType, int> resourceDict = new();
 
     void Awake()
@@ -15,6 +16,25 @@ public class ResourceManager : MonoBehaviour
         {
             resourceDict[type] = 0;
         }
+
+        itemDataList = Resources.LoadAll<ItemData>("ItemData");
+    }
+
+    public Dictionary<ItemData, int> GetRandomResource()
+    {
+        Dictionary<ItemData, int> randomResource = new Dictionary<ItemData, int>();
+
+        int maxResourcesCount = Random.Range(1, 4);
+
+        for (int i = 0; i < maxResourcesCount; i++)
+        {
+            int randomIdx = Random.Range(0, itemDataList.Length);
+            int randomAmount = Random.Range(5, 10);
+
+            randomResource.Add(itemDataList[randomIdx], randomAmount);
+        }
+
+        return randomResource;
     }
 
     public void AddResource(ResourceType type, int amount)

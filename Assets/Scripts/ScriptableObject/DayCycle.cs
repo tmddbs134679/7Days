@@ -28,6 +28,8 @@ public class DayCycle : MonoBehaviour
     [Header("Other Light")]
     public AnimationCurve lightingIntensityMultiplier;
     public AnimationCurve reflectionIntensityMultiplier;
+    bool isNightFlag = false;
+
 
     void Start()
     {
@@ -42,6 +44,18 @@ public class DayCycle : MonoBehaviour
         UpdateLighting(sun, sunColor, sunIntensity);
         UpdateLighting(moon, moonColor, moonIntensity);
 
+        if (IsNight() && !isNightFlag)
+        {
+            Debug.Log("밤시작");
+            isNightFlag = true;
+            TestGameManager.Inst.StartWave();
+        }
+        else if (!IsNight() && isNightFlag)
+        {
+            Debug.Log("낮시작");
+            isNightFlag = false;
+
+        }
         RenderSettings.ambientIntensity = lightingIntensityMultiplier.Evaluate(time);
         RenderSettings.reflectionIntensity = reflectionIntensityMultiplier.Evaluate(time);
     }
@@ -77,5 +91,10 @@ public class DayCycle : MonoBehaviour
         {
             go.SetActive(true);
         }
+    }
+
+    bool IsNight()
+    {
+        return time >= 0.75f || time < 0.25f;
     }
 }

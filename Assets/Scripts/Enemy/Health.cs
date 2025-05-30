@@ -28,6 +28,7 @@ public class Health : MonoBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
+
         if (health == 0)
             return;
 

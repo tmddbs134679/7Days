@@ -1,10 +1,15 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class DroneUnit : MonoBehaviour
 {
+    private DroneHandler droneHandler;
+
     public DroneMode droneMode;
 
+    private Dictionary<ItemData, int> gatherResources;
+    private Vector3 initPosition;
     public Transform target;
     public float moveSpeed = 3f;
     public float actionCooldown = 2f;
@@ -12,11 +17,16 @@ public class DroneUnit : MonoBehaviour
     public float repairAmount = 10f;
 
     private bool isWorking = false;
+    public bool IsWorking { get => isWorking; }
     private bool IsGathering => droneMode == DroneMode.Gather;
 
-    public void Init()
+    public void Init(DroneHandler droneHandler)
     {
+        this.droneHandler = droneHandler;
+
         DroneManager.RegisterDrone(transform);
+        initPosition = transform.position;
+        gatherResources = new Dictionary<ItemData, int>();
     }
 
     void OnDestroy()
@@ -26,28 +36,60 @@ public class DroneUnit : MonoBehaviour
 
     void Update()
     {
-        if (target == null || isWorking || droneMode == DroneMode.Stun) return;
+        // if (target == null || isWorking || droneMode == DroneMode.Stun) return;
 
 
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            target.position,
-            moveSpeed * Time.deltaTime
-        );
+        // transform.position = Vector3.MoveTowards(
+        //     transform.position,
+        //     target.position,
+        //     moveSpeed * Time.deltaTime
+        // );
 
-        float dist = Vector3.Distance(transform.position, target.position);
-        if (dist < 0.2f)
-        {
-            if (droneMode == DroneMode.Gather)
-                StartCoroutine(GatherRoutine());
-            else if (droneMode == DroneMode.Repair)
-                StartCoroutine(RepairRoutine());
-        }
+        // float dist = Vector3.Distance(transform.position, target.position);
+        // if (dist < 0.2f)
+        // {
+        //     if (droneMode == DroneMode.Gather)
+        //         StartCoroutine(GatherRoutine());
+        //     else if (droneMode == DroneMode.Repair)
+        //         StartCoroutine(RepairRoutine());
+        // }
     }
 
     IEnumerator GatherRoutine()
     {
-        yield return null;
+        if (droneMode != DroneMode.Gather) yield break;
+
+        gatherResources.Clear();
+
+        isWorking = true;
+
+        while (IsGathering)
+        {
+            if (gatherResources.Count == 0)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime * moveSpeed);
+
+                if (Vector3.Distance(transform.position, target.position) <= 0.9f)
+                {
+                    gatherResources = ResourceManager.Instance.GetRandomResource();
+                }
+            }
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, initPosition, Time.deltaTime * moveSpeed);
+
+                if (Vector3.Distance(transform.position, initPosition) <= 0.95f)
+                {
+                    droneHandler.SaveResouceToStorage(gatherResources);
+                    gatherResources.Clear();
+
+                    droneMode = DroneMode.Idle;
+                    isWorking = false;
+                }
+            }
+
+            yield return null;
+        }
     }
 
     IEnumerator RepairRoutine()
@@ -71,6 +113,23 @@ public class DroneUnit : MonoBehaviour
     {
         droneMode = mode;
         this.target = target;
+
+        switch (mode)
+        {
+            case DroneMode.Idle:
+                break;
+
+            case DroneMode.Repair:
+
+                break;
+
+            case DroneMode.Gather:
+                StartCoroutine(GatherRoutine());
+                break;
+
+            case DroneMode.Stun:
+                break;
+        }
     }
 }
 
