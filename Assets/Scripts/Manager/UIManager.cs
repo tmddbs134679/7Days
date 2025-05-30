@@ -66,7 +66,8 @@ public class UIManager : MonoBehaviour
 
     public GameObject ShowPopupUI(string name = null, DialogueSequence lines = null, Transform root = null)
     {
-        Time.timeScale = 0f;
+        if(root == null)
+            Time.timeScale = 0f;
 
         GameObject prefab = Resources.Load<GameObject>($"Prefabs/UI/Popup/{name}");
         GameObject ui = Instantiate(prefab);

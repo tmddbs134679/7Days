@@ -7,7 +7,7 @@ using System.Collections;
 public class UI_Dialogue : UI_Popup
 {
     [SerializeField] private float charInterval = 0.05f;
-    private DialogueLine[] lines;
+    public DialogueLine[] lines;
 
     [SerializeField] private bool isTyping = false;
     [SerializeField] private int currentLineIndex = 0;
@@ -106,7 +106,7 @@ public class UI_Dialogue : UI_Popup
 
     public void SetLineAndStartDialogue(DialogueSequence lines)
     {
-        base.Init();
+       // base.Init();
         rect = transform.GetChild(0).GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
 
