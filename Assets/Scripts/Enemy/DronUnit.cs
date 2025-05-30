@@ -22,6 +22,8 @@ public class DroneUnit : MonoBehaviour
     [SerializeField] int repairUnitAmount = 20;      // 1회 수리량
     [SerializeField] float repairPerTime = 3f;
 
+    private int droneIdx;
+
     private bool isWorking = false;
     public bool IsWorking { get => isWorking; }
     private bool IsIdle => droneMode == DroneMode.Idle;
@@ -30,7 +32,7 @@ public class DroneUnit : MonoBehaviour
     private bool IsRepairing => droneMode == DroneMode.Repair;
     private bool IsStunned => droneMode == DroneMode.Stun;
 
-    public void Init(DroneHandler droneHandler)
+    public void Init(DroneHandler droneHandler, int droneIdx)
     {
         this.droneHandler = droneHandler;
 
@@ -38,6 +40,8 @@ public class DroneUnit : MonoBehaviour
         buildingsManager = BuildingsManager.Instance;
         initPosition = transform.position;
         gatherResources = new Dictionary<ItemData, int>();
+
+        this.droneIdx = droneIdx;
     }
 
     void OnDestroy()
@@ -84,6 +88,8 @@ public class DroneUnit : MonoBehaviour
 
                     droneMode = DroneMode.Idle;
                     isWorking = false;
+
+                    DroneSlot.onWorkCompleted?.Invoke(droneIdx);
                 }
             }
 
@@ -122,6 +128,8 @@ public class DroneUnit : MonoBehaviour
 
         droneMode = DroneMode.Idle;
         isWorking = false;
+
+        DroneSlot.onWorkCompleted?.Invoke(droneIdx);
     }
 
     IEnumerator ConstructRoutine()
@@ -153,6 +161,8 @@ public class DroneUnit : MonoBehaviour
 
         droneMode = DroneMode.Idle;
         isWorking = false;
+
+        DroneSlot.onWorkCompleted?.Invoke(droneIdx);
     }
 
     IEnumerator StunRoutine()
@@ -162,6 +172,8 @@ public class DroneUnit : MonoBehaviour
 
     public void ChangeMode(DroneMode mode)
     {
+        if (isWorking) return;
+
         droneMode = mode;
 
         switch (mode)
@@ -184,6 +196,7 @@ public class DroneUnit : MonoBehaviour
 
             default:
                 droneMode = DroneMode.Idle;
+                DroneSlot.onWorkCompleted?.Invoke(droneIdx);
                 break;
         }
     }

@@ -99,6 +99,12 @@ public class PlayerController : MonoBehaviour
                 {
                     player.GatheringResource(resource);
                 }
+
+                else if (hit.collider.TryGetComponent(out DroneManagerOffice office))
+                {
+                    office.OnDroneUI();
+                }
+
             }
         }
     }

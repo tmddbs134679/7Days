@@ -7,7 +7,8 @@ public class DroneManagerOffice : BaseBuilding
     public WorkerOfficeData data { get; private set; }
 
     private Dictionary<ItemData, int> resourceStorage;
-    [SerializeField] private DroneHandler droneHandler;
+    private DroneHandler droneHandler;
+    [SerializeField] private DroneUI droneUI;
 
     protected override void Init()
     {
@@ -17,6 +18,8 @@ public class DroneManagerOffice : BaseBuilding
         {
             droneHandler.Init(this);
         }
+
+        droneUI.Init(this);
 
         // 드론사무소도 처음에 지어져 있기에 false
         isConstructing = false;
@@ -31,6 +34,7 @@ public class DroneManagerOffice : BaseBuilding
         resourceStorage = new Dictionary<ItemData, int>();
 
         DroneManager.DroneBuildings.Add(transform);
+
     }
 
     protected override void SetBuildingStatus()
@@ -41,6 +45,7 @@ public class DroneManagerOffice : BaseBuilding
         for (int i = 0; i < data.dataByLevel[level].workerCount; i++)
         {
             GenerateWorker();
+            droneUI.AddDroneSlot();
         }
     }
 
@@ -90,6 +95,8 @@ public class DroneManagerOffice : BaseBuilding
                 resourceStorage.Add(resource, gatherResources[resource]);
             }
         }
+
+        GetAllResources();
     }
 
     public void GetAllResources()
@@ -109,27 +116,14 @@ public class DroneManagerOffice : BaseBuilding
         droneHandler.GenerateDrone(data.WorkerPrefab);
     }
 
-    [ContextMenu("SlectDroneTest")]
-    public void TestSelect()
+    public void OnDroneUI()
     {
-        SelectDrone(0);
-    }
-    
-    [ContextMenu("ChangeModeRepair")]
-    public void ChangeModeRepair()
-    {
-        droneHandler.ChangeDroneMode(DroneMode.Repair);
+        droneUI.gameObject.SetActive(true);    
     }
 
-    [ContextMenu("ChangeModeConstruct")]
-    public void ChangeModeConstruct()
+    public void SelectAndCommand(int idx, DroneMode mode)
     {
-        droneHandler.ChangeDroneMode(DroneMode.Construct);
-    }
-
-    public void SelectDrone(int idx)
-    {
-        droneHandler.SelectDrone(idx);
+        droneHandler.ChangeDroneMode(idx, mode);
     }
 }
 
