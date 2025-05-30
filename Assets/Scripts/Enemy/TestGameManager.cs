@@ -23,7 +23,7 @@ public class TestGameManager : MonoBehaviour
 
     private void Start()
     {
-     
+        //waveController.StartNextWave();
     }
 
     public void StartWave()
