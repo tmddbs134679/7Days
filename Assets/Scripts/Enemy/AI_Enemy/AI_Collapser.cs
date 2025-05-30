@@ -52,8 +52,7 @@ public class AI_Collapser : AI_Base
                 || Vector3.Distance(transform.position, t.transform.position) > enemyData.attackRange;
         });
 
-        fsm.AddAnyTransition(dead, () =>
-        GetComponent<Health>().IsDead && fsm.CurrentState != dead);
+        fsm.AddAnyTransition(dead, () => GetComponent<Health>().IsDead && fsm.CurrentState != dead);
 
         fsm.SetInitialState(idle);
     }

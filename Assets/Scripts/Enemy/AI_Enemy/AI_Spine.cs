@@ -26,12 +26,10 @@ public class AI_Spine : AI_Base
         var idle = new AIIdleState(gameObject);
         var chase = new AIFlyingChaseState(gameObject, TestGameManager.Inst.testPlayer.transform);
         var attack = new AIAttackState(gameObject);
-        
         var dead = new AIDeadState(gameObject);
 
-       
-
-        fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position, TestGameManager.Inst.testPlayer.transform.position) < enemyData.chasingRange);
+        fsm.AddTransition(idle, chase, () => Vector3.Distance(transform.position,
+            TestGameManager.Inst.testPlayer.transform.position) < enemyData.chasingRange);
         fsm.AddTransition(chase, attack, () =>
         {
             var target = chase.CurrentTarget;
