@@ -123,6 +123,12 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     // 건설/업그레이드 종료
     protected virtual void EndConstruct()
     {
+        // 건물 청사진 오브젝트가 있다면 건설 완료!
+        if(TryGetComponent(out BuildingBluePrint bluePrint))
+        {
+            bluePrint.BuildComplete();
+        }
+
         // 처음 지어질 때 건물 리스트에 추가
         if (!BuildingsManager.Instance.buildings.Contains(this))
             BuildingsManager.Instance.buildings.Add(this);
