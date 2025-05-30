@@ -58,6 +58,13 @@ public class Generator : BaseBuilding
             Destroy(gameObject);
         }
     }
+
+    protected override void EndConstruct()
+    {
+        // 발전기 추가
+        GeneratorManager.Instance.BuildGenerator(this);
+        base.EndConstruct();
+    }
 }
 
 public class GeneratorStatus : BuildingStatus
