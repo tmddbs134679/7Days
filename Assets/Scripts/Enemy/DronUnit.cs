@@ -6,19 +6,25 @@ using System;
 public class DroneUnit : MonoBehaviour
 {
     private DroneHandler droneHandler;
-
+    private BuildingsManager buildingsManager;
     public DroneMode droneMode;
 
     private Dictionary<ItemData, int> gatherResources;
     private Vector3 initPosition;
-    public Transform target;
+    public Vector3 target;
     public float moveSpeed = 3f;
     public float actionCooldown = 2f;
     public int gatherAmount = 1;
-    public float repairAmount = 10f;
+
+    [Header("Repair Settings")]
+    [SerializeField] ItemData repairResource; // 수리에 필요한 자원
+    [SerializeField] int costPerRepair = 1;             // 1회 수리당 소모 자원 개수
+    [SerializeField] int repairUnitAmount = 20;      // 1회 수리량
+    [SerializeField] float repairPerTime = 3f;
 
     private bool isWorking = false;
     public bool IsWorking { get => isWorking; }
+    private bool IsIdle => droneMode == DroneMode.Idle;
     private bool IsGathering => droneMode == DroneMode.Gather;
     private bool IsConstructing => droneMode == DroneMode.Construct;
     private bool IsRepairing => droneMode == DroneMode.Repair;
@@ -29,6 +35,7 @@ public class DroneUnit : MonoBehaviour
         this.droneHandler = droneHandler;
 
         DroneManager.RegisterDrone(transform);
+        buildingsManager = BuildingsManager.Instance;
         initPosition = transform.position;
         gatherResources = new Dictionary<ItemData, int>();
     }
@@ -40,23 +47,10 @@ public class DroneUnit : MonoBehaviour
 
     void Update()
     {
-        // if (target == null || isWorking || droneMode == DroneMode.Stun) return;
-
-
-        // transform.position = Vector3.MoveTowards(
-        //     transform.position,
-        //     target.position,
-        //     moveSpeed * Time.deltaTime
-        // );
-
-        // float dist = Vector3.Distance(transform.position, target.position);
-        // if (dist < 0.2f)
-        // {
-        //     if (droneMode == DroneMode.Gather)
-        //         StartCoroutine(GatherRoutine());
-        //     else if (droneMode == DroneMode.Repair)
-        //         StartCoroutine(RepairRoutine());
-        // }
+        if (IsIdle && Vector3.Distance(transform.position, initPosition) > 0.95f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, initPosition, Time.deltaTime * moveSpeed);
+        }    
     }
 
     IEnumerator GatherRoutine()
@@ -65,15 +59,16 @@ public class DroneUnit : MonoBehaviour
 
         gatherResources.Clear();
 
+        target = transform.position + new Vector3(UnityEngine.Random.Range(50, 100), 0f, UnityEngine.Random.Range(50, 100));
         isWorking = true;
 
         while (IsGathering)
         {
             if (gatherResources.Count == 0)
             {
-                transform.position = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime * moveSpeed);
+                transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
 
-                if (Vector3.Distance(transform.position, target.position) <= 0.9f)
+                if (Vector3.Distance(transform.position, target) <= 0.9f)
                 {
                     gatherResources = ResourceManager.Instance.GetRandomResource();
                 }
@@ -101,18 +96,31 @@ public class DroneUnit : MonoBehaviour
         if (droneMode != DroneMode.Repair) yield break;
 
         isWorking = true;
+        BaseBuilding building = buildingsManager.GetNeedRepairBuilding();
 
-        while (IsRepairing)
+        while (IsRepairing && building != null)
         {
-            RepairableBuilding building = target.GetComponent<RepairableBuilding>();
-            if (building != null && building.NeedsRepair)
+            target = building.transform.position + Vector3.up * transform.position.y;
+
+            while (Vector3.Distance(transform.position, target) > 0.95f)
             {
-                building.TryRepair();
+                transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
+                yield return null;
             }
 
-            yield return new WaitForSeconds(actionCooldown);
+            bool isDone = false;
+
+            StartCoroutine(RepairBuilding(building, () =>
+            {
+                isDone = true;
+            }));
+
+            yield return new WaitUntil(() => isDone);
+
+            building = buildingsManager.GetNeedRepairBuilding();
         }
-        
+
+        droneMode = DroneMode.Idle;
         isWorking = false;
     }
 
@@ -121,25 +129,30 @@ public class DroneUnit : MonoBehaviour
         if (droneMode != DroneMode.Construct) yield break;
 
         isWorking = true;
+        BaseBuilding building = buildingsManager.GetNeedConstructBuilding();
 
-        while (IsConstructing)
+        while (IsConstructing && building != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.position, Time.deltaTime * moveSpeed);
+            target = building.transform.position + Vector3.up * transform.position.y;
 
-            if (Vector3.Distance(transform.position, target.position) <= 0.95f)
+
+            while (Vector3.Distance(transform.position, target) > 0.95f)
             {
-                // 건물 짓기 시작!
-                if (target.TryGetComponent(out BaseBuilding building))
-                {
-                    building.StartConstruct(() =>
-                    {
-                        
-                    });
-                }
+                transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
+                yield return null;
             }
 
-            yield return null;
+            bool isDone = false;
+            building.StartConstruct(() => { isDone = true; });
+
+            yield return new WaitUntil(() => isDone);
+
+            building = buildingsManager.GetNeedConstructBuilding();
+
         }
+
+        droneMode = DroneMode.Idle;
+        isWorking = false;
     }
 
     IEnumerator StunRoutine()
@@ -155,7 +168,6 @@ public class DroneUnit : MonoBehaviour
     public void ChangeMode(DroneMode mode, Transform target)
     {
         droneMode = mode;
-        this.target = target;
 
         switch (mode)
         {
@@ -177,6 +189,24 @@ public class DroneUnit : MonoBehaviour
 
             default: break;
         }
+    }
+
+    IEnumerator RepairBuilding(BaseBuilding building, Action onRepaired)
+    {
+        if (building == null) yield break;
+
+        while (building.NeedsRepair)
+        {
+            if (InventoryManager.instance.HasResource(repairResource, costPerRepair))
+            {
+                building.Fix(repairUnitAmount);
+                yield return new WaitForSeconds(repairPerTime);
+            }
+
+            else break;
+        }
+
+        onRepaired?.Invoke();
     }
 }
 

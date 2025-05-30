@@ -107,7 +107,7 @@ public class BuildManager : MonoBehaviour
         // 건설 자원 차감
         buildingScript.ResourceConsumption(0);
         // 건설이 필요한 리스트에 추가
-        BuildingsManager.Instance.buildingsNeedConstruct.Add(buildingScript);
+        BuildingsManager.Instance.buildingsNeedConstruct.Enqueue(buildingScript);
         // 청사진 기능 해제 및 제거
         buildingBluePrint.WhenBuildComplete();
         // 발전기들의 전력 공급 가능 범위 표시 끄기

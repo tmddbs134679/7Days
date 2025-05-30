@@ -31,7 +31,12 @@ public class ResourceManager : MonoBehaviour
             int randomIdx = Random.Range(0, itemDataList.Length);
             int randomAmount = Random.Range(5, 10);
 
-            randomResource.Add(itemDataList[randomIdx], randomAmount);
+            ItemData item = itemDataList[randomIdx];
+
+            if (!randomResource.ContainsKey(item))
+                randomResource.Add(itemDataList[randomIdx], randomAmount);
+            else
+                randomResource[item] += randomAmount;
         }
 
         return randomResource;

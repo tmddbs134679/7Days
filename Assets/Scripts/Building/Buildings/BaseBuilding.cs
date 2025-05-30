@@ -28,6 +28,8 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
                     requireTime = 0; // 건설/업그레이드 필요 시간
     Coroutine construct; // 진행 중인 건설 코루틴
 
+    public bool NeedsRepair => hpCurrent < hpMax;
+
     protected virtual void Start()
     {
         Init();
@@ -96,7 +98,7 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     public virtual void CallUpgrade()
     {
         // 건설이 필요한 리스트에 추가
-        BuildingsManager.Instance.buildingsNeedConstruct.Add(this);
+        BuildingsManager.Instance.buildingsNeedConstruct.Enqueue(this);
         isConstructing = true;
     }
 
@@ -129,7 +131,7 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
         if (!BuildingsManager.Instance.buildings.Contains(this))
             BuildingsManager.Instance.buildings.Add(this);
         // 건설이 필요한 리스트에서 제거
-        BuildingsManager.Instance.buildingsNeedConstruct.Remove(this);
+        //BuildingsManager.Instance.buildingsNeedConstruct.Dequeue(this);
 
         // 작업 종료 상태로 전환
         isConstructing = false;
