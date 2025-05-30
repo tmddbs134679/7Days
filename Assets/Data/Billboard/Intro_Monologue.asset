@@ -10,18 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0e3baba744b2fe468bd9de5eb0fe6e4, type: 3}
-  m_Name: Test1
+  m_Name: Intro_Monologue
   m_EditorClassIdentifier: 
   dialogueLines:
-  - isPlayer: 1
+  - isPlayer: 0
     characterName: 
-    dialogueText: "A \uAC00 \uBB3B\uC2B5\uB2C8\uB2E4"
+    dialogueText: "\uC800\uAE30 \uC800 \uAC74\uBB3C...\n\uBB54\uAC00 \uC774\uC0C1\uD55C
+      \uAE30\uACC4\uAC00 \uC788\uB294\uAC78?"
     characterSprite: {fileID: 21300000, guid: c444c2423d7691543a9c0c0f61480aa0, type: 3}
   - isPlayer: 0
-    characterName: "\uB85C\uBD07 B"
-    dialogueText: "B\uAC00 \uB9D0\uD569\uB2C8\uB2E4"
-    characterSprite: {fileID: 21300000, guid: c229edc757b459e45861917dcd58aada, type: 3}
-  - isPlayer: 1
     characterName: 
-    dialogueText: "A \uAC00 \uB300\uB2F5\uD569\uB2C8\uB2E4"
-    characterSprite: {fileID: 21300000, guid: c444c2423d7691543a9c0c0f61480aa0, type: 3}
+    dialogueText: "\uD55C\uBC88 \uC0B4\uD3B4\uBCF4\uB294\uAC8C \uC88B\uACA0\uC5B4"
+    characterSprite: {fileID: 21300000, guid: c229edc757b459e45861917dcd58aada, type: 3}

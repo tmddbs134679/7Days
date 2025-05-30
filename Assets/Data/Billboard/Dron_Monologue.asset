@@ -10,18 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0e3baba744b2fe468bd9de5eb0fe6e4, type: 3}
-  m_Name: Test2
+  m_Name: Dron_Monologue
   m_EditorClassIdentifier: 
   dialogueLines:
   - isPlayer: 0
     characterName: 
-    dialogueText: "1\uC904\uC785\uB2C8\uB2E4."
-    characterSprite: {fileID: 0}
-  - isPlayer: 0
-    characterName: "\uB85C\uBD07 B"
-    dialogueText: "1\uC904\uC785\uB2C8\uB2E4.\n2\uC904\uC785\uB2C8\uB2E4."
-    characterSprite: {fileID: 0}
-  - isPlayer: 0
-    characterName: 
-    dialogueText: "1\uC904\uC785\uB2C8\uB2E4.\n2\uC904\uC785\uB2C8\uB2E4.\n3\uC904\uC785\uB2C8\uB2E4."
-    characterSprite: {fileID: 0}
+    dialogueText: "\uB0B4\uAC00 \uBA4D\uB839\uD588\uC9C0\uB9CC\n\uAE30\uBD84\uC774
+      \uC880 \uC774\uC0C1\uD558\uAD70..."
+    characterSprite: {fileID: 21300000, guid: c444c2423d7691543a9c0c0f61480aa0, type: 3}

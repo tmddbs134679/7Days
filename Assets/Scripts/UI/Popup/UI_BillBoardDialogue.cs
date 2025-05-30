@@ -23,7 +23,10 @@ public class UI_BillBoardDialogue : UI_Popup
     {
 
     }
-
+    private void Update()
+    {
+        transform.forward = Camera.main.transform.forward;
+    }
     // 다음줄 출력
     private void DisplayNextLine()
     {
@@ -62,8 +65,6 @@ public class UI_BillBoardDialogue : UI_Popup
 
     public void SetLineAndStartDialogue(DialogueSequence lines)
     {
-        transform.forward = Camera.main.transform.forward;
-
         Bind<TextMeshProUGUI>(typeof(TMP));
         dialogueTmp = Get<TextMeshProUGUI>((int)TMP.DialogueTxt);
 
