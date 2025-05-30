@@ -14,6 +14,7 @@ public class UI_Refinery : UI_Popup
     TextMeshProUGUI P_Stack;
 
     public Refinery refinery;
+    public ItemData p_water;
 
     enum Buttons
     {
@@ -69,7 +70,11 @@ public class UI_Refinery : UI_Popup
     }
     void OnGet()
     {
-        if(refinery.productAmount > 0)
-            refinery.OnInteract();
+        if (refinery.productAmount > 0)
+        {
+            InventoryManager.instance.AddItem(p_water, refinery.productAmount);
+            refinery.productAmount = 0;
+            UpdateStack(refinery.inputAmount, refinery.productAmount);
+        }
     }
 }

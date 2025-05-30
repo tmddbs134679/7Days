@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e861fab3f3426314aa401dc4b92ce6bc, type: 3}
-  m_Name: Item_Core
+  m_Name: Item_FoodPack
   m_EditorClassIdentifier: 
-  resourceName: "\uAE30\uC5B5 \uCF54\uC5B4"
-  description: "\uC2E0\uD638\uD0D1 \uAC15\uD654 \uC790\uC6D0"
-  type: 2
-  icon: {fileID: 21300000, guid: e88d8058a78228c48a8c23f6b0400f41, type: 3}
+  resourceName: "\uAC74\uC870 \uC2DD\uB7C9\uD329"
+  description: "\uACE0\uAE09 \uC2DD\uB7C9"
+  type: 0
+  icon: {fileID: 21300000, guid: 0d91faf94341e06439c2a7f5dd00394d, type: 3}
   canStack: 1
   maxStackAmount: 999
-  consumables: []
+  consumables:
+  - type: 0
+    value: 20
+  - type: 3
+    value: 20
   equipPrefab: {fileID: 0}

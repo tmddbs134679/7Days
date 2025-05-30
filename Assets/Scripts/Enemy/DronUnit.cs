@@ -88,8 +88,6 @@ public class DroneUnit : MonoBehaviour
 
                     droneMode = DroneMode.Idle;
                     isWorking = false;
-
-                    DroneSlot.onWorkCompleted?.Invoke(droneIdx);
                 }
             }
 
@@ -128,8 +126,6 @@ public class DroneUnit : MonoBehaviour
 
         droneMode = DroneMode.Idle;
         isWorking = false;
-
-        DroneSlot.onWorkCompleted?.Invoke(droneIdx);
     }
 
     IEnumerator ConstructRoutine()
@@ -161,8 +157,6 @@ public class DroneUnit : MonoBehaviour
 
         droneMode = DroneMode.Idle;
         isWorking = false;
-
-        DroneSlot.onWorkCompleted?.Invoke(droneIdx);
     }
 
     IEnumerator StunRoutine()
@@ -196,7 +190,6 @@ public class DroneUnit : MonoBehaviour
 
             default:
                 droneMode = DroneMode.Idle;
-                DroneSlot.onWorkCompleted?.Invoke(droneIdx);
                 break;
         }
     }

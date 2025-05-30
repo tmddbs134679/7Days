@@ -17,7 +17,11 @@ public class PlayerController : MonoBehaviour
         this.player = player;
         cam = Camera.main;
     }
-
+    void Update()
+    {
+        Debug.DrawRay(transform.position - Vector3.up * 0.2f, transform.forward);
+    }
+    
     public void OnMove(InputAction.CallbackContext context)
     {
         if (player.IsDead) return;
@@ -86,7 +90,7 @@ public class PlayerController : MonoBehaviour
                 return;
             }
 
-            Ray ray = new Ray(transform.position, transform.forward);
+            Ray ray = new Ray(transform.position - Vector3.up * 0.2f, transform.forward);
 
             if (Physics.Raycast(ray, out RaycastHit hit, 2f))
             {
@@ -105,6 +109,10 @@ public class PlayerController : MonoBehaviour
                     office.OnDroneUI();
                 }
 
+                else if (hit.collider.TryGetComponent(out Refinery refinery))
+                {
+                    refinery.ShowUI();
+                }
             }
         }
     }
