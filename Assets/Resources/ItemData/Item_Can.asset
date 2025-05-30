@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resourceName: "\uD1B5\uC870\uB9BC"
   description: "\uAE30\uBCF8 \uC2DD\uB7C9"
-  type: 1
+  type: 0
   icon: {fileID: 21300000, guid: 9dcce64c1ff466646823c630f0f3be50, type: 3}
   canStack: 1
   maxStackAmount: 999

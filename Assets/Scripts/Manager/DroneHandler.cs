@@ -27,11 +27,11 @@ public class DroneHandler : MonoBehaviour
 
     public void GenerateDrone(GameObject dronePrefab)
     {
-        GameObject drone = Instantiate(dronePrefab, spawnTransform);
+        GameObject drone = Instantiate(dronePrefab, spawnTransform.position, Quaternion.identity);
 
         if (drone.TryGetComponent(out DroneUnit droneUnit))
         {
-            droneUnit.Init();
+            droneUnit.Init(this);
             activeDrones.Add(droneUnit);
             DroneManager.AliveDrones.Add(droneUnit.transform);
         }
@@ -56,5 +56,25 @@ public class DroneHandler : MonoBehaviour
         {
             selectedDrone.ChangeMode(mode);
         }
+    }
+
+    public void SaveResouceToStorage(Dictionary<ItemData, int> gatherResource)
+    {
+        if(gatherResource != null)
+            droneManagerOffice.SaveResouce(gatherResource);        
+    }
+
+
+    [ContextMenu("TestSelectDrone")]
+    public void TestSelectDrone()
+    {
+        selectedDrone = activeDrones[0];
+        Debug.Log($"선택된 드론: {selectedDrone.name}");
+    }
+
+    [ContextMenu("TestGather")]
+    public void TestGather()
+    {
+        selectedDrone.ChangeMode(DroneMode.Gather, gatherTransform);
     }
 }

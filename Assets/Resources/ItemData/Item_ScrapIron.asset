@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e861fab3f3426314aa401dc4b92ce6bc, type: 3}
-  m_Name: Item_Core
+  m_Name: Item_ScrapIron
   m_EditorClassIdentifier: 
-  resourceName: "\uAE30\uC5B5 \uCF54\uC5B4"
-  description: "\uC2E0\uD638\uD0D1 \uAC15\uD654 \uC790\uC6D0"
-  type: 2
-  icon: {fileID: 21300000, guid: e88d8058a78228c48a8c23f6b0400f41, type: 3}
+  resourceName: "\uACE0\uCCA0"
+  description: "\uAE30\uBCF8 \uAC74\uCD95 \uC790\uC6D0"
+  type: 0
+  icon: {fileID: 21300000, guid: cd9b64a853241f442a7325bf226c0a31, type: 3}
   canStack: 1
   maxStackAmount: 999
   consumables: []

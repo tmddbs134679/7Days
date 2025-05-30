@@ -18,31 +18,10 @@ MonoBehaviour:
     description: "\uAC74\uBB3C\uC744 \uC218\uB9AC\uD558\uAC70\uB098 \uAC74\uC124\uD558\uB294
       \uB4DC\uB860\uC758 \uAD00\uB9AC\uC18C"
     sprite: {fileID: 0}
-    buildingDatas:
-    - time: 25
-      hpMax: 200
-      resources:
-      - resourceSort: {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae, type: 2}
-        amount: 20
-      - resourceSort: {fileID: 11400000, guid: 1c983398b7c76c04e99fe4c351025bda, type: 2}
-        amount: 5
-      WorkerPrefab: {fileID: 0}
+    WorkerPrefab: {fileID: 6561526082821200919, guid: 128afb960d545934e9dbb4694f893268,
+      type: 3}
+    dataByLevel:
+    - time: 0
+      hpMax: 100
+      resources: []
       workerCount: 1
-    - time: 40
-      hpMax: 200
-      resources:
-      - resourceSort: {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae, type: 2}
-        amount: 30
-      - resourceSort: {fileID: 11400000, guid: 1c983398b7c76c04e99fe4c351025bda, type: 2}
-        amount: 10
-      WorkerPrefab: {fileID: 0}
-      workerCount: 2
-    - time: 60
-      hpMax: 200
-      resources:
-      - resourceSort: {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae, type: 2}
-        amount: 40
-      - resourceSort: {fileID: 11400000, guid: 1c983398b7c76c04e99fe4c351025bda, type: 2}
-        amount: 15
-      WorkerPrefab: {fileID: 0}
-      workerCount: 3

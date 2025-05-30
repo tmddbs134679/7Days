@@ -1,24 +1,21 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DroneManagerOffice : BaseBuilding
 {
     public WorkerOfficeData data { get; private set; }
 
+    private Dictionary<ItemData, int> resourceStorage;
     [SerializeField] private DroneHandler droneHandler;
 
-    protected override void Start()
+    protected override void Init()
     {
-        base.Start();
-
         if (TryGetComponent(out droneHandler))
         {
             droneHandler.Init(this);
         }
-    }
 
-    protected override void Init()
-    {
         // 데이터 받아오기
         data = FormManager.Instance.GetForm<WorkerOfficeForm>().GetDataByID((int)buildingIndex);
         // 최대 레벨
@@ -27,6 +24,8 @@ public class DroneManagerOffice : BaseBuilding
         requireTime = data.dataByLevel[0].time;
         SetBuildingStatus();
 
+        resourceStorage = new Dictionary<ItemData, int>();
+
         DroneManager.DroneBuildings.Add(transform);
     }
 
@@ -34,6 +33,11 @@ public class DroneManagerOffice : BaseBuilding
     {
         // 레벨업으로 인한 최대 HP 증가
         hpMax = data.dataByLevel[level].hpMax;
+
+        for (int i = 0; i < data.dataByLevel[level].workerCount; i++)
+        {
+            GenerateWorker();
+        }
     }
 
     // 건물마다 고유로 가지는 값들 반환
@@ -53,9 +57,33 @@ public class DroneManagerOffice : BaseBuilding
         isConstructing = true;
     }
 
-    /// <summary>
-    /// 드론 생성
-    /// </summary>
+    public void SaveResouce(Dictionary<ItemData, int> gatherResources)
+    {
+        foreach (var resource in gatherResources.Keys)
+        {
+            if (resourceStorage.ContainsKey(resource))
+            {
+                resourceStorage[resource] += gatherResources[resource];
+            }
+            else
+            {
+                resourceStorage.Add(resource, gatherResources[resource]);
+            }
+        }
+    }
+
+    public void GetAllResources()
+    {
+        InventoryManager inventory = InventoryManager.instance;
+
+        foreach (var resource in resourceStorage.Keys)
+        {
+            inventory.AddItem(resource, resourceStorage[resource]);
+        }
+
+        resourceStorage.Clear();
+    }
+
     public void GenerateWorker()
     {
         droneHandler.GenerateDrone(data.WorkerPrefab);
