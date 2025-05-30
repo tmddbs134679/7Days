@@ -6,6 +6,7 @@ public class AI_Collapser : AI_Base
 {
     public CollapserPhaseController phaseController;
     private float AreaAttackRange = 10f;
+    [SerializeField] private GameObject attackRangeEffect;
     protected override void Awake()
     {
         base.Awake();
@@ -43,6 +44,14 @@ public class AI_Collapser : AI_Base
             return dist < enemyData.attackRange;
         });
 
+        fsm.AddTransition(attack, chase, () =>
+        {
+            var t = attack.CurrentTarget;
+            return t == null
+                || !t.activeInHierarchy
+                || Vector3.Distance(transform.position, t.transform.position) > enemyData.attackRange;
+        });
+
         fsm.AddAnyTransition(dead, () =>
         GetComponent<Health>().IsDead && fsm.CurrentState != dead);
 
@@ -52,18 +61,20 @@ public class AI_Collapser : AI_Base
 
     public override void Attack(GameObject target)
     {
-        if(phaseController.CurrentPhase == EBOSSPHASE.PHASE3)   //광역 공격
-        {
-            AreaAttack();
-        }
-        else   //일반공격
+    
+        if (phaseController.CurrentPhase == EBOSSPHASE.PHASE1)  //일반공격
         {
             SingleAttack(target);
+        }
+        else   //광역공격
+        {
+            AreaAttack(target);
         }
     }
 
     void SingleAttack(GameObject target)
     {
+  
         Debug.Log("Single Attack");
         if (target.TryGetComponent(out IDamageable player))
         {
@@ -71,15 +82,18 @@ public class AI_Collapser : AI_Base
         }
     }
 
-    void AreaAttack()
+    void AreaAttack(GameObject target)
     {
         Debug.Log("Area Attack");
         Collider[] hits = Physics.OverlapSphere(transform.position, AreaAttackRange);
+    
         foreach (var hit in hits)
         {
-            if (hit.TryGetComponent<IDamageable>(out var target))
+            if (hit.gameObject == gameObject) continue;
+
+            if (hit.TryGetComponent<IDamageable>(out var player))
             {
-                target.TakeDamage(enemyData.attackPower);
+                player.TakeDamage(enemyData.attackPower);
             }
         }
     }
@@ -87,6 +101,16 @@ public class AI_Collapser : AI_Base
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, AreaAttackRange);
+    }
+
+    public void AnimEnable()
+    {
+        attackRangeEffect.SetActive(true);
+    }
+
+    public void AnimDisable()
+    {
+        attackRangeEffect.SetActive(false);
     }
 
 }

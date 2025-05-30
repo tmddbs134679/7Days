@@ -44,6 +44,8 @@ public class AI_Husk : AI_Base
     }
     public override void Attack(GameObject target)
     {
+        if (!target.CompareTag("Player")) return;
+
         if (target.TryGetComponent(out IDamageable player))
         {
             player.TakeDamage(enemyData.attackPower);
