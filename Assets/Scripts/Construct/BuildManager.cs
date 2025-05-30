@@ -57,7 +57,7 @@ public class BuildManager : MonoBehaviour
     {
         // 겹치는 오브젝트가 없을 때만, 건설 완료
         if(buildingBluePrint.CanConstruct)
-            StartCoroutine(CompleteBuild());
+            CompleteBuild();
     }
 
     // 마우스 오른쪽 버튼 클릭 or ESC => 건설 취소
@@ -91,20 +91,23 @@ public class BuildManager : MonoBehaviour
             }
             // 건물 청사진으로써 활동할 수 있게 스크립트 추가
             buildingBluePrint = buildingScript.gameObject.AddComponent<BuildingBluePrint>();
-            // 건물이 제 역할을 하지 않도록 스크립트 비활성화
-            buildingScript.enabled = false;
+            // 건물이 제 역할을 하지 않도록 스크립트 비활성화 >> 이제 isConstruct가 생겨서 해당 구문은 필요없지 않을까?
+            // buildingScript.enabled = false;
         }
     }
 
     // 설치 완료
-    IEnumerator CompleteBuild()
+    void CompleteBuild()
     {
         // 설치 완료되면 건물 역할 스크립트 혹은 오브젝트 활성화 >> 그때부터 건물로써의 기능 시작
-        buildingScript.enabled = true;
+        //buildingScript.enabled = true;
         // enabled를 true로 만들고 바로 자원을 차감하려면 먹히지 않기에 1프레임 대기
-        yield return null;
-        // 건설 자원 차감 !!! 병합 후 주석 풀고 테스트
+        //yield return null;
+
+        // 건설 자원 차감
         buildingScript.ResourceConsumption(0);
+        // 건설이 필요한 리스트에 추가
+        BuildingsManager.Instance.buildingsNeedConstruct.Add(buildingScript);
         // 청사진 기능 해제 및 제거
         buildingBluePrint.WhenBuildComplete();
         // 발전기들의 전력 공급 가능 범위 표시 끄기

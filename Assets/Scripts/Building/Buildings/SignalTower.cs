@@ -5,6 +5,7 @@ public class SignalTower : Wall
     protected override void Init()
     {
         // 신호탑은 초기에 지어져 있기에 건설중이 아닌 상태
+        level = 0;
         isConstructing = false;
         // 데이터 받아오기
         data = FormManager.Instance.GetForm<WallForm>().GetDataByID((int)buildingIndex);

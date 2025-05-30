@@ -18,7 +18,7 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
 {
     [SerializeField] protected BuildingIndex buildingIndex;
 
-    protected int level = 0, // 건물 레벨
+    protected int level = -1, // 건물 레벨 (지을 때 레벨업으로 0이 됨)
                   levelMax; // 해당 건물 종류의 최대 레벨
     protected float hpCurrent, // 현재 체력
                     hpMax; // 현재 레벨의 최대 체력
@@ -71,7 +71,11 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     {
         hpCurrent = Mathf.Clamp(hpCurrent - amount, 0, hpMax);
         if (hpCurrent <= 0)
+        {
+            // 파괴 전에 해당 건물을 건물들 리스트에서 제거
+            BuildingsManager.Instance.buildings.Remove(this);
             Destroy(gameObject);
+        }
     }
 
     // 수리
@@ -87,6 +91,14 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     public abstract void ResourceConsumption(int nextLevel);
     // 건설 가능한지 체크
     public abstract bool ResourceCheck(int nextLevel);
+
+    // 업그레이드 지시할 때 호출
+    public virtual void CallUpgrade()
+    {
+        // 건설이 필요한 리스트에 추가
+        BuildingsManager.Instance.buildingsNeedConstruct.Add(this);
+        isConstructing = true;
+    }
 
     // 일꾼이 건설/업그레이드 시작할 때 호출하기
     public void StartConstruct(Action onCompleted)
@@ -113,6 +125,12 @@ public abstract class BaseBuilding : MonoBehaviour, IDamageable
     // 건설/업그레이드 종료
     protected virtual void EndConstruct()
     {
+        // 처음 지어질 때 건물 리스트에 추가
+        if (!BuildingsManager.Instance.buildings.Contains(this))
+            BuildingsManager.Instance.buildings.Add(this);
+        // 건설이 필요한 리스트에서 제거
+        BuildingsManager.Instance.buildingsNeedConstruct.Remove(this);
+
         // 작업 종료 상태로 전환
         isConstructing = false;
         progressTime = 0;

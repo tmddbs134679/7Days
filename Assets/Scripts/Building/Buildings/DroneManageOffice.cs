@@ -11,6 +11,8 @@ public class DroneManagerOffice : BaseBuilding
 
     protected override void Init()
     {
+        level = 0;
+
         if (TryGetComponent(out droneHandler))
         {
             droneHandler.Init(this);
