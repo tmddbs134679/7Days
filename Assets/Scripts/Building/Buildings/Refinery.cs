@@ -29,13 +29,6 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
         requireTime = data.dataByLevel[0].time;
     }
 
-    protected override void Start()
-    {
-        base.Start();
-        // 업데이트에서 매번 찾기보다 변수에 담아두는 게 좋지 않을까
-        requireTime = data.dataByLevel[level].productionTime;
-    }
-
     protected override void FixedOverridePart()
     {
         // 전력 공급이 될 때만 동작
