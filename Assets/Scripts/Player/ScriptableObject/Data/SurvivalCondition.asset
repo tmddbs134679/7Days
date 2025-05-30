@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: SurvivalCondition
   m_EditorClassIdentifier: 
   interval: 1
-  healthDecayPerInterval: 0
-  staminaDecayPerInterval: 0
-  hydrationDecayPerInterval: 0
+  healthDecayPerInterval: 0.2
+  staminaDecayPerInterval: 0.2
+  hydrationDecayPerInterval: 0.05
   healthRecoverPerInterval: 0.5
-  staminaRecoverPerInterval: 1
+  staminaRecoverPerInterval: 0.5
   healthRecoveryThreshold: 30
   staminaRecoveryThreshold: 10
   minStaminaToDecay: 10

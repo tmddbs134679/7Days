@@ -44,7 +44,7 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
                 // 생산에 필요한 자원의 소모에 성공했다면
                 if (inputAmount > 0)
                 {
-                    progressTime = 0; // 시간 초기화
+                    progressProduction = 0; // 시간 초기화
                     productAmount++;
                     inputAmount -= 1;
                     onChangeStack.Invoke(inputAmount, productAmount);

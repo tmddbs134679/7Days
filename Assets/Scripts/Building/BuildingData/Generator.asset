@@ -19,7 +19,7 @@ MonoBehaviour:
       \uC791\uB3D9\uD558\uAC8C\uB054 \uD569\uB2C8\uB2E4."
     sprite: {fileID: 0}
     dataByLevel:
-    - time: 15
+    - time: 3
       hpMax: 200
       resources:
       - resourceSort: {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae, type: 2}

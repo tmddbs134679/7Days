@@ -69,7 +69,7 @@ MonoBehaviour:
     description: "\uC801 \uC774\uB3D9\uACBD\uB85C \uCC28\uB2E8"
     sprite: {fileID: 0}
     dataByLevel:
-    - time: 5
+    - time: 1
       hpMax: 300
       resources:
       - resourceSort: {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae, type: 2}

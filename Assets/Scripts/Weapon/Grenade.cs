@@ -88,6 +88,7 @@ public class Grenade : MonoBehaviour
                 if (target.TryGetComponent(out Turret turret))
                 {
                     // 터렛 공격속도 강화 효과
+                    turret.DecreaseDelay(weaponDataSO.buffEffect.attackSpeedMultiplier);
                     effectedTargets.Add(target);
                 }
                 break;
@@ -111,6 +112,7 @@ public class Grenade : MonoBehaviour
                 if (target.TryGetComponent(out Turret turret))
                 {
                     // 터렛 강화 효과 제거
+                    turret.RestoreDelay();
                 }
                 break;
 

@@ -49,14 +49,6 @@ public class DroneUnit : MonoBehaviour
         DroneManager.UnregisterDrone(transform);
     }
 
-    void Update()
-    {
-        if (IsIdle && Vector3.Distance(transform.position, initPosition) > 0.95f)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, initPosition, Time.deltaTime * moveSpeed);
-        }
-    }
-
     IEnumerator GatherRoutine()
     {
         if (droneMode != DroneMode.Gather) yield break;
@@ -69,7 +61,7 @@ public class DroneUnit : MonoBehaviour
 
             while (gatherResources.Count == 0)
             {
-                transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
+                MoveToTarget(target);
 
                 if (Vector3.Distance(transform.position, target) <= 0.9f)
                 {
@@ -79,22 +71,27 @@ public class DroneUnit : MonoBehaviour
                 yield return null;
             }
 
+            target = initPosition;
+
             while (gatherResources.Count > 0)
             {
-                transform.position = Vector3.MoveTowards(transform.position, initPosition, Time.deltaTime * moveSpeed);
+                MoveToTarget(target);
 
-                if (Vector3.Distance(transform.position, initPosition) <= 0.95f)
+                if (Vector3.Distance(transform.position, target) <= 0.95f)
                 {
                     droneHandler.SaveResouceToStorage(gatherResources);
                     gatherResources.Clear();
 
                     yield return new WaitForSeconds(5f);
                 }
+
+                yield return null;
             }
 
             yield return null;
         }
     }
+
 
     IEnumerator RepairRoutine()
     {
@@ -114,7 +111,7 @@ public class DroneUnit : MonoBehaviour
 
             while (Vector3.Distance(transform.position, target) > 0.95f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
+                MoveToTarget(target);
                 yield return null;
             }
 
@@ -147,7 +144,7 @@ public class DroneUnit : MonoBehaviour
 
             while (Vector3.Distance(transform.position, target) > 0.95f)
             {
-                transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
+                MoveToTarget(target);
                 yield return null;
             }
 
@@ -209,6 +206,15 @@ public class DroneUnit : MonoBehaviour
         }
 
         onRepaired?.Invoke();
+    }
+
+    void MoveToTarget(Vector3 target)
+    {
+        Vector3 dir = (target - transform.position).normalized;
+        if (dir != Vector3.zero)
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * 5f);
+
+        transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * moveSpeed);
     }
 }
 

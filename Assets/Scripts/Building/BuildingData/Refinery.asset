@@ -18,7 +18,7 @@ MonoBehaviour:
     description: "\uC624\uC5FC\uB41C \uBB3C\uC744 \uC815\uC81C (30\uCD08 \uB2F9 1\uBCD1)"
     sprite: {fileID: 0}
     dataByLevel:
-    - time: 20
+    - time: 5
       hpMax: 150
       resources:
       - resourceSort: {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae, type: 2}

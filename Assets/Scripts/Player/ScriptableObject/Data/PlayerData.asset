@@ -18,7 +18,7 @@ MonoBehaviour:
   moveSpeed: 3
   dashSpeed: 7
   dashDuration: 0.8
-  dashCoolDown: 0
-  dashStamina: 0
-  dashHydration: 0
+  dashCoolDown: 3
+  dashStamina: 2
+  dashHydration: 1
   gatherStamina: 0

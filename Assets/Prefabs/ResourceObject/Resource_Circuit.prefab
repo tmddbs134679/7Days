@@ -100,12 +100,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   item: {fileID: 11400000, guid: 1c983398b7c76c04e99fe4c351025bda, type: 2}
-  inventory: {fileID: 0}
   parentObject: {fileID: 0}
   spawn: {fileID: 0}
   minCount: 1
   maxCount: 5
-  farmingRate: 0
+  farmingRate: 1
   spawnRate: 5
   deductItem: []
   dedcuctCount: 
