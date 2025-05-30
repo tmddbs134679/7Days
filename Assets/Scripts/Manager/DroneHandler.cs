@@ -7,6 +7,7 @@ public enum DroneMode
     Idle,
     Repair,
     Gather,
+    Construct,
     Stun
 }
 
@@ -41,7 +42,10 @@ public class DroneHandler : MonoBehaviour
     {
         if (idx <= -1 || idx >= activeDrones.Count) return;
 
-        selectedDrone = activeDrones[idx];
+        if (selectedDrone.droneMode == DroneMode.Idle)
+            selectedDrone = activeDrones[idx];
+        else
+            Debug.Log("해당 드론은 바빠요!");
     }
 
     public void ChangeDroneMode(DroneMode mode)
