@@ -71,10 +71,10 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
         onChangeStack.Invoke(inputAmount, productAmount);
         return true;
     }
-       
+
     // 생산량만큼 건물에 적재
-   public void Production() => productAmount = Mathf.Clamp(productAmount + data.dataByLevel[level].amount, 0, data.dataByLevel[level].capacity);
-    
+    public void Production() => productAmount = Mathf.Clamp(productAmount + data.dataByLevel[level].amount, 0, data.dataByLevel[level].capacity);
+
     // 생산한 아이템을 인벤토리에 넣게끔
     public void OnInteract()
     {
@@ -97,7 +97,7 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
         {
             InventoryManager.instance.DeductResource(resourceRequire.resourceSort, resourceRequire.amount);
         }
-        
+
         // 건설 필요 시간 써주기
         requireTime = data.dataByLevel[nextLevel].time;
         // 건설 상태
@@ -120,33 +120,12 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
     private UI_Refinery refinery;
     public void ShowUI()
     {
-        if (isOpenUI)
-        {
-            isOpenUI = false;
-            if(refinery != null)
-            {
-                UIManager.instance.ClosePopupUI(refinery);
-                refinery = null;
-            }
-        }
-        else
-        {
-            isOpenUI = true;
-            var go = UIManager.instance.ShowPopupUI("UI_Refinery");
-            var ui = go.GetComponent<UI_Refinery>();
-            refinery = ui;
-            ui.refinery = this;
-        }
+        isOpenUI = true;
+        var go = UIManager.instance.ShowPopupUI("UI_Refinery", null, null, true);
+        var ui = go.GetComponent<UI_Refinery>();
+        refinery = ui;
+        ui.refinery = this;
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            ShowUI();
-        }
-    }
-
 }
 
 public class ProductBuildingStatus : BuildingStatus

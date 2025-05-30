@@ -3,10 +3,10 @@ using UnityEngine;
 
 public enum DroneMode
 {
-    Idle,
-    Repair,
+    Idle = 0,
     Gather,
     Construct,
+    Repair,
     Stun
 }
 
@@ -16,9 +16,9 @@ public class DroneHandler : MonoBehaviour
     private List<DroneUnit> activeDrones = new List<DroneUnit>();
 
     [SerializeField] Transform spawnTransform;
-    [SerializeField] Transform gatherTransform;
 
     DroneUnit selectedDrone;
+    private int droneIdx;
 
     public void Init(DroneManagerOffice droneManagerOffice)
     {
@@ -31,24 +31,27 @@ public class DroneHandler : MonoBehaviour
 
         if (drone.TryGetComponent(out DroneUnit droneUnit))
         {
-            droneUnit.Init(this);
+            droneUnit.Init(this, droneIdx);
             activeDrones.Add(droneUnit);
             DroneManager.AliveDrones.Add(droneUnit.transform);
+
+            droneIdx++;
         }
     }
 
-    public void SelectDrone(int idx)
+    public bool SelectDrone(int idx)
     {
-        if (idx <= -1 || idx >= activeDrones.Count) return;
+        if (idx <= -1 || idx >= activeDrones.Count) return false;
 
         selectedDrone = activeDrones[idx];
+
+        return true;
     }
 
-    public void ChangeDroneMode(DroneMode mode)
+    public void ChangeDroneMode(int idx, DroneMode mode)
     {
-        if (selectedDrone == null) return;
-
-        selectedDrone.ChangeMode(mode);
+        if(SelectDrone(idx))
+            selectedDrone.ChangeMode(mode);
     }
 
     public void SaveResouceToStorage(Dictionary<ItemData, int> gatherResource)

@@ -120,3 +120,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingIndex: 6
+  water: {fileID: 11400000, guid: 0774419f80bde2f4682359c12bd37f19, type: 2}
+  progressProduction: 0
+  requireProduction: 0
+  productAmount: 0
+  inputAmount: 0

@@ -98,7 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droneMode: 0
   target: {x: 0, y: 0, z: 0}
-  moveSpeed: 3
+  moveSpeed: 50
   actionCooldown: 2
   gatherAmount: 1
   repairResource: {fileID: 11400000, guid: 2383171c9568b034ba39bcb0c48246ae, type: 2}

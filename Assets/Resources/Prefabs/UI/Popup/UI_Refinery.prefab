@@ -1256,6 +1256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvasLayer: 0
   refinery: {fileID: 0}
+  p_water: {fileID: 11400000, guid: 4733040c154e1884e8ddc56c01d51a2b, type: 2}
 --- !u!1 &9016669162994323523
 GameObject:
   m_ObjectHideFlags: 0
