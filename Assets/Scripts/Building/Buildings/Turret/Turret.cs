@@ -42,8 +42,8 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
 
     protected override void FixedOverridePart()
     {
-        // 전력이 공급 중이고, 타겟이 있다면
-        if (isSupplied && target)
+        // 전력이 공급 중이고, 타겟이 살아있다면
+        if (isSupplied && target != null && target.gameObject.activeSelf)
         {
             // 타겟을 바라보도록 추적
             LookTarget();
@@ -104,16 +104,6 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
         Quaternion lookRotationBase = Quaternion.LookRotation(directionBase);
         // 타겟 방향으로 포탑이 회전(조금만 움직여도 되는데 반대로 회전해버리는 상황을 방지하기 위해 Slerp 사용)
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotationBase, 0.1f);
-
-        // 2. 상하 회전
-        Vector3 directionTop = target.position - top.position;
-        // X축 고정 (yz 평면 수평 방향만 사용)
-        directionTop.x = 0;
-        // 목표 방향 : 상부 포탑이 기본 각도가 x축 -90도이므로 보는 각도에 해당 각도를 더해줘야 함
-        // >> 쿼터니언은 더할 수 없고 대신 곱하면 같은 효과(A*B = A를 먼저 회전하고 B, 순서 중요!)
-        Quaternion lookRotationTop = Quaternion.Euler(Vector3.left * 90) * Quaternion.LookRotation(directionTop);
-        // 타겟 방향으로 포탑이 회전
-        top.localRotation = Quaternion.Slerp(top.localRotation, lookRotationTop, 0.1f);
     }
 
     // 건물마다 고유로 가지는 값들 반환
