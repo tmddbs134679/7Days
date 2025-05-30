@@ -11,7 +11,7 @@ public class BuildingBluePrint : MonoBehaviour
     Color[,] originColors;
     readonly float tranparency = 0.5f; // 건물 청사진의 투명도
 
-    List<Collider> colliders = new List<Collider>();
+    public List<Collider> colliders = new List<Collider>();
 
     // 레이어 명칭
     readonly string groundLayerName = "Ground", // 땅 

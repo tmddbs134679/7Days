@@ -148,6 +148,10 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
         }
         return true;
     }
+
+    // 공격 딜레이 변화/복원
+    public void DecreaseDelay(float ratio)=> atkDelay *= ratio;
+    public void RestoreDelay() => atkDelay = data.dataByLevel[level].atkDelay;
 }
 
 public class TurretStatus : BuildingStatus

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5712255432559204024}
   - component: {fileID: 8558169476533433075}
   - component: {fileID: 5184937982146809487}
-  m_Layer: 18
+  m_Layer: 16
   m_Name: InteractableRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6853f28b2e694da479126a02e8cd1c1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildingLayer:
+    serializedVersion: 2
+    m_Bits: 262144
 --- !u!135 &5184937982146809487
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -200,7 +203,7 @@ GameObject:
   - component: {fileID: 6149595165927211755}
   - component: {fileID: 5294976854247953258}
   - component: {fileID: 8133507769612621972}
-  m_Layer: 18
+  m_Layer: 16
   m_Name: RangeView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
