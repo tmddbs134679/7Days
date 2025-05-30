@@ -50,7 +50,15 @@ public class Resource : MonoBehaviour
         int getCount = UnityEngine.Random.Range(minCount, maxCount);
         yield return new WaitForSeconds(farmingRate);
 
-        if (deduct) inventory.DeductItem(deductItem, dedcuctCount);
+        // 실제 리소스 삭제
+        if (deductItem.Length > 0)
+        {
+            for (int i = 0; i < deductItem.Length; i++)
+            {
+                inventory.DeductResource(deductItem[i], dedcuctCount[i]);
+            }
+        }
+
         inventory.AddItem(item, getCount);
         spawn.SpawnResource(parentObject, spawnRate);
         parentObject.SetActive(false);
