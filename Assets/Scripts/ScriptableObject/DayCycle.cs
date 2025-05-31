@@ -33,6 +33,7 @@ public class DayCycle : MonoBehaviour
 
     void Start()
     {
+        AudioManager.Instance.PlayBGM(0);
         timeRate = 1.0f / dayForSecond;
         time = startTime;
     }
@@ -46,12 +47,14 @@ public class DayCycle : MonoBehaviour
 
         if (IsNight() && !isNightFlag)
         {
+            AudioManager.Instance.PlayBGM(1);
             Debug.Log("밤시작");
             isNightFlag = true;
             TestGameManager.Inst.StartWave();
         }
         else if (!IsNight() && isNightFlag)
         {
+            AudioManager.Instance.PlayBGM(0);
             Debug.Log("낮시작");
             isNightFlag = false;
 

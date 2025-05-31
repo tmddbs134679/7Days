@@ -48,7 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: b602b29ad06f8db44b47e1165946f6c2, type: 2}
   bgmSource: {fileID: 7981941850133304326}
-  bgmClips: []
+  bgmClips:
+  - {fileID: 8300000, guid: a5a47846e390b5d478f74a48589446f0, type: 3}
+  - {fileID: 8300000, guid: e1730cd38764a1c4285805d182b24b54, type: 3}
   sfxSource: {fileID: 7648575010772160782}
 --- !u!1 &7481495412589278099
 GameObject:

@@ -1,4 +1,5 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using static UI_StatBar;
@@ -34,9 +35,10 @@ public class UI_FloatType : UI_Scene
             case FloatType.Item_Fuel:
                 inventoryManager.OnFuelChanged += UpdateCurrent;
                 break;
-        //    case Type.Wave:
-                //_PC.OnStaminaChanged += UpdateCurrent;
-             //   break;
+            case FloatType.Wave:
+                TestGameManager.Inst.OnChageWave += UpdateCurrent;
+                countTxt.text = "0";
+                break;
         }
     }
     private void OnDisable()
