@@ -23,7 +23,7 @@ MonoBehaviour:
   isRanged: 0
   targetsDronesFirst: 0
   attackRange: 1
-  chasingRange: 100
+  chasingRange: 10000
   wallDetectDistance: 0
   StealthTime: 5
   StealthRange: 50
