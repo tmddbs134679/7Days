@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 4
   maxHealth: 100
-  attackPower: 6
+  attackPower: 20
   attackCoolTime: 5
   moveSpeed: 2.59
   canClimbWall: 0

@@ -56,7 +56,7 @@ public class InventoryManager : MonoBehaviour
     public UI_QuickSlotManager quickSlotManager;
     public Player player;
     public event Action<int> OnHealthChanged;
-    [SerializeField] public WeaponDataSO[] weaponDataSO;
+     public WeaponDataSO[] weaponDataSO;
 
     private void Awake()
     {
@@ -88,11 +88,15 @@ public class InventoryManager : MonoBehaviour
         player.PlayerEvents.onSelectSlot += OnQuick;
 
 
-        foreach(var value in itemList)
+
+        Invoke("Cheat", 3);
+    }
+    void Cheat()
+    {
+        foreach (var value in itemList)
         {
             AddResource(value.Value.data, 1000);
         }
-   
     }
 
     // 퀵슬롯 설정

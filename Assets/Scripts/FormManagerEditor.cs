@@ -1,9 +1,9 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(FormManager))]
-public class FormManagerEditor : Editor
+public class FormManagerEditor : MonoBehaviour
 {
+    /*
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
@@ -16,4 +16,5 @@ public class FormManagerEditor : Editor
             Debug.Log("폼 등록 성공!!");
         }
     }
+    */
 }

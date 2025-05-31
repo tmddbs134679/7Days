@@ -62,6 +62,7 @@ GameObject:
   - component: {fileID: 5494752193459897839}
   - component: {fileID: 434226877605475765}
   - component: {fileID: 2404561593492686718}
+  - component: {fileID: 8485727459506315427}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -215,3 +216,16 @@ MonoBehaviour:
   totalDuration: 10
   flickerInterval: 1
   baseColor: {r: 0.4528302, g: 0.13685176, b: 0, a: 1}
+--- !u!114 &8485727459506315427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8873473721132222181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddfb3b57b904f0343997c864ea930766, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetAspectRatio: 1.7777778

@@ -27,7 +27,11 @@ public class UI_QuickSlot : UI_Scene
     public override void Init()
     {
         base.Init();
-        ClearSlot();
+        if(iconImage.sprite == baseIcon)
+        {
+            ClearSlot();
+        }
+
     }
 
     public void SetSlot(Sprite icon, float cooldown)
