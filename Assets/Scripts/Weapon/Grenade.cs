@@ -33,6 +33,7 @@ public class Grenade : MonoBehaviour
     {
         if (!isExplosion)
         {
+            AudioManager.Instance.PlaySFX("BoomSound");
             isExplosion = true;
             StartCoroutine(GrenadeEffectCoroutine());
         }

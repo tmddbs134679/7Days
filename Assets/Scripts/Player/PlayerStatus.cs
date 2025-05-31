@@ -168,11 +168,14 @@ public class PlayerStatus : MonoBehaviour
         {
             case ConsumableType.Health:
                 CurHealth += value;
+                AudioManager.Instance.PlaySFX("FoodSound");
                 break;
             case ConsumableType.Stamina:
                 CurStamina += value;
+                AudioManager.Instance.PlaySFX("FoodSound");
                 break;
             case ConsumableType.Thirst:
+                AudioManager.Instance.PlaySFX("DrinkSound");
                 CurHydration += value;
                 break;
         }

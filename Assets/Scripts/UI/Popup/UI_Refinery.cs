@@ -61,7 +61,7 @@ public class UI_Refinery : UI_Popup
     }
     void OnClose()
     {
-        UIManager.instance.ClosePopupUI(this);
+        Destroy(gameObject);
     }
     void OnInput()
     {

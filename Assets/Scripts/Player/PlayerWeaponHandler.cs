@@ -102,6 +102,8 @@ public class PlayerWeaponHandler : MonoBehaviour
         isAiming = false;
         trajectoryController.Hide();
 
+        AudioManager.Instance.PlaySFX("ShootGranade");
+
         Vector3 direction = trajectoryController.GetAimDirectionForce(out float force);
         curWeapon.ThrowWeapon(direction, force);
 

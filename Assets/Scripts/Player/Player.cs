@@ -117,7 +117,7 @@ public class Player : MonoBehaviour, IDamageable
             float dashSpeed = playerDataSO.DashSpeed;
             float duration = playerDataSO.DashDuration;
             float cooldown = playerDataSO.DashCoolDown;
-
+            AudioManager.Instance.PlaySFX("DashSound");
             StartCoroutine(playerMovement.DashCoroutine(playerController.LookDirection, dashSpeed, duration, cooldown));
         }
     }
