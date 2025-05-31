@@ -122,12 +122,13 @@ public class DroneUnit : MonoBehaviour
                 MoveToTarget(target);
                 yield return null;
             }
-
+            AudioManager.Instance.PlaySFXLoop("BuildSound");
             bool isDone = false;
 
             StartCoroutine(RepairBuilding(building, () =>
             {
                 isDone = true;
+                AudioManager.Instance.StopSFXLoop();
             }));
 
             yield return new WaitUntil(() => isDone);
@@ -160,10 +161,10 @@ public class DroneUnit : MonoBehaviour
                 MoveToTarget(target);
                 yield return null;
             }
-
+            AudioManager.Instance.PlaySFXLoop("BuildSound");
             bool isDone = false;
-            building.StartConstruct(() => { isDone = true; });
-
+            building.StartConstruct(() => { isDone = true; AudioManager.Instance.StopSFXLoop(); });
+     
             yield return new WaitUntil(() => isDone);
         }
     }
@@ -180,6 +181,7 @@ public class DroneUnit : MonoBehaviour
         droneMode = mode;
         DestoryDialogue();
         DialogueManager.instance.ShowBillBoardDialogue(BillboradName.Dron_SetWalking, this.transform);
+        AudioManager.Instance.PlaySFX("SetDronSound");
         switch (mode)
         {
             case DroneMode.Repair:
