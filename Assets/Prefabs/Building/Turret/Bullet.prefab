@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  bulletLifeCycle: 2
+  bulletLifeCycle: 8
   enemyLayer:
     serializedVersion: 2
     m_Bits: 32768
