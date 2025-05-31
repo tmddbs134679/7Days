@@ -4,7 +4,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] float 
         speed = 10,     // 총알 속도
-        bulletLifeCycle = 2; // 총알 생명주기
+        bulletLifeCycle = 5; // 총알 생명주기
     // 타겟인 적의 레이어
     [SerializeField] LayerMask enemyLayer;
 
@@ -12,6 +12,7 @@ public class Bullet : MonoBehaviour
     float atk;
     // 이번에 공격할 적
     Transform target;
+    Vector3 moveVec;
 
     // 총알이 생성될 때 터렛에서 초기화해야 할 값들
     public void InitBullet(float atk, Transform target)
@@ -32,15 +33,14 @@ public class Bullet : MonoBehaviour
     {
         if (target != null)
         {
-            Vector3 moveVec = Vector3.zero;
             // 적이 활성화 상태라면 추적
             if (target.gameObject.activeSelf)
             {
                 moveVec = (target.position - transform.position).normalized;
                 transform.forward = moveVec;
             }
-            transform.position += moveVec * speed;
         }
+        transform.position += moveVec * speed;
     }
 
     private void OnCollisionEnter(Collision collision)
