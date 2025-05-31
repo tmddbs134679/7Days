@@ -33,11 +33,12 @@ public class Health : MonoBehaviour, IDamageable
             return;
 
         health = Mathf.Max(health - amount, 0);
-
+        AudioManager.Instance.PlaySFX("EnemyHit");
         OnTakeDamage?.Invoke();
 
         if (health == 0)
         {
+            AudioManager.Instance.PlaySFX("EnemyDie");
             OnDie?.Invoke();
 
         }

@@ -64,6 +64,7 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
     // 공격
     void Attack()
     {
+        AudioManager.Instance.PlaySFX("ShootSound");
         // 총알 생성
         Bullet bullet = Instantiate(bulletPrefab);
         // 초기 스텟 부여
