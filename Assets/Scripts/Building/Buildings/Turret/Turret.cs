@@ -5,6 +5,7 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
     [SerializeField] Transform top, firePos;
     [SerializeField] Bullet bulletPrefab; // 총알 프리팹
     [SerializeField] LayerMask enemyLayer;
+    [SerializeField] ParticleSystem vfx;
     // 현재 참조중인 터렛 데이터
     public TurretData data { get; private set; }
     public bool isSupplied { get; set; }
@@ -64,6 +65,9 @@ public class Turret : BaseBuilding, IBuildingRequireEnegy
     // 공격
     void Attack()
     {
+        // VFX 재생
+        vfx.Play();
+        // SFX 재생
         AudioManager.Instance.PlaySFX("ShootSound");
         // 총알 생성
         Bullet bullet = Instantiate(bulletPrefab);
