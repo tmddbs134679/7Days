@@ -14,6 +14,7 @@ public class MonsterSpawnInfo
 public class WaveData : ScriptableObject
 {
     public List<MonsterSpawnInfo> spawnList;
+    public float waveWaitTime;
 }
 
 
@@ -51,7 +52,7 @@ public class WaveController : MonoBehaviour
 
                 monster.GetComponent<AI_Base>()?.Init();
 
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(wave.waveWaitTime);
             }
         }
     }

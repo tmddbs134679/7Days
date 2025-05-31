@@ -27,19 +27,19 @@ public class Bullet : MonoBehaviour
         // Time.deltaTime과는 다르게 fixedDeltaTime은 고정값이기에 미리 곱해두면 연산을 줄일 수 있다
         speed *= Time.fixedDeltaTime;
         Destroy(gameObject, bulletLifeCycle);
-    }
-
-    private void FixedUpdate()
-    {
         if (target != null)
         {
-            // 적이 활성화 상태라면 추적
             if (target.gameObject.activeSelf)
             {
                 moveVec = (target.position - transform.position).normalized;
                 transform.forward = moveVec;
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+
         transform.position += moveVec * speed;
     }
 
@@ -54,6 +54,11 @@ public class Bullet : MonoBehaviour
                 damageable.TakeDamage(atk);
             }
 
+            Destroy(gameObject);
+        }
+
+        if (collision.transform.CompareTag("Wall"))
+        {
             Destroy(gameObject);
         }
     }

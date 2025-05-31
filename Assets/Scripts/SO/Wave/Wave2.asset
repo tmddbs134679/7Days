@@ -19,3 +19,4 @@ MonoBehaviour:
   - prefab: {fileID: 6356359047738232794, guid: d8a741ea3d177004db6d84b8de5fe4d9,
       type: 3}
     count: 6
+  waveWaitTime: 2

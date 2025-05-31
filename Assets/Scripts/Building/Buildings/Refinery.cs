@@ -47,7 +47,7 @@ public class Refinery : BaseBuilding, IInteractactble, IBuildingRequireEnegy
                     progressProduction = 0; // 시간 초기화
                     productAmount++;
                     inputAmount -= 1;
-                    onChangeStack.Invoke(inputAmount, productAmount);
+                    onChangeStack?.Invoke(inputAmount, productAmount);
                 }
             }
         }

@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53391198703505746ab1155137b18274, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 50
   bulletLifeCycle: 8
   enemyLayer:
     serializedVersion: 2
