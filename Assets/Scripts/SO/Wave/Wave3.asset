@@ -15,8 +15,8 @@ MonoBehaviour:
   spawnList:
   - prefab: {fileID: 6356359047738232794, guid: d8a741ea3d177004db6d84b8de5fe4d9,
       type: 3}
-    count: 12
+    count: 50
   - prefab: {fileID: 8320420875000842671, guid: 0b4033cc94313e94c9abdf8e4c2182ad,
       type: 3}
-    count: 8
-  waveWaitTime: 2
+    count: 20
+  waveWaitTime: 0.4
