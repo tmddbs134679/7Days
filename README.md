@@ -144,6 +144,25 @@
 
 - 특정 날 밤에는 보스 몬스터 등장
 
+#### Player 시스템
+- 플레이어는 중앙 `Player` 스크립트를 중심으로 **입력**, **이동**, **무기**, **상태** 등 기능을 **모듈화**하여 관리하며, **유지보수**와 **확장성**이 용이한 구조로 설계하였습니다.
+
+| 스크립트명               | 역할 설명                              |
+|--------------------------|----------------------------------------|
+| **Player**                 | 중앙 허브 역할, 각 기능들을 관리 및 참조 |
+| **PlayerController**       | InputSystem 입력 처리                   |
+| **PlayerStatus**           | 체력 및 스태미나 등 상태 관리           |
+| **PlayerMovement**         | 이동 및 회전, 대쉬                      |
+| **PlayerWeaponHandler**    | 무기 장착/해제/투척 처리                |
+| **PlayerVehicleHandler**   | 탈것 호출 및 탑승                       |
+| **PlayerAnimationHandler** | 애니메이션 상태 설정                    |
+| **PlayerAudioHandler**     | 사운드 처리                             |
+| **PlayerEventHandler**     | 커스텀 이벤트 트리거                    |
+
+![image](https://github.com/user-attachments/assets/26ef535e-fbce-4440-864b-cc81084a9f40)
+
+> 인게임 화면
+
 ![스크린샷 2025-06-01 183229](https://github.com/user-attachments/assets/15be0891-e2eb-4e42-b0f9-94cf1885bada)
 
 ---
