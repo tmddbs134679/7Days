@@ -1,6 +1,7 @@
 # Unity_Skilled_Team_7
 
-![스크린샷 2025-06-01 183229](https://github.com/user-attachments/assets/15be0891-e2eb-4e42-b0f9-94cf1885bada)
+![0273325a-27c9-4e8f-ae57-601f98e7293b](https://github.com/user-attachments/assets/a122dbf8-751e-4753-8e1d-29953add64d9)
+
 장르: 쿼터뷰 생존 디펜스 + 전략 시뮬레이션
 
 플랫폼: Unity (3D)
@@ -88,6 +89,9 @@
 날이 갈수록 몬스터 강도와 수가 증가
 
 특정 날 밤에는 보스 몬스터 등장
+![스크린샷 2025-06-01 183229](https://github.com/user-attachments/assets/15be0891-e2eb-4e42-b0f9-94cf1885bada)
+
+(플레이어 화면)
 
 =====================================================
 
