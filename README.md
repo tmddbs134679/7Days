@@ -167,6 +167,49 @@
 
 ![스크린샷 2025-06-01 191007](https://github.com/user-attachments/assets/30809c8a-1277-4284-9ead-9eec872f76b3)
 
+
+---
+
+### 🧠 몬스터 AI 시스템
+
+ **Transition 기반 외부 상태 전환 관리**와 **상태 머신(State Machine)** 아키텍처를 사용하는 **모듈형 몬스터 AI 시스템**입니다. 
+ 각 몬스터는 `AI_BASE` 클래스를 상속하며, 고유한 행동 패턴과 공격 로직을 가집니다.
+![image](https://github.com/user-attachments/assets/2753947f-1920-493b-8afa-aa2dd4e958d6)
+![image](https://github.com/user-attachments/assets/4c3fe95e-e0d5-4a88-a2d2-0e6b14113ddd)
+
+
+| 몬스터            | 설명                                                           |
+| -------------- | ------------------------------------------------------------ |
+| `AI_Husk`      | Player 우선 공격                                                 |
+| `AI_Spine`     | 공중에서 타워 우선 공격 (필요 시 Player 전환)                               |
+| `AI_Acid`      | 독사체로 타워 공격                                                   |
+| `AI_Runner`    | 빠르게 달려서 타워 돌진                                                |
+| `AI_Stealth`   | 5초마다 은신하며 Player 공격                                          |
+| `AI_Stealer`   | 드론 우선 공격                                                     |
+| `AI_Collapser` | **보스 몬스터**<br>페이즈 1: 타워 집중 공격<br>페이즈 2: Player 분신 생성 및 광역 공격 |
+
+
+
+## 📦 아키텍처 개요
+
+### 🧩 핵심 구성 요소
+
+- **`AI_BASE`**
+  - 모든 몬스터의 기본 클래스
+  - 상태 머신(`AI_StateMachine`) 포함
+
+- **`AI_StateMachine`**
+  - 현재 상태를 저장하고 관리
+  - `Transition` 객체를 통해 외부 조건에 따라 상태 전환 수행
+
+- **`Transition`**
+  - 상태 전환 조건과 대상 상태를 외부에서 명시
+  - 상태 클래스 내부의 조건 분기 제거 → 유지보수성과 테스트 용이성 증가
+
+### 🔁 상태 시스템
+
+모든 상태는 `AIState` 클래스를 상속받습니다.
+
 ---
 
 ### 개발 가이드
